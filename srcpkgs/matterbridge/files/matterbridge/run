@@ -1,0 +1,2 @@
+#!/bin/sh
+exec chpst -u matterbridge:matterbridge matterbridge -config /etc/matterbridge.toml
