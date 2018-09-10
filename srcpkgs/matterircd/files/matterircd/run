@@ -1,0 +1,2 @@
+#!/bin/sh
+exec chpst -u matterircd:matterircd matterircd -config /etc/matterircd.toml
