@@ -1,0 +1,39 @@
+# Template file for 'signal-cli'
+pkgname=signal-cli
+version=0.6.0
+revision=1
+noarch=yes
+#wrksrc=
+#create_wrksrc=yes
+#only_for_archs="i686 x86_64"
+#build_style=gnu-configure
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends=""
+makedepends="openjdk gradle"
+depends="virtual?java-environment"
+short_desc="provides a commandline and dbus interface for WhisperSystems/libsignal-service-java"
+maintainer="PoroCYon <pcy@national.shitposting.agency>"
+license="GPL-3.0"
+homepage="https://github.com/AsamK/${pkgname}"
+distfiles="https://github.com/AsamK/${pkgname}/releases/download/v${version}/v${version}.tar.gz"
+checksum=af42eae7519fbf3c183d51b5cb9da639457fe21c3d4485c5a4292bddd30d26d8
+nocross=yes
+#make_dirs="/usr/lib/${pkgname} 0755 root root"
+
+do_build() {
+	gradle build
+	gradle installDist
+	sed -Ei "s\$APP_HOME=.*\$APP_HOME=\\\"/usr/lib/${pkgname}\\\"\$" \
+		"build/install/${pkgname}/bin/${pkgname}"
+}
+
+do_install() {
+	vbin "build/install/${pkgname}/bin/${pkgname}"
+	#vcopy "./install/${pkgname}/lib" "usr/lib/${pkgname}"
+	mkdir -p "${DESTDIR}/usr/lib/${pkgname}"
+	cp -r "build/install/${pkgname}/lib" "${DESTDIR}/usr/lib/${pkgname}"
+}
