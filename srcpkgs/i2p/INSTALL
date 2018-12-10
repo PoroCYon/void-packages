@@ -1,0 +1,7 @@
+# vim: set ft=sh:
+case "${ACTION}" in
+post)
+    chown -R i2p:i2p opt/i2p
+    ;;
+esac
+

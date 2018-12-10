@@ -1,0 +1,103 @@
+# Template file for 'i2p'
+pkgname=i2p
+version=0.9.37
+revision=1
+wrksrc="${pkgname}-${version}"
+#create_wrksrc=yes
+only_for_archs="i686 x86_64"
+hostmakedepends="openjdk apache-ant gettext gmp-devel"
+makedepends=""
+depends="virtual?java-runtime java-service-wrapper gmp"
+short_desc="A distributed anonymous network"
+maintainer="PoroCYon <pcy@national.shitposting.agency>"
+license="GPL-2.0"
+homepage="https://geti2p.net/"
+distfiles="https://launchpad.net/i2p/trunk/${version}/+download/i2psource_${version}.tar.bz2"
+checksum="0c3736572182519f4831201c72609f069229a2cc73d29ca135417c143061a18d"
+
+conf_files="/opt/i2p/clients.config /opt/i2p/i2psnark.config /opt/i2p/i2ptunnel.config /opt/i2p/router.config /opt/i2p/systray.config /opt/i2p/wrapper.config"
+system_accounts=i2p
+i2p_home=/opt/i2p
+make_dirs="/opt/i2p 0750 i2p i2p"
+
+pre_build() {
+	sed -i build.properties \
+        -e 's:javac.version=.*:javac.version=1.8:'
+	sed -i {router,core}/java/build.xml \
+        -e 's:1.7:1.8:'
+}
+
+do_build__jbigi() {
+	cd core/c/jbigi
+
+	CFLAGS+=" -fPIC -Wall"
+	INCLUDES="-I./jbigi/include -I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux"
+	LDFLAGS="-shared -Wl,-O1,--sort-common,-z,relro,-soname,libjbigi.so"
+	gcc -c $CFLAGS $INCLUDES jbigi/src/jbigi.c
+	gcc $LDFLAGS $INCLUDES -o libjbigi.so jbigi.o -lgmp
+
+	install -Dm644 libjbigi.so "../../../pkg-temp/lib/libjbigi.so"
+
+	cd ../../..
+}
+
+do_build__jcpuid() {
+	if [ "$XBPS_MACHINE" = arm* ]; then
+		return
+	fi
+
+	cd core/c/jcpuid
+
+	INCLUDES="-I./include -I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux"
+	LDFLAGS="-shared -Wl,-O1,--sort-common,-z,relro,-soname,libjcpuid-${XBPS_MECHINE}-linux.so"
+	gcc $CFLAGS $LDFLAGS $INCLUDES src/jcpuid.c -o libjcpuid-${XBPS_MACHINE}-linux.so
+
+	install -Dm644 libjcpuid-${XBPS_MACHINE}-linux.so "../../../pkg-temp/lib/libjcpuid.so"
+
+	cd ../../..
+}
+
+do_build() {
+	source /etc/profile.d/apache-ant.sh
+	source /etc/profile.d/10_openjdk.sh
+	export JAVA_HOME="${JAVA_HOME:-/usr/lib/jvm/default}/.."
+
+	do_build__jbigi
+	do_build__jcpuid
+
+	export ANT_OPTS="-Dfile.encoding=UTF-8"
+	ant preppkg-linux-only
+}
+
+do_install() {
+	install -dm750 -o i2p "$DESTDIR/opt/i2p"
+	install -dm755 "$DESTDIR/usr/bin"
+
+	vcopy "pkg-temp/"* "opt/i2p"
+
+	vinstall "$FILESDIR/wrapper.config" 640 "opt/i2p"
+	vinstall "$FILESDIR/router.config" 640 "opt/i2p"
+	vinstall "$FILESDIR/i2prouter.sh" 750 "opt/i2p"
+
+	# TODO: install translations
+	vman pkg-temp/man/eepget.1
+	vman pkg-temp/man/i2prouter.1
+	vman pkg-temp/man/i2prouter-nowrapper.1
+
+	vlicense pkg-temp/LICENSE.txt
+	vcopy pkg-temp/licenses/* "usr/share/licenses/${pkgname}"
+
+	ln -s "/opt/i2p/"{eepget,i2prouter} "$DESTDIR/usr/bin"
+    chmod +x "$DESTDIR/opt/i2p/"{eepget,i2prouter}
+
+	sed -i "$DESTDIR"/opt/i2p/{eepget,wrapper.config} \
+        -e 's:%INSTALL_PATH:/opt/i2p:g'
+	sed -i "$DESTDIR"/opt/i2p/clients.config \
+        -e "s:clientApp.4.startOnLoad=.*:clientApp.4.startOnLoad=false:"
+	rm -r "$DESTDIR"/opt/i2p/{osid,postinstall.sh,runplain.sh,INSTALL-headless.txt,LICENSE.txt,licenses,man,lib/wrapper.jar}
+}
+
+post_install() {
+	vsv i2p
+}
+

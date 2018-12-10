@@ -1,0 +1,6 @@
+#!/bin/sh
+
+exec chpst -u i2p \
+    /usr/bin/java-service-wrapper /opt/i2p/wrapper.config \
+        wrapper.name=i2prouter wrapper.syslog.ident=i2prouter \
+        wrapper.daemonize=FALSE
