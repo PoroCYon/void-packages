@@ -1,17 +1,17 @@
 # Template file for 'matterbridge'
 pkgname=matterbridge
-version=1.11.3
+version=1.13.1
 revision=1
 build_style=go
 go_import_path=github.com/42wim/matterbridge
-makedepends="git"
+hostmakedepends="git"
 go_package="${go_import_path}"
 short_desc="bridge between mattermost, IRC, gitter, xmpp, slack, discord, telegram, rocket.chat,hipchat (via xmpp), steam, twitch, ssh-chat, zulip and matrix with REST API (mattermost not required!)"
 maintainer="PoroCYon <pcy@national.shitposting.agency>"
 license="Apache-2.0"
 homepage="https://github.com/42wim/matterbridge"
 distfiles="${homepage}/archive/v${version}.tar.gz"
-checksum=84c2e5108255ea45a02c25893c94ec6a0ed65156ac311bfc5a5151840acf0b63
+checksum=7a8ef0abb60389bf0d6cd917dc5d7d52472b6da6e6a65ecbdde43270cbf71df4
 conf_files="/etc/matterbridge.toml"
 system_accounts=matterbridge
 #make_dirs="/var/log/${pkgname} 0700 ${system_accounts} ${system_accounts}"

@@ -1,17 +1,17 @@
 # Template file for 'matterircd'
 pkgname=matterircd
-version=0.18.3
+version=0.19.0
 revision=1
 build_style=go
 go_import_path=github.com/42wim/matterircd
-makedepends="git"
+hostmakedepends="git"
 go_package="${go_import_path}"
 short_desc="Connect to your mattermost or slack using your IRC-client of choice."
 maintainer="PoroCYon <pcy@national.shitposting.agency>"
 license="MIT"
 homepage="https://github.com/42wim/matterircd"
 distfiles="${homepage}/archive/v${version}.tar.gz"
-checksum=82603ba09e67f5a975322eab3ae1381d165e13f1c057506e555ca7b281678ccc
+checksum=935ff9f5bc454f34b3db19f04cc54dd648d30301b0c243fa8e97d3bf897e7c9f
 conf_files="/etc/matterircd.toml"
 system_accounts=matterircd
 #make_dirs="/var/log/${pkgname} 0700 ${system_accounts} ${system_accounts}"
