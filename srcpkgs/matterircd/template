@@ -1,6 +1,6 @@
 # Template file for 'matterircd'
 pkgname=matterircd
-version=0.19.0
+version=0.19.1
 revision=1
 build_style=go
 go_import_path=github.com/42wim/matterircd
@@ -11,7 +11,7 @@ maintainer="PoroCYon <pcy@national.shitposting.agency>"
 license="MIT"
 homepage="https://github.com/42wim/matterircd"
 distfiles="${homepage}/archive/v${version}.tar.gz"
-checksum=935ff9f5bc454f34b3db19f04cc54dd648d30301b0c243fa8e97d3bf897e7c9f
+checksum=8d99ce4bc4ad7257119ec106a22f0631dd3e8311806c39165196c025b539a03e
 conf_files="/etc/matterircd.toml"
 system_accounts=matterircd
 #make_dirs="/var/log/${pkgname} 0700 ${system_accounts} ${system_accounts}"
