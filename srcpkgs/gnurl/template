@@ -1,0 +1,26 @@
+# Template file for 'gnurl'
+pkgname=gnurl
+version=7.62.0
+revision=1
+#wrksrc=
+#create_wrksrc=yes
+#only_for_archs="i686 x86_64"
+build_style=gnu-configure
+configure_args="--prefix=/usr --mandir=/usr/share/man --disable-ldap
+--disable-ldaps --enable-ipv6 --enable-manual --enable-versioned-symbols
+--enable-threaded-resolver --with-gssapi --with-gnutls --without-ssl
+--without-libidn --with-random=/dev/urandom
+--with-ca-bundle=/etc/ssl/certs/ca-certificates.crt"
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends=""
+makedepends="gnutls-devel libpsl-devel nghttp2-devel perl"
+depends="gnutls libpsl nghttp2"
+short_desc="Fork of libcurl, which is mostly for GNUnet"
+maintainer="PoroCYon <pcy@national.shitposting.agency>"
+license="GPL-3.0-or-later"
+homepage="https://gnunet.org/gnurl"
+distfiles="https://ftp.gnu.org/gnu/gnunet/${pkgname}-${version}.tar.gz"
+checksum=3b44c9af87bd6dddf27c3abc50fa52008f9da83a4e8248eeaf7f276589756595
