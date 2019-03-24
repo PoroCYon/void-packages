@@ -8,7 +8,7 @@ only_for_archs="i686 x86_64"
 hostmakedepends="openjdk apache-ant gettext gmp-devel"
 makedepends=""
 depends="virtual?java-runtime java-service-wrapper gmp"
-short_desc="A distributed anonymous network"
+short_desc="Distributed anonymous network"
 maintainer="PoroCYon <pcy@national.shitposting.agency>"
 license="GPL-2.0"
 homepage="https://geti2p.net/"
@@ -17,7 +17,7 @@ checksum="0c3736572182519f4831201c72609f069229a2cc73d29ca135417c143061a18d"
 
 conf_files="/opt/i2p/clients.config /opt/i2p/i2psnark.config /opt/i2p/i2ptunnel.config /opt/i2p/router.config /opt/i2p/systray.config /opt/i2p/wrapper.config"
 system_accounts=i2p
-i2p_home=/opt/i2p
+_i2p_home=/opt/i2p
 make_dirs="/opt/i2p 0750 i2p i2p"
 
 pre_build() {
