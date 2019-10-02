@@ -1,0 +1,23 @@
+# Template file for 'wla-dx'
+pkgname=wla-dx
+version=9.9
+revision=1
+#wrksrc=
+#create_wrksrc=yes
+#archs="i686 x86_64"
+build_style=cmake
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends=""
+makedepends=""
+depends=""
+short_desc="WLA DX - Yet Another GB-Z80/Z80/6502/65C02/6510/65816/6800/6801/6809/8008/HUC6280/SPC-700 Multi Platform Cross Assembler Package"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GPL-2.0"
+_url="http://www.villehelin.com/"
+homepage="${_url}wla.html"
+distfiles="${_url}wla_dx_$version.tar.gz"
+checksum=cacf7afef2563531cbe48c4254eb167b0857b517be43084cf5a21099157566d8
