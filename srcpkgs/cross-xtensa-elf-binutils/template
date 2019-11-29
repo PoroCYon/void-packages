@@ -1,0 +1,32 @@
+# Template file for 'cross-xtensa-elf-binutils'
+_triplet=xtensa-elf
+_pkgname=binutils
+pkgname=cross-$_triplet-$_pkgname
+version=2.32
+revision=1
+wrksrc=$_pkgname-$version
+#create_wrksrc=yes
+#archs="i686 x86_64"
+build_style=gnu-configure
+configure_args="--disable-nls --enable-deterministic-archives --enable-ld
+ --enable-multilib --host=${XBPS_CROSS_TRIPLET} --prefix=/usr
+ --target=$_triplet --with-gnu-as --with-gnu-ld --with-sysroot=/usr/$triplet
+ --with-system-zlib --without-isl"
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="autoconf automake bison flex perl"
+makedepends="zlib-devel"
+depends="binutils-doc"
+short_desc="GNU binary utilities (xtensa-elf target)"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GPL-3.0-or-later"
+homepage="https://www.gnu.org/software/${_pkgname}/"
+distfiles="${GNU_SITE}/${_pkgname}/${_pkgname}-${version}.tar.xz"
+checksum=0ab6c55dd86a92ed561972ba15b9b70a8b9f75557f896446c82e8b36e473ee04
+nocross=yes
+
+post_install() {
+	rm -fr ${DESTDIR}/usr/share/info
+}
