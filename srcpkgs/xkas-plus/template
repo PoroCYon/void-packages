@@ -1,0 +1,27 @@
+# Template file for 'xkas-plus'
+pkgname=xkas-plus
+version=v14+1
+revision=1
+#wrksrc=
+create_wrksrc=yes
+#archs="i686 x86_64"
+build_style=gnu-makefile
+#configure_args=""
+# CXXFLAGS+=-fwhole-program 
+make_build_args='CXXFLAGS+=-std=gnu++0x CXXFLAGS+=-s CXXFLAGS+=-I. CXXFLAGS+=-static'
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="unzip"
+makedepends=""
+depends=""
+short_desc="Fork of the xkas (v14) cross assembler"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/devinacker/xkas-plus/"
+distfiles="${homepage}releases/download/v14%2B1/xkas-plus-14.1.zip"
+checksum=f605fb56c38110c5fadef078561ac25e9ce42f82339047ca4d5712ccbee68822
+
+do_install() {
+	vbin xkas xkas-plus
+}
