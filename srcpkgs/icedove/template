@@ -1,0 +1,372 @@
+# Template file for 'icedove'
+_pkgname=thunderbird
+pkgname=icedove
+version=68.2.2
+revision=2
+epoch=1
+_brandingver=68.2
+_brandingrel=1
+wrksrc=$_pkgname-$version
+#create_wrksrc=yes
+build_helper="rust"
+short_desc="Standalone mail and news reader based on Mozilla Thunderbird, without support for unsafe and dangerous for privacy protocols"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="MPL-2.0, GPL-2.0-or-later, LGPL-2.1-or-later"
+homepage="https://wiki.parabola.nu/$pkgname"
+distfiles="
+https://ftp.mozilla.org/pub/mozilla.org/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz
+https://repo.parabola.nu/other/icedove/${pkgname}_$_brandingver-$_brandingrel.branding.tar.xz"
+checksum="
+c17edbcde0e9e7599cda16b69b130039f69113b498ea394057cedfae153f0dd3
+b36792a6fcbe68841bc842723222c88ecf1f54f7f75bd634b216b61f3ae422f2"
+
+lib32disabled=yes
+
+hostmakedepends="autoconf213 unzip zip pkg-config perl python3 yasm rust cargo
+ llvm clang nodejs cbindgen nasm python inkscape ImageMagick quilt python-blessings mozilla-searchplugins"
+makedepends="nss-devel libjpeg-turbo-devel gtk+-devel gtk+3-devel icu-devel
+ pixman-devel sqlite-devel libevent-devel libnotify-devel libvpx5-devel
+ libXrender-devel libXcomposite-devel libSM-devel libXt-devel rust-std
+ libXdamage-devel freetype-devel $(vopt_if alsa alsa-lib-devel)
+ $(vopt_if dbus dbus-glib-devel) $(vopt_if pulseaudio pulseaudio-devel)
+ $(vopt_if startup_notification startup-notification-devel)
+ $(vopt_if xscreensaver libXScrnSaver-devel)
+ $(vopt_if jack jack-devel)"
+# $(vopt_if sndio sndio-devel)
+depends="nss>=3.37.3 desktop-file-utils hicolor-icon-theme"
+
+build_options="alsa dbus pulseaudio startup_notification xscreensaver wayland jack"
+build_options_default="alsa dbus pulseaudio startup_notification xscreensaver wayland"
+
+case $XBPS_TARGET_MACHINE in
+	ppc64*) ;;
+	ppc*) broken="ftbfs in several places" ;;
+esac
+
+case $XBPS_TARGET_MACHINE in
+	armv6*)
+		broken="required NEON extensions are not supported on armv6"
+		;;
+	ppc64*) ;;
+	ppc*)
+		makedepends+=" libatomic-devel"
+		;;
+esac
+
+post_extract() {
+	cp "${FILESDIR}/rsvg-convert" .
+	export PATH="$PATH:$(pwd)"
+	chmod +x "./rsvg-convert"
+
+	patch -p1 -i ${FILESDIR}/thunderbird-rust-1.39.patch # Fix build with rust 1.39 (Gentoo)
+
+
+#ac_add_options $(vopt_enable sndio)
+	cat >.mozconfig <<END
+ac_add_options --enable-application=comm/mail
+ac_add_options --enable-calendar
+
+ac_add_options --prefix=/usr
+ac_add_options --enable-release
+ac_add_options --enable-linker=gold
+ac_add_options --enable-hardening
+ac_add_options --enable-optimize
+# https://bugzilla.mozilla.org/show_bug.cgi?id=1521249
+#ac_add_options --enable-rust-simd
+# https://bugzilla.mozilla.org/show_bug.cgi?id=1423822
+ac_add_options --disable-elf-hack
+
+# Branding
+ac_add_options --disable-official-branding
+ac_add_options --with-branding=comm/mail/branding/icedove
+ac_add_options --enable-update-channel=release
+ac_add_options --with-distribution-id=nu.parabola
+
+# System libraries
+ac_add_options --with-system-zlib
+ac_add_options --with-system-bz2
+ac_add_options --with-system-icu
+ac_add_options --with-system-jpeg
+# ac_add_options --with-system-libvpx
+ac_add_options --with-system-nspr
+ac_add_options --with-system-nss
+ac_add_options --enable-system-sqlite
+ac_add_options --enable-system-ffi
+
+# Features
+ac_add_options $(vopt_enable alsa)
+ac_add_options $(vopt_enable dbus)
+ac_add_options $(vopt_enable dbus necko-wifi)
+ac_add_options $(vopt_enable pulseaudio)
+ac_add_options $(vopt_enable jack)
+ac_add_options $(vopt_enable startup_notification startup-notification)
+ac_add_options --enable-default-toolkit=$(vopt_if wayland 'cairo-gtk3-wayland' 'cairo-gtk3')
+ac_add_options --disable-crashreporter
+ac_add_options --disable-updater
+ac_add_options --disable-gconf
+# tests require network access.
+ac_add_options --disable-tests
+END
+
+	if [[ $CARCH = arm* ]]; then
+		sed -i '/--enable-linker=gold/d' .mozconfig
+		sed -i '/--enable-hardening/d' .mozconfig
+		sed -i '/--enable-optimize/d' .mozconfig
+
+		cat >> .mozconfig <<END
+ac_add_options --disable-webrtc
+ac_add_options --disable-elf-hack
+ac_add_options --enable-optimize="-g -O2 -fno-schedule-insns"
+END
+	fi
+
+	if [[ $CARCH = i686 ]]; then
+		sed -i 's/--enable-linker=gold/--enable-linker=bfd/' .mozconfig
+	fi
+
+	# perform rebranding
+	local brandingdir="../$pkgname-$_brandingver"
+	rm -rf -- comm/mail/branding/$pkgname
+	cp -aT -- $brandingdir/$pkgname-branding/ comm/mail/branding/$pkgname
+
+	export QUILT_PATCHES=$brandingdir/patches
+	export QUILT_REFRESH_ARGS='-p ab --no-timestamps --no-index'
+	export QUILT_DIFF_ARGS='--no-timestamps'
+	if [[ $(quilt push -av) -eq 1 ]]; then
+		>&2 echo "quilt push -av failed."
+		false
+	fi
+
+	# produce icons
+	for i in 16 22 24 32; do
+		rsvg-convert -w $i -h $i "$brandingdir/app-icons/${pkgname}_small.svg" \
+		  -o "comm/mail/branding/$pkgname/default$i.png"
+	done
+	for i in 48 64 128 256; do
+		rsvg-convert -w $i -h $i "$brandingdir/app-icons/${pkgname}_big.svg" \
+		  -o "comm/mail/branding/$pkgname/default$i.png"
+	done
+	cp "$brandingdir/logo/icedove_icon.svg" "comm/mail/branding/$pkgname/"
+
+	# Patch and remove anything that's left
+	patch -Np1 -i "$FILESDIR/libre-searchengines.patch"
+	sed -i '\|Phishing Protection|d
+	        \|UrlClassifier|d
+	        \|URLClassifier|d
+	        \|url-classifier|d
+	       ' comm/mail/installer/package-manifest.in
+	sed -i '\|extensions[.]getAddons[.]get[.]url| s|https://services[.]addons[.]mozilla[.]org.\+["][)][;]|https://directory.fsf.org/wiki/Icedove");|g;
+	        \|extensions[.]getAddons[.]search[.]browseURL| s|https://addons[.]mozilla[.]org.\+["][)][;]|https://directory.fsf.org/wiki/Icedove");|g;
+	        \|extensions[.]getAddons[.]search[.]url| s|https://services[.]addons[.]mozilla[.]org.\+["][)][;]|https://directory.fsf.org/wiki/Icedove");|g;
+	        \|extensions[.]webservice[.]discoverURL| s|https://services[.]addons[.]mozilla[.]org.\+["][)][;]|https://directory.fsf.org/wiki/Icedove");|g;
+	       ' comm/mail/app/profile/all-thunderbird.js
+
+	sed -i '\|facebook|d
+	        \|gtalk|d
+	        \|odnoklassniki|d
+	        \|skype|d
+	        \|twitter|d
+	        \|yahoo|d
+	       ' comm/chat/moz.build
+	sed -i '\|facebook[.]js|d
+	        \|facebook[.]manifest|d
+	        \|gtalk[.]js|d
+	        \|gtalk[.]manifest|d
+	        \|odnoklassniki[.]js|d
+	        \|odnoklassniki[.]manifest|d
+	        \|skype[.]js|d
+	        \|skype[.]manifest|d
+	        \|twitter[.]js|d
+	        \|twitter[.]manifest|d
+	        \|yahoo[.]js|d
+	        \|yahoo[.]manifest|d
+	       ' comm/mail/installer/package-manifest.in
+	rm -rv comm/chat/protocols/{facebook,gtalk,odnoklassniki,skype,twitter,yahoo}
+
+	cp -av ../$pkgname-$_brandingver/preview.png \
+	  comm/mail/themes/linux/mail/preview.png
+
+	# Load our searchplugins
+	rm -rv comm/suite/locales/en-US/searchplugins
+	cp -av /usr/lib/mozilla/searchplugins comm/suite/locales/en-US/
+}
+
+do_build() {
+	export PATH="$PATH:$(pwd)"
+	chmod +x "./rsvg-convert"
+
+	case "$XBPS_TARGET_MACHINE" in
+	*-musl)
+		echo "ac_add_options --disable-jemalloc" >>.mozconfig
+		echo "ac_add_options --enable-release" >>.mozconfig
+		;;
+	esac
+
+	case "$XBPS_TARGET_MACHINE" in
+	x86_64*|i686*|arm*)
+		echo "ac_add_options --disable-elf-hack" >>.mozconfig
+		;;
+	esac
+
+	# webrtc currently fails to build on 32-bit ppc...
+	# also need explicit libatomic
+	case "$XBPS_TARGET_MACHINE" in
+	ppc64*) ;;
+	ppc*)
+		echo "ac_add_options --disable-webrtc" >>.mozconfig
+		export LDFLAGS+=" -latomic"
+		;;
+	esac
+
+	case "$XBPS_TARGET_MACHINE" in
+	x86_64-musl|i686-musl)
+		echo "ac_add_options --host=${XBPS_TRIPLET}" >>.mozconfig
+		echo "ac_add_options --target=${XBPS_TRIPLET}" >>.mozconfig
+		;;
+	esac
+
+	if [ "$CROSS_BUILD" ]; then
+		BINDGEN_INCLUDE_FLAGS=$( $CPP -x c++ -v /dev/null -o /dev/null 2>&1 | \
+			sed -n '/#include <...> search starts here:/,/End of search list./p' | \
+			sed '1,1d;$d' | sed  's/^ /-I/' | paste -s )
+
+		export BINDGEN_CFLAGS="--target=$XBPS_CROSS_TRIPLET \
+			--sysroot=${XBPS_CROSS_BASE} ${BINDGEN_INCLUDE_FLAGS}"
+		export HOST_CC=cc
+		export TARGET_CC="${CC}"
+		export HOST_CFLAGS="${XBPS_CFLAGS}"
+		export HOST_CXXFLAGS="${XBPS_CXXFLAGS}"
+		export ac_cv_sqlite_secure_delete=yes \
+			ac_cv_sqlite_threadsafe=yes \
+			ac_cv_sqlite_enable_fts3=yes \
+			ac_cv_sqlite_dbstat_vtab=yes \
+			ac_cv_sqlite_enable_unlock_notify=yes \
+			ac_cv_prog_hostcxx_works=1
+
+		echo "ac_add_options --target=$XBPS_CROSS_TRIPLET" >>.mozconfig
+		echo "ac_add_options --host=$XBPS_TRIPLET" >>.mozconfig
+	else
+		echo "ac_add_options --target=$XBPS_TRIPLET" >>.mozconfig
+		echo "ac_add_options --host=$XBPS_TRIPLET" >>.mozconfig
+	fi
+
+	mkdir -p third_party/rust/libloading/.deps
+
+	case "$XBPS_TARGET_MACHINE" in
+	i686*)
+		export CFLAGS+=" -D_FILE_OFFSET_BITS=64"
+		export CXXFLAGS+=" -D_FILE_OFFSET_BITS=64"
+		;;
+	armv7*)
+		export CFLAGS+=" -mfpu=neon -Wno-psabi"
+		export CXXFLAGS+=" -mfpu=neon -Wno-psabi"
+		;;
+	esac
+
+	# work around large debug symbols on 32-bit hosts
+	if [ "$XBPS_WORDSIZE" = "32" ]; then
+		export CFLAGS="${CFLAGS/-g/-g1}"
+		export CXXFLAGS="${CXXFLAGS/-g/-g1}"
+		export LDFLAGS+=" -Wl,--no-keep-memory"
+		# patch the rust debug level, this is hardcoded
+		sed -i "s/debug_info = '2'/debug_info = '1'/" \
+		 build/moz.configure/toolchain.configure
+	fi
+
+	export LDFLAGS+=" -Wl,-rpath=/usr/lib/thunderbird"
+
+	if [ "$SOURCE_DATE_EPOCH" ]; then
+		export MOZ_BUILD_DATE=$(date --date "@$SOURCE_DATE_EPOCH" "+%Y%m%d%H%M%S")
+	fi
+
+	export MOZ_MAKE_FLAGS="${makejobs}"
+	export MOZ_NOSPAM=1
+	export MOZBUILD_STATE_PATH="${wrksrc}/mozbuild"
+	# avoid error: /usr/bin/as: invalid option -- 'N'
+	unset AS
+
+	#echo AS="$AS"
+	#echo CC="$CC"
+	#unset AS
+	#./mach configure
+	#unset AS
+	./mach build
+	#unset AS
+	./mach buildsymbols
+}
+
+do_install() {
+	unset AS
+	DESTDIR="$DESTDIR" ./mach install
+
+	vinstall /dev/stdin 644 "usr/lib/$pkgname/defaults/preferences" "vendor.js" <<END
+// Use LANG environment variable to choose locale
+pref("intl.locale.requested", "");
+
+// Use system-provided dictionaries
+pref("spellchecker.dictionary_path", "/usr/share/hunspell");
+
+// Disable default mailer checking.
+pref("mail.shell.checkDefaultMail", false);
+
+// Don't disable our bundled extensions in the application directory
+pref("extensions.autoDisableScopes", 11);
+pref("extensions.shownSelectionUI", true);
+
+// Disable Social API for content
+pref("social.remote-install.enabled", false);
+pref("social.toast-notifications.enabled", false);
+
+// Make sure that whitelisted and directory installs are empty
+pref("social.whitelist", "");
+pref("social.directories", "");
+
+// Disable the GeoLocation API for content
+pref("geo.enabled", false);
+
+// TODO: this "whats new" page should be in the branding package or abslibre
+// Pointing the "Help -> What's new" menu entry to mozilla.debian.net
+//pref("mailnews.start_page.override_url", "http://wiki.debian.org/Icedove/WhatsNew45");
+END
+
+	vinstall /dev/stdin 644 "usr/lib/$pkgname/distribution/distribution.ini" "distribution.ini" <<END
+[Global]
+id=parabola
+version=1.0
+about=Icedove for Parabola GNU/Linux-libre
+
+[Preferences]
+app.distributor=parabola
+app.distributor.channel=$pkgname
+app.partner.parabola=parabola
+END
+
+	for i in 16 22 24 32 48 64 128 256; do
+		vinstall comm/mail/branding/$pkgname/default${i}.png 644 \
+		  "$pkgdir/usr/share/icons/hicolor/${i}x${i}/apps" "$pkgname.png"
+	done
+	vinstall comm/mail/branding/$pkgname/${pkgname}_icon.svg 644 \
+      "$pkgdir/usr/share/icons/hicolor/symbolic/apps" "$pkgname-symbolic.svg"
+
+	vinstall "$FILESDIR/$pkgname.desktop" 644 "$pkgdir/usr/share/applications"
+
+	# Use system-provided dictionaries
+	rm -rf ${DESTDIR}/usr/lib/$pkgname/{dictionaries,hyphenation}
+	ln -Ts /usr/share/hunspell "$DESTDIR/usr/lib/$pkgname/dictionaries"
+	ln -Ts /usr/share/hyphen "$DESTDIR/usr/lib/$pkgname/hyphenation"
+
+	# Install a wrapper to avoid confusion about binary path
+	vinstall /dev/stdin 755 "usr/bin" "$pkgname" <<END
+#!/bin/sh
+exec /usr/lib/$pkgname/$pkgname "\$@"
+END
+
+	rm -rf ${DESTDIR}/usr/{include,lib/$pkgname-devel,share/idl}
+
+	# Replace duplicate binary with wrapper
+	# https://bugzilla.mozilla.org/show_bug.cgi?id=658850
+	ln -srf "$DESTDIR/usr/bin/$pkgname" \
+	  "$DESTDIR/usr/lib/$pkgname/$pkgname-bin"
+#	ln -srf "$DESTDIR/usr/lib/$pkgname/$pkgname" \
+#	  "$DESTDIR/usr/lib/$pkgname/$pkgname-bin"
+}

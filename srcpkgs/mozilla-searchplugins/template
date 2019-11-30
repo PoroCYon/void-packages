@@ -1,0 +1,44 @@
+# Template file for 'mozilla-searchplugins'
+pkgname=mozilla-searchplugins
+version=1.10
+revision=1
+#wrksrc=
+create_wrksrc=yes
+#archs="i686 x86_64"
+build_style=gnu-makefile
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends=""
+makedepends=""
+depends=""
+short_desc="System-wide OpenSearch plugins common for Mozilla based browsers."
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GPL-3.0-or-later"
+homepage="https://www.parabola.nu/"
+#https://seeks.ru/opensearch.xml
+#https://www.parabola.nu/opensearch/packages/
+#distfiles="https://en.wikipedia.org/w/opensearch_desc.php"
+#c97928bf25bff6c11d3cdb8f0df68b04c743a8fb3c8c51511e9179754d7fb231
+#2480ca917a10d0955b818498171ecff6b86faf2eeae25684dd617ec4da40d585
+#checksum="44d8d849806e21a8e32489ade3e8191c4b4b23b416632beb258dea2484ed4ea3"
+distfiles=""
+checksum=
+
+#skip_extraction="opensearch_desc.php"
+
+do_build() {
+	true
+}
+do_install() {
+	# parabola-wiki-en.xml
+	for x in list.txt searx.xml duckduckgo-html.xml duckduckgo-lite.xml \
+	  internet-archive.xml yacy.xml wikipedia-en.xml; do
+		vinstall "${FILESDIR}/$x" 644 "usr/lib/mozilla/searchplugins"
+	done
+	#vinstall "opensearch.xml" 644 "usr/lib/mozilla/searchplugins" "seeks.xml"
+	#vinstall "index.html" 644 "usr/lib/mozilla/searchplugins" "parabola-packages.xml"
+	#vinstall "opensearch_desc.php" 644 "usr/lib/mozilla/searchplugins" "wikipedia-en.xml"
+}

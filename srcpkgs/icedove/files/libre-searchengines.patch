@@ -1,0 +1,1006 @@
+diff -rupN thunderbird-60.5.1.orig/comm/mail/locales/en-US/chrome/messenger-region/region.properties thunderbird-60.5.1/comm/mail/locales/en-US/chrome/messenger-region/region.properties
+--- thunderbird-60.5.1.orig/comm/mail/locales/en-US/chrome/messenger-region/region.properties	2019-03-07 10:38:57.276013048 +0100
++++ thunderbird-60.5.1/comm/mail/locales/en-US/chrome/messenger-region/region.properties	2019-03-07 11:29:23.255564314 +0100
+@@ -3,9 +3,9 @@
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+ # Search engine order (order displayed in the search bar dropdown)s
+-browser.search.order.1=Bing
+-browser.search.order.2=Yahoo
+-browser.search.order.3=
++browser.search.order.1=searx
++browser.search.order.2=DuckDuckGo HTML
++browser.search.order.3=DuckDuckGo Lite
+ 
+ # To make mapit buttons to disappear in the addressbook, specify empty string.  For example:
+ # mail.addr_book.mapit_url.format=
+@@ -20,14 +20,12 @@ browser.search.order.3=
+ # @ZI == zip code
+ # @CO == country
+ # Default map service:
+-mail.addr_book.mapit_url.format=https://maps.google.com/maps?q=@A1%20@A2%20@CI%20@ST%20@ZI%20@CO
++mail.addr_book.mapit_url.format=https://nominatim.openstreetmap.org/search.php?polygon=1&q=@A1%2C@A2%2C@CI%2C@ST%2C@ZI%2C@CO
+ # List of available map services (up to 5 can be defined here):
+-mail.addr_book.mapit_url.1.name=Google Maps
+-mail.addr_book.mapit_url.1.format=https://maps.google.com/maps?q=@A1%20@A2%20@CI%20@ST%20@ZI%20@CO
+-mail.addr_book.mapit_url.2.name=OpenStreetMap
+-mail.addr_book.mapit_url.2.format=https://nominatim.openstreetmap.org/search.php?polygon=1&q=@A1%2C@A2%2C@CI%2C@ST%2C@ZI%2C@CO
++mail.addr_book.mapit_url.1.name=OpenStreetMap
++mail.addr_book.mapit_url.1.format=https://nominatim.openstreetmap.org/search.php?polygon=1&q=@A1%2C@A2%2C@CI%2C@ST%2C@ZI%2C@CO
+ 
+-mailnews.messageid_browser.url=https://groups.google.com/search?as_umsgid=%mid
++mailnews.messageid_browser.url=
+ 
+ # Recognize non-standard versions of "Re:" in subjects from localized versions of MS Outlook et al.
+ # Specify a comma-separated list without spaces. For example: mailnews.localizedRe=AW,SV
+diff -rupN thunderbird-60.5.1.orig/comm/mail/components/search/extensions/list.json thunderbird-60.5.1/comm/mail/locales/search/list.json
+--- thunderbird-60.5.1.orig/comm/mail/components/search/extensions/list.json	2019-03-07 10:38:57.272679671 +0100
++++ thunderbird-60.5.1/comm/mail/components/search/extensions/list.json	2019-03-07 11:26:46.920196972 +0100
+@@ -1,858 +1,757 @@
+ {
+   "default": {
+-    "searchDefault": "Google",
+-    "searchOrder": ["Google", "Bing"],
++    "searchDefault": "searx",
+     "visibleDefaultEngines": [
+-      "google", "amazondotcom", "bing", "ddg", "twitter", "wikipedia"
++      "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+     ]
+   },
+-  "regionOverrides": {
+-    "CA": {
+-      "amazondotcom": "amazon-ca",
+-      "amazon-france": "amazon-ca"
+-    },
+-    "AU": {
+-      "amazondotcom": "amazon-au",
+-      "amazon-en-GB": "amazon-au"
+-    },
+-    "FR": {
+-      "amazondotcom": "amazon-france"
+-    },
+-    "GB": {
+-      "amazondotcom": "amazon-en-GB"
+-    }
+-  },
+   "locales": {
+     "en-US": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazondotcom", "bing", "ddg", "twitter", "wikipedia"
+-        ]
+-      },
+-      "experimental-hidden": {
+-        "visibleDefaultEngines": [
+-          "amazon-ca", "amazon-au", "yandex-en", "google"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ach": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "twitter", "wikipedia"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "af": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "wikipedia-af"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "an": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "wikipedia-an", "ddg", "twitter"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ar": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "wikipedia-ar"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "as": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-in", "ddg", "wikipedia-as"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ast": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "ddg", "wikipedia-ast"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "az": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazondotcom", "azerdict", "bing", "ddg", "wikipedia-az", "yandex-az"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "be": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "yandex-by", "google", "ddg", "wikipedia-be", "wikipedia-be-tarask"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+-      },
+-      "BY": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "KZ": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "RU": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "TR": {
+-        "searchDefault": "Яндекс"
+       }
+     },
+     "bg": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazondotcom", "ddg", "pazaruvaj", "wikipedia-bg"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "bn": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-in", "bing", "ddg", "wikipedia-bn"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "bn-BD": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "ddg", "wikipedia-bn"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "bn-IN": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-in", "bing", "ddg", "wikipedia-bn"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "br": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-france", "ddg", "freelang", "wikipedia-br"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "bs": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "ddg", "olx", "twitter", "wikipedia-bs"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ca": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "diec2", "ddg", "twitter", "wikipedia-ca"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "cak": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "wikipedia-es"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "crh": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "ddg", "twitter", "wikipedia-crh"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "cs": {
+       "default": {
+-        "searchOrder": ["Google", "Seznam"],
+         "visibleDefaultEngines": [
+-          "google", "seznam-cz", "ddg", "heureka-cz", "mapy-cz", "wikipedia-cz"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "cy": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-en-GB", "ddg", "palasprint", "wikipedia-cy"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "da": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-en-GB", "ddg", "wikipedia-da"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "de": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-de", "bing", "ddg", "ecosia", "leo_ende_de", "wikipedia-de"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "dsb": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-de", "ddg", "leo_ende_de", "wikipedia-dsb"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "el": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-en-GB", "bing", "ddg", "wikipedia-el"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "en-CA": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-ca", "bing", "ddg", "twitter", "wikipedia"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "en-GB": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-en-GB", "chambers-en-GB", "ddg", "twitter", "wikipedia"
+-        ]
+-      },
+-      "experimental-hidden": {
+-        "visibleDefaultEngines": [
+-          "yandex-en"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "en-ZA": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "twitter", "wikipedia"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "eo": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "wikipedia-eo"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "es-AR": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazondotcom", "drae", "ddg", "mercadolibre-ar", "wikipedia-es"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "es-CL": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "drae", "ddg", "mercadolibre-cl", "wikipedia-es"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "es-ES": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "drae", "ddg", "twitter", "wikipedia-es"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "es-MX": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "ddg", "mercadolibre-mx", "wikipedia-es"
+-        ]
+-      },
+-      "experimental-hidden": {
+-        "visibleDefaultEngines": [
+-          "amazon-mx"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "et": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "neti-ee", "ddg", "osta-ee", "wikipedia-et", "eki-ee"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "eu": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-en-GB", "ddg", "wikipedia-eu"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "fa": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazondotcom", "bing", "ddg", "wikipedia-fa"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ff": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-france", "ddg", "wikipedia-fr"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "fi": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "ddg", "wikipedia-fi"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "fr": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-france", "ddg", "qwant", "wikipedia-fr"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "fy-NL": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "bolcom-fy-NL", "ddg", "marktplaats-fy-NL", "wikipedia-fy-NL"
+-        ]
+-      },
+-      "experimental-hidden": {
+-        "visibleDefaultEngines": [
+-          "amazon-nl"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ga-IE": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-en-GB", "ddg", "tearma", "twitter", "wikipedia-ga-IE"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "gd": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-en-GB", "bbc-alba", "ddg", "faclair-beag", "wikipedia-gd"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "gl": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-en-GB", "ddg", "wikipedia-gl"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "gn": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "twitter", "wikipedia-gn"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "gu-IN": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-in", "ddg", "wikipedia-gu"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "he": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "ddg", "wikipedia-he", "morfix-dic"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "hi-IN": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "ddg", "wikipedia-hi"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "hr": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-en-GB", "bing", "ddg", "eudict", "twitter", "wikipedia-hr"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "hsb": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-de", "ddg", "leo_ende_de", "wikipedia-hsb"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "hu": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "ddg", "vatera", "wikipedia-hu"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "hy-AM": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazondotcom", "ddg", "list-am", "wikipedia-hy"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ia": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "twitter", "wikipedia-ia"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "id": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "ddg", "wikipedia-id"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "is": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "wikipedia-is"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "it": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-it", "ddg", "wikipedia-it"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ja-JP-macos": {
+       "default": {
+-        "searchOrder": ["Google", "Yahoo! JAPAN", "Bing", "Amazon.co.jp", "楽天市場", "ヤフオク!", "教えて！goo", "Twitter", "Wikipedia (ja)"],
+         "visibleDefaultEngines": [
+-          "google", "yahoo-jp", "bing", "amazon-jp", "rakuten", "yahoo-jp-auctions", "oshiete-goo", "twitter-ja", "wikipedia-ja", "ddg"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ja": {
+       "default": {
+-        "searchOrder": ["Google", "Yahoo! JAPAN", "Bing", "Amazon.co.jp", "楽天市場", "ヤフオク!", "教えて！goo", "Twitter", "Wikipedia (ja)"],
+         "visibleDefaultEngines": [
+-          "google", "yahoo-jp", "bing", "amazon-jp", "rakuten", "yahoo-jp-auctions", "oshiete-goo", "twitter-ja", "wikipedia-ja", "ddg"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ka": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "twitter", "wikipedia-ka"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "kab": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "ddg", "wikipedia-kab"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "kk": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "yandex-kk", "google", "ddg", "flip", "twitter", "wikipedia-kk"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+-      },
+-      "KZ": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "BY": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "RU": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "TR": {
+-        "searchDefault": "Яндекс"
+       }
+     },
+     "km": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "twitter", "wikipedia-km"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "kn": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-in", "ddg", "kannadastore", "wikipedia-kn"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ko": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "ddg", "naver-kr", "daum-kr", "wikipedia-kr"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "lij": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-it", "ddg", "wikipedia-lij"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "lo": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "ddg", "wikipedia-lo", "twitter"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "lt": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "wikipedia-lt", "bing", "amazondotcom", "ddg", "twitter"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ltg": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "ddg", "salidzinilv", "sslv", "wikipedia-ltg"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "lv": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "ddg", "salidzinilv", "sslv", "wikipedia-lv"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "mai": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-in", "ddg", "twitter", "wikipedia-hi"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "mk": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "wikipedia-mk"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ml": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-in", "ddg", "wikipedia", "wikipedia-ml"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "mr": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-in", "ddg", "wikipedia-mr"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ms": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "twitter", "wikipedia-ms"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "my": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "twitter", "wikipedia-my"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "nb-NO": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-en-GB", "bing", "ddg", "gulesider-NO", "bok-NO", "qxl-NO", "wikipedia-NO"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ne-NP": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "ddg", "twitter", "wikipedia-ne"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "nl": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "bolcom-nl", "ddg", "marktplaats-nl", "wikipedia-nl"
+-        ]
+-      },
+-      "experimental-hidden": {
+-        "visibleDefaultEngines": [
+-          "amazon-nl"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "nn-NO": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-en-GB", "ddg", "gulesider-NO", "bok-NO", "qxl-NO", "wikipedia-NN"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "oc": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "ddg", "twitter", "wikipedia-oc", "wiktionary-oc"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "or": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-in", "ddg", "wikipedia-or"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "pa-IN": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-in", "ddg", "wikipedia-pa"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "pl": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "allegro-pl", "ddg", "pwn-pl", "wikipedia-pl", "wolnelektury-pl"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "pt-BR": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "ddg", "mercadolivre", "twitter", "wikipedia-pt"
+-        ]
+-      },
+-      "experimental-hidden": {
+-        "visibleDefaultEngines": [
+-          "amazon-br"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "pt-PT": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-en-GB", "ddg", "priberam", "wikipedia-pt"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "rm": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "ddg", "leo_ende_de", "wikipedia-rm"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ro": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "wikipedia-ro"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ru": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "yandex-ru", "google", "ddg", "ozonru", "priceru", "wikipedia-ru", "mailru"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+-      },
+-      "RU": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "BY": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "KZ": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "TR": {
+-        "searchDefault": "Яндекс"
+       }
+     },
+     "si": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazondotcom", "ddg", "wikipedia-si"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "sk": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "azet-sk", "atlas-sk", "ddg", "wikipedia-sk", "zoznam-sk"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "sl": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "ceneji", "ddg", "najdi-si", "odpiralni", "twitter", "wikipedia-sl"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "son": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-france", "ddg", "wikipedia-fr"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "sq": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-en-GB", "ddg", "wikipedia-sq"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "sr": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-en-GB", "bing", "ddg", "wikipedia-sr", "pogodak"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "sv-SE": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "allaannonser-sv-SE", "ddg", "prisjakt-sv-SE", "tyda-sv-SE", "wikipedia-sv-SE"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ta": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-in", "ddg", "wikipedia-ta"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "te": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazon-in", "ddg", "wikipedia-te", "wiktionary-te"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "th": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "amazondotcom", "bing", "ddg", "longdo", "wikipedia-th"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "tl": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "twitter", "wikipedia-tl"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "tr": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "yandex-tr", "google", "ddg", "twitter", "wikipedia-tr"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+-      },
+-      "TR": {
+-        "searchDefault": "Yandex"
+-      },
+-      "BY": {
+-        "searchDefault": "Yandex"
+-      },
+-      "KZ": {
+-        "searchDefault": "Yandex"
+-      },
+-      "RU": {
+-        "searchDefault": "Yandex"
+       }
+     },
+     "trs": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "wikipedia-es"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "uk": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "ddg", "wikipedia-uk", "hotline-ua"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "ur": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-in", "ddg", "twitter", "wikipedia-ur"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "uz": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazondotcom", "ddg", "twitter", "wikipedia-uz"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "vi": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "coccoc", "ddg", "wikipedia-vi"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "wo": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "amazon-france", "ddg", "twitter", "wikipedia-wo"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "xh": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "bing", "ddg", "wikipedia"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     },
+     "zh-CN": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "baidu", "google", "bing", "ddg", "wikipedia-zh-CN", "amazondotcn"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+-      },
+-      "CN": {
+-        "searchDefault": "百度"
+       }
+     },
+     "zh-TW": {
+       "default": {
+         "visibleDefaultEngines": [
+-          "google", "ddg", "readmoo", "wikipedia-zh-TW"
++          "duckduckgo-html", "duckduckgo-lite", "internet-archive", "parabola-packages", "parabola-wiki-en", "searx", "seeks", "wikipedia-en", "yacy"
+         ]
+       }
+     }
