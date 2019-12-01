@@ -1,0 +1,130 @@
+diff --git a/browser/locales/generic/profile/bookmarks.html.in b/browser/locales/generic/profile/bookmarks.html.in
+index dc67747620..00221d37a1 100644
+--- a/browser/locales/generic/profile/bookmarks.html.in
++++ b/browser/locales/generic/profile/bookmarks.html.in
+@@ -1,15 +1,15 @@
+ #filter substitution
+ #include @BOOKMARKS_INCLUDE_PATH@
+ 
+-#define mozilla_icon data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E %3Cpath d='M0 0h16v16H0z'/%3E %3Cpath d='M13.994 10.356H15V12h-3.171V7.741c0-1.308-.435-1.81-1.29-1.81-1.04 0-1.46.737-1.46 1.8v2.63h1.006V12H6.918V7.741c0-1.308-.435-1.81-1.291-1.81-1.039 0-1.459.737-1.459 1.8v2.63h1.441V12H1v-1.644h1.006V6.079H1V4.435h3.168v1.139a2.507 2.507 0 0 1 2.3-1.29A2.452 2.452 0 0 1 8.931 5.91 2.535 2.535 0 0 1 11.4 4.284 2.448 2.448 0 0 1 14 6.9v3.458z' fill='%23fff'/%3E %3C/svg%3E
++#define parabola_icon data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABL0lEQVQ4jWNgoCcoq16VU1GzygnEBtEVDWuV8GooKFuhWVG3uiM3d5UokG4qr1szAaa5vGbVt4ralacwNDU0rGIrr10VBVG0+lxhwyqVsqqVtRW1q6eD5IvL19oB2V+B+D9QzQu4xtDQVZylVavygRKHqurWOlbUrknKK12qWlCwWLK8elUFA8N/xvLy5VYVtas+gzWDDVi9E2QjT1XdcufymjWpQJt1cXmnvHwVP1DzR7hmIC6vW+kOtpnYQKysW30arrlm9RVi9cFBRfXKJTADympWJZNsQFnN6rUQA1adAQU2SZqBXmUGBtozUDiU1qxQJtl2oCY3kO2l1avCSdYMAsBAWwyM2plkaS4p6eYGOv1YQ0MDB1kGlFWuDChuWKZBlmYQqK5eJU22ZkIAAEIlnQZQkzITAAAAAElFTkSuQmCC
+ 
+-#define firefox_icon data:image/png;base64,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
++#define fsf_icon data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAACXBIWXMAAAsTAAALEwEAmpwYAAADG0lEQVQoFQEQA+/8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQECAAAAAAAAAAAAAAAAAAAA2qOp7tTXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAP///wAAAAAAAOCyt7pUXQcSEgcQDwAAAP///wAAAAAAAAD//x9NSDqNhQEBAQQAAAAAAAAAAAAAAAAQJiQGDQ0aPToZPjoAAQEAAAAAAAAAAAABAQEpZV4AAAAAAAAAAAAA////////////////pSIv05KZ////////////////////////////////AAAAAQAAAP///6krNwAAAAAAAPHc3ggSEQcSEQAAAAAAAAAAABY3NEGelQAAAAAAAAEBAQEAAAD///+YARAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGDg1g690CBgYAAAABAQEEAAAAAAAAS7etAAAAAAAAwGVtHklFIlJOAAAAAAAAAAAAAAAA+/X2BwYGAAAAAAAABAAAAAAAAB1IQwAAAAAAAAYNDBAmJB1IQwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAgL//v4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAQEB//7/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAECAv/+/gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD////////////////cqK3qzM////////////////////////////////8AAAABAAAA////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGuLjDf9F8oBAAAAAElFTkSuQmCC
+ 
+-#define bugzilla_icon data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAnYCL7J0pY9wwETY9kYEM9AAAAAEBAYAhVVVUDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA1bjTOS1Vb/wAA2/8JEqT/Q0g8kQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJnMqoiJtJ/0haST/NEkp/yQnW/8AAPD8AAHY/RsgP/JZUI+GKitih4ObUEAAAAAAAAAAAAAAAAAAAAAAKnouwip5Lv9ooW//a6Jz/y9GIv8JBXb/AADO/gEBvf8AAK7/FRJp/z9BfP8iLGj1AAAAAAAAAAAAAAAAL4YzwiB0I/+UwJ3/bK+C/02eZ/9CTjz/DBa1/wABxf8BAOj/AACp/w8Oc/sJCv//EhCN9AAAAAAAAAAANJA6iC2MMv93tYL/TZ5U/3mzjP9NoWr/NEss/wYIU/8CBOn/ARCX/wwNqP0TD6X/Cgyex5qacDAAAAAAAAAAADKUN/ZirWj/d76R/0SgXf9Ln1P/eLSM/1mda/8rOkb/CQiD/wMQvf8UEnT/MTAt4P//MwUhZyN8AAAAAAAAAAAznDf5UqlZ/228jP9NqnD/Qp9c/0yiVP+Dv5b/VaVw/0VxXf9PZXD/S3pQ/y54Nf8jcCf/I2wn/wAAAAA0ozjIM6E4/zOeOP+Uz6z/XLR+/06scv9BoV3/TqZX/4XBmP9XqHP/hr6Z/yp+Lf8leSr1JXUqbQAAAAA3rTz7Nqo7/zWmOqM3oz7rUK1W/43Mpf9etYD/T61z/0KjXf9Rqln/msup/46/lf8pgy7/JFg6sAAAAAAAAAAAOK8+8jqvOiMAAAAAAAAAADSlOv85pT//kM6o/2K5hP9Ysnv/YLJ2/ziXPv8piS3/V6Ri/yZQQ9wAAAAAAAAAAAAAAAAAAAAAAAAAADetP0E2qzz/OKg98UWsS/+e1K3/pNe4/4XDjv8ojy3/T7df/5fIqv8sjTH/K4kw/yqFLv8AAAAAAAAAAAAAAAA4sT3xN7A8+QAAAAA4qz3yNag6/zSlOf80oTn/csJ+/6/jwv9fjHj/MmRMdQAAAAAAAAAAAAAAAAAAAAAAAAAAOrdA/zm0QHQAAAAAAAAAADasO/k2qTvuRX5lpjqGT/gznDr/O3FXigAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADq9QiMAAAAAAAAAAAAAAAA4sj7/Nq09s0uOaSI1qTplM6U68wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOrc//zu0P0EAAAAAOK4+UjWsPPgAAAAAAAAAAAAAAAAAAAAA/48AAP8HAAD4AQAA8AAAAOAAAADAAQAAwAMAAMAAAACAAwAAAAMAAHADAADwAAAA5AcAAO4HAAD+bwAA/u8AAA==
++#define gnu_icon data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAGFBMVEVFRUV+fn6mpqa/v7/Ozs7Y2Njg4OD8/Pwuhn+TAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAALEQAACxEBf2RfkQAAAAd0SU1FB9MBDhQ6Gd8s57cAAAEVSURBVBgZBcGxVtpgGADQL9gHSBzqSognzMixmcWWzB6pmRHhnyvku6/fewMAIPD3TwHmQxHs6vr+A16bphNum/vV0x429201hcPjAGBTDZGnR/Kw1U181+u4HXvOdSxjUcztz8jjg1xGVBG9XPYxt4PviKiaWLg168iXtbrq+mPT1utjNcR1U73deRnL43M2sRgj3+oYs8uL3rLphPd2QWmHbMu/VS/cnk6UdtSW657g9yBlcZ0UAkUWzPvyRaAYmfd+HT4IZtvC59ibEJxXiqJjQpBpNEufBYE0McoOAunGhRMEFIPc7h4goJigQEBxk8u7AgEpL3IEAUZfcgAByGFXQACm5+4MAuB19QMEgI8CAgDgP4rivVgoKP6ZAAAAAElFTkSuQmCC
+ 
+-#define mdn_icon data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAABgElEQVR4AWPouPiRpmjUAjgatSBj+aG0OVuyVhymsgWl2y475zXySikwwIC4lpFDVk3avG0BrXP9mmeV7bhCvgXuxW3M7JwMeAGfpByZFpjHFzAQB2KmrSfZAtuMKgaiAZ+MUuLc7SRY4FbYwkA60HAJiJm8uubQAwIWeJV1MlAAOAREHDJrcFqQMG+ngIK6oKyykLwqAyMjeXZwiUjgtKD+yGMIwyGzmoGBTAs4hcXrgObgi4OiVkpCiUtYov7YU5wW1B194t0ww69ldvjktYouwWRYIGdkQ1Q+iJ28hp2Xn7B5zKzIPAlNw6S52wlbkL3mJJecOq+CBqeIJC6TjUJTMlcdz9lwLmriSuPgJBVbj/D+5SSXRequQVhNN4nIoEJhV77jKgs7B6bprJw85XtuU8GCpNlbSS3gSA4ii4QiTAvElDWpWeH41kxg5eZDSypUrtFKd1zTcA1EpHRDS5rUyQEts+VN7JjYOGR0TWhY6RdsOhc/Y9NoswUJjVoAAE+h555Rgcg2AAAAAElFTkSuQmCC
++#define libreplanet_icon data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACfElEQVQ4jZXTS0hUcRTH8f+9M3fGd0gRRq1a2bZdBAotWtS6TQtB6IHgKzRy0UKqjRaRCAq+R21MDMsUR83JR5fJxhmaK2lzsWAWw+ToEHJxgnFm7reFIgza66z/58P/dzhHcESZpsluIsFPwyCVSmGa5lHPEEIIkdGYTqPPvqUlP4fK8nJ2DINYNEq71YJ3fv4QlAGkUynaj+VRdfUK7580M52rEN/ZYWNjg2GrjEMSPFXsmOn0YcA0TZ4V5tNZUkJTTTWfJiZIJhJ8U1VczwcZs0o4JUHzufM0ZGcf/OQASCaTxGIxDMNA00P8iEbpuXyJ8Tw77+wWJhWZQYuVbiHoFIKwpmUC4XCYzc1NDMMgHo9z8+IFvl6/xsf7D9ArbjOpyAxLEt1C0CUErfvJDwBd14lEImxvb/N9fR1fgY3egmyWsq0sO/poUyw4pb3mLiFolyRM09wDEokEfr+fUChEJBJh4HgBS7kKn92zLIy9ZriqklFZwiEEHfsRRp1O0un0HpDa3cU9M8PKygp3Tp5AzbKgZlmYt1uYtkn02q0MyYKmnBxWNI27Nhtut5tkMrkHmKZJbWkpqqryQpFxKTJTisyEVeaVRWJIlqgpLuZRWRkejwe/34/P58ucwZvWVhYXF5l2uejIzeHGqbM4ZYmB/dy1hUV8mJpibm4On8/H1tbW4T1YXV3F6/WysLDA5Pg4nfsDe5yfz8OiIjweD5qmEQwGf7/KwWCQtbU1NE2jRZbpEoI2SWKqr49lVUXX9T/fAkAgEKC/e5SW6mo6hKD+zGn6e0bw+/x/PyaA9S/rvOwfobGukfpbddyraMDR7iCwHPg34H9KCCF+Abts3KCj/p6aAAAAAElFTkSuQmCC
+ 
+-#define addon_icon data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABOFBMVEUAAAAAzdwAydcAyNgA//8AzOYAydcAyNgAyNgA2NgAytoAzNkAytgAydgA29sA0egAyNgAyNgA//8AyNgAydgA//8Ay9cAydcAytkAz90Ay9gA1eoAydgAytsAyNgAytgAydkAydgAydgAyNgAydgAyNcAy9oAydgA//8AytsAy9kAytkAyNgAydgAydkAy9kAzP8AydgAydgAydgAz98AzN0AyNcAyNsAydcAydgAydgAydcAytgAytcAydcAydcAytcAydcAyNcAydcAy9gAztgAydcAydgAzOAAydcAyNgAyNgAytwAyNcAyNgAy9wAyNcAyNcAyNgAydgAyNcAydcAydgA0uEAydkAyNgAyeQA4+MAyNgAydkAzN0AyNsA1f8AyNgAydgAydcA1eMAydgAydcAyNdj6PGJAAAAZ3RSTlMAJFpBAQqm8qwNPiiPygcLv8QEw5cDQMA1JU4MwiuDbl/+6+m4+0XLAj9KePz9cjYFvervEA/IDsfFr+xcgeaOYIDo+ica1OMZ9bXlHe73LM3M35itxs8Rf5ATCbFeHjgGttC5ErzO3WvwaAAAAWxJREFUOMt9kudCwkAQhFcITQWCoaggiBqxoaixYUVsYMMGCmLXff838LIXCJAL84fvmCHsTg4AYMDhlIDkcnu8Po4w6BjiIA0joj+gY1BmGKLEiMIwHNFR9xGjuh8jpMQoYZjRGBGOA8QTHDEUB4hynABwcEqCT8GW2DNSnCYBnJzSoSk0NT2jcphlM/rRXpk5NkRgfmFxSWBml6MrOWNlWBUEEmDKtyYIrGttP66gSP4Nww8mUKzNLd5/zHaJbb1Tl9xnzR2WcGM/5QE8BLvJvf0Dc4HDo8IxUVECL5Vywv7s9Mzwz/WLcFHSsWy8w0sa9+qa/JtbOlUY3mnGLbjnCz9Q4JEfnhCrNb5nXi3w754p8MIPKVWpt6psGJ+vFJBbBUO3GlozzYdsSmCV1NlntiTnegNvPQ29Wx7h7fKrEUvg47PD/6oLpgh8m7//AZEav4b/J/bbb75SAzvR3crY+6y8fLGsQV9ZSvwHF4LQIhDjT+8AAAAASUVORK5CYII=
++#define hnode_icon data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABgElEQVQ4jaXRz2uSARzHcb0vlRGEzTVWISU1BVkFYTIyjNK1pKcxHA+yhWMWIamHYikFgpoLIi9jwegi3QbL9SzdLmMbM9J+DkJBgm5RDvEPeHeQHOyQz0OH9+V7ePGBr0pqpPmfVPsP8a0AR4MnMEwf48x9K0s/E8oAY9iEMOvD+8yP2qVjrhhRBnSN61n5sIpULqC+pGHh8wNlgEY8jPQXcGh4VXukDND5evYAl46odIuXtYdKAANSudAChO52/XeMZMohecCbcoGdH99Y+7LO72adT9+/4nh8nYOjBl7/SsoB8gBkpHk8T0S2K++pN3fRin3cfnFDHvCuWkI9rEMvHGEo5gbAHnXhnLF1BpZLeRaLOVT2A8Q3A5wMngXgWtKLxX9KPqC+rCWQvYkpeK4NWKcGOgO50ts2MJJ0cPreeQDciTHMchZYIhcwh2wcuqjn+ccwGm9v6wsTxxn0dVgQXZ7Ek3Agpq6QrcaQGmmebtxFSDkRU1fJVmL/BpT2ByV/3eDMhinRAAAAAElFTkSuQmCC
+ <!-- This Source Code Form is subject to the terms of the Mozilla Public
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+@@ -21,30 +21,21 @@
+ <dl><p>
+     <dt><h3 personal_toolbar_folder="true">@bookmarks_toolbarfolder@</h3></dt>
+     <dd>@bookmarks_toolbarfolder_description@
+-#ifndef NIGHTLY_BUILD
+         <dl>
+-            <p><dt><a href="https://www.mozilla.org/@AB_CD@/firefox/central/" icon="@firefox_icon@">@getting_started@</a></dt>
++            <p><dt><a href="https://www.parabola.nu/" icon="@parabola_icon@">Parabola GNU/Linux-libre</a></dt>
+         </dl>
+-    <p><dt><h3>@firefox_heading@</h3></dt>
++    <p><dt><h3>Parabola GNU/Linux-libre</h3></dt>
+         <dl><p>
+-            <dt><a href="https://support.mozilla.org/@AB_CD@/products/firefox" icon="@firefox_icon@">@firefox_help@</a>
+-            <dt><a href="https://support.mozilla.org/@AB_CD@/kb/customize-firefox-controls-buttons-and-toolbars?utm_source=firefox-browser&utm_medium=default-bookmarks&utm_campaign=customize" icon="@firefox_icon@">@firefox_customize@</a>
+-            <dt><a href="https://www.mozilla.org/@AB_CD@/contribute/" icon="@mozilla_icon@">@firefox_community@</a>
+-            <dt><a href="https://www.mozilla.org/@AB_CD@/about/" icon="@mozilla_icon@">@firefox_about@</a>
++            <dt><a href="https://www.parabola.nu/" icon="@parabola_icon@">Parabola GNU/Linux-libre</a>
++            <dt><a href="https://www.parabola.nu/packages/" icon="@parabola_icon@">Parabola GNU/Linux-libre Packages</a>
++            <dt><a href="https://wiki.parabola.nu/" icon="@parabola_icon@">Parabola GNU/Linux-libre Wiki</a>
++            <dt><a href="https://labs.parabola.nu/" icon="@parabola_icon@">Parabola GNU/Linux-libre Labs</a>
+         </dl>
+-#else
+-        <dl>
+-            <p><dt><a href="https://www.mozilla.org/@AB_CD@/contribute/" icon="@mozilla_icon@">@firefox_community@</a>
+-        </dl>
+-    <p><dt><h3>@nightly_heading@</h3></dt>
++    <p><dt><h3>Free Software Foundation</h3></dt>
+         <dl><p>
+-            <dt><a href="https://blog.nightly.mozilla.org/" icon="@mozilla_icon@">@nightly_blog@</a>
+-            <dt><a href="https://bugzilla.mozilla.org/" icon="@bugzilla_icon@" shortcuturl="bz">@bugzilla@</a>
+-            <dt><a href="https://developer.mozilla.org/" icon="@mdn_icon@" shortcuturl="mdn">@mdn@</a>
+-            <dt><a href="https://addons.mozilla.org/@AB_CD@/firefox/addon/nightly-tester-tools/" icon="@addon_icon@">@nightly_tester_tools@</a>
+-            <dt><a href="about:crashes" icon="@mozilla_icon@">@crashes@</a>
+-            <dt><a href="https://mibbit.com/?server=irc.mozilla.org&channel=%23nightly" icon="@mozilla_icon@">@irc@</a>
+-            <dt><a href="https://planet.mozilla.org/" icon="@mozilla_icon@">@planet@</a>
++            <dt><a href="https://www.fsf.org/" icon="@fsf_icon@">Free Software Foundation</a>
++            <dt><a href="https://www.gnu.org/" icon="@gnu_icon@">The GNU Operating System and the Free Software Movement</a>
++            <dt><a href="https://libreplanet.org/" icon="@libreplanet_icon@">LibrePlanet</a>
++            <dt><a href="https://www.h-node.org/" icon="@hnode_icon@">h-node</a>
+         </dl>
+-#endif
+ </dl>
+diff --git a/devtools/client/locales/en-US/connection-screen.dtd b/devtools/client/locales/en-US/connection-screen.dtd
+index 674a408d5e..d27e97fd58 100644
+--- a/devtools/client/locales/en-US/connection-screen.dtd
++++ b/devtools/client/locales/en-US/connection-screen.dtd
+@@ -24,7 +24,7 @@
+ <!-- LOCALIZATION NOTE (remoteHelp, remoteDocumentation, remoteHelpSuffix):
+ these strings will be concatenated in a single label, remoteDocumentation will
+ be used as text for a link to MDN. -->
+-<!ENTITY remoteHelp "Firefox Developer Tools can debug remote devices (Firefox for Android and Firefox OS, for example). Make sure that you have turned on the ‘Remote debugging’ option in the remote device. For more, see the ">
++<!ENTITY remoteHelp "Iceweasel Developer Tools can debug remote devices. Make sure that you have turned on the ‘Remote debugging’ option in the remote device. For more, see the ">
+ <!ENTITY remoteDocumentation "documentation">
+ <!ENTITY remoteHelpSuffix ".">
+ 
+diff --git a/devtools/client/locales/en-US/sourceeditor.properties b/devtools/client/locales/en-US/sourceeditor.properties
+index 842d549f04..31dcb82e5a 100644
+--- a/devtools/client/locales/en-US/sourceeditor.properties
++++ b/devtools/client/locales/en-US/sourceeditor.properties
+@@ -4,7 +4,7 @@
+ 
+ # LOCALIZATION NOTE These strings are used inside the Source Editor component.
+ # This component is used whenever source code is displayed for the purpose of
+-# being edited, inside the Firefox developer tools - current examples are the
++# being edited, inside the Iceweasel developer tools - current examples are the
+ # Scratchpad and the Style Editor tools.
+ 
+ # LOCALIZATION NOTE The correct localization of this file might be to keep it
+diff --git a/devtools/client/locales/en-US/webide.dtd b/devtools/client/locales/en-US/webide.dtd
+index 7bdf151b6a..7ed5cc69de 100644
+--- a/devtools/client/locales/en-US/webide.dtd
++++ b/devtools/client/locales/en-US/webide.dtd
+@@ -2,7 +2,7 @@
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+ 
+-<!ENTITY windowTitle "Firefox WebIDE">
++<!ENTITY windowTitle "Iceweasel WebIDE">
+ 
+ <!ENTITY projectMenu_label "Project">
+ <!ENTITY projectMenu_accesskey "P">
+@@ -55,7 +55,7 @@
+ <!ENTITY projectButton_label "Open App">
+ <!ENTITY runtimeButton_label "Select Runtime">
+ 
+-<!-- We try to repicate Firefox' bindings: -->
++<!-- We try to repicate Iceweasel's bindings: -->
+ <!-- quit app -->
+ <!ENTITY key_quit "W">
+ <!-- open menu -->
+diff --git a/devtools/client/locales/en-US/webide.properties b/devtools/client/locales/en-US/webide.properties
+index 7899151563..ca84e535e1 100644
+--- a/devtools/client/locales/en-US/webide.properties
++++ b/devtools/client/locales/en-US/webide.properties
+@@ -2,8 +2,8 @@
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+-title_noApp=Firefox WebIDE
+-title_app=Firefox WebIDE: %S
++title_noApp=Iceweasel WebIDE
++title_app=Iceweasel WebIDE: %S
+ 
+ runtimeButton_label=Select Runtime
+ projectButton_label=Open App

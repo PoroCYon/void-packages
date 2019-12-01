@@ -1,0 +1,343 @@
+diff --git a/browser/components/search/extensions/list.json b/browser/components/search/extensions/list.json
+index d023e0a..15ee5f5 100644
+--- a/browser/components/search/extensions/list.json
++++ b/browser/components/search/extensions/list.json
+@@ -1,53 +1,29 @@
+ {
+   "default": {
+-    "searchDefault": "Google",
+-    "searchOrder": ["Google", "Bing"],
+     "visibleDefaultEngines": [
+       "google-b-d", "amazondotcom", "bing", "ddg", "ebay", "twitter", "wikipedia"
+     ]
+   },
+   "regionOverrides": {
+     "US": {
+-      "google-b-d": "google-b-1-d"
+     },
+     "CA": {
+-      "ebay": "ebay-ca",
+-      "ebay-fr": "ebay-ca",
+-      "amazondotcom": "amazon-ca",
+-      "amazon-france": "amazon-ca"
+     },
+     "AT": {
+-      "ebay-de": "ebay-at"
+     },
+     "AU": {
+-      "ebay": "ebay-au",
+-      "ebay-uk": "ebay-au",
+-      "amazondotcom": "amazon-au",
+-      "amazon-en-GB": "amazon-au"
+     },
+     "BE": {
+-      "ebay": "ebay-be",
+-      "ebay-nl": "ebay-be",
+-      "ebay-fr": "ebay-be"
+     },
+     "CH": {
+-      "ebay": "ebay-ch",
+-      "ebay-de": "ebay-ch",
+-      "ebay-fr": "ebay-ch"
+     },
+     "FR": {
+-      "amazondotcom": "amazon-france"
+     },
+     "IE": {
+-      "ebay": "ebay-ie",
+-      "ebay-uk": "ebay-ie"
+     },
+     "NL": {
+-      "ebay": "ebay-nl"
+     },
+     "GB": {
+-      "ebay": "ebay-uk",
+-      "amazondotcom": "amazon-en-GB"
+     }
+   },
+   "locales": {
+@@ -56,35 +32,6 @@
+         "visibleDefaultEngines": [
+           "google-b-d", "amazondotcom", "bing", "ddg", "ebay", "twitter", "wikipedia"
+         ]
+-      },
+-      "KZ": {
+-        "visibleDefaultEngines": [
+-          "amazondotcom", "bing", "google", "twitter", "wikipedia", "ddg", "yandex-en"
+-        ],
+-        "searchDefault": "Yandex"
+-      },
+-      "BY": {
+-        "visibleDefaultEngines": [
+-          "amazondotcom", "bing", "google", "twitter", "wikipedia", "ddg", "yandex-en"
+-        ],
+-        "searchDefault": "Yandex"
+-      },
+-      "RU": {
+-        "visibleDefaultEngines": [
+-          "amazondotcom", "bing", "google", "twitter", "wikipedia", "ddg", "yandex-en"
+-        ],
+-        "searchDefault": "Yandex"
+-      },
+-      "TR": {
+-        "visibleDefaultEngines": [
+-          "amazondotcom", "bing", "google", "twitter", "wikipedia", "ddg", "yandex-en"
+-        ],
+-        "searchDefault": "Yandex"
+-      },
+-      "experimental-hidden": {
+-        "visibleDefaultEngines": [
+-          "amazon-ca", "amazon-au", "yandex-en", "google", "google-b-1-e", "google-b-e"
+-        ]
+       }
+     },
+     "ach": {
+@@ -141,18 +88,6 @@
+         "visibleDefaultEngines": [
+           "yandex-by", "google-b-d", "ddg", "wikipedia-be", "wikipedia-be-tarask"
+         ]
+-      },
+-      "BY": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "KZ": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "RU": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "TR": {
+-        "searchDefault": "Яндекс"
+       }
+     },
+     "bg": {
+@@ -220,7 +155,6 @@
+     },
+     "cs": {
+       "default": {
+-        "searchOrder": ["Google", "Seznam"],
+         "visibleDefaultEngines": [
+           "google-b-d", "seznam-cz", "ddg", "heureka-cz", "mapy-cz", "wikipedia-cz"
+         ]
+@@ -266,35 +200,6 @@
+         "visibleDefaultEngines": [
+           "google-b-d", "amazon-ca", "bing", "ddg", "ebay-ca", "twitter", "wikipedia"
+         ]
+-      },
+-      "KZ": {
+-        "visibleDefaultEngines": [
+-          "yandex-en", "google-b-d", "amazon-ca", "bing", "ddg", "ebay-ca", "twitter", "wikipedia"
+-        ],
+-        "searchDefault": "Yandex"
+-      },
+-      "BY": {
+-        "visibleDefaultEngines": [
+-          "yandex-en", "google-b-d", "amazon-ca", "bing", "ddg", "ebay-ca", "twitter", "wikipedia"
+-        ],
+-        "searchDefault": "Yandex"
+-      },
+-      "RU": {
+-        "visibleDefaultEngines": [
+-          "yandex-en", "google-b-d", "amazon-ca", "bing", "ddg", "ebay-ca", "twitter", "wikipedia"
+-        ],
+-        "searchDefault": "Yandex"
+-      },
+-      "TR": {
+-        "visibleDefaultEngines": [
+-          "yandex-en", "google-b-d", "amazon-ca", "bing", "ddg", "ebay-ca", "twitter", "wikipedia"
+-        ],
+-        "searchDefault": "Yandex"
+-      },
+-      "experimental-hidden": {
+-        "visibleDefaultEngines": [
+-          "amazon-ca", "amazon-au", "yandex-en", "google", "google-b-1-e", "google-b-e"
+-        ]
+       }
+     },
+     "en-GB": {
+@@ -302,35 +207,6 @@
+         "visibleDefaultEngines": [
+           "google-b-d", "bing", "amazon-en-GB", "chambers-en-GB", "ddg", "ebay-uk", "twitter", "wikipedia"
+         ]
+-      },
+-      "KZ": {
+-        "visibleDefaultEngines": [
+-          "yandex-en", "google-b-d", "bing", "amazon-en-GB", "chambers-en-GB", "ddg", "ebay-uk", "twitter", "wikipedia"
+-        ],
+-        "searchDefault": "Yandex"
+-      },
+-      "BY": {
+-        "visibleDefaultEngines": [
+-          "yandex-en", "google-b-d", "bing", "amazon-en-GB", "chambers-en-GB", "ddg", "ebay-uk", "twitter", "wikipedia"
+-        ],
+-        "searchDefault": "Yandex"
+-      },
+-      "RU": {
+-        "visibleDefaultEngines": [
+-          "yandex-en", "google-b-d", "bing", "amazon-en-GB", "chambers-en-GB", "ddg", "ebay-uk", "twitter", "wikipedia"
+-        ],
+-        "searchDefault": "Yandex"
+-      },
+-      "TR": {
+-        "visibleDefaultEngines": [
+-          "yandex-en", "google-b-d", "bing", "amazon-en-GB", "chambers-en-GB", "ddg", "ebay-uk", "twitter", "wikipedia"
+-        ],
+-        "searchDefault": "Yandex"
+-      },
+-      "experimental-hidden": {
+-        "visibleDefaultEngines": [
+-          "yandex-en"
+-        ]
+       }
+     },
+     "en-ZA": {
+@@ -338,30 +214,6 @@
+         "visibleDefaultEngines": [
+           "google-b-d", "bing", "amazondotcom", "ddg", "twitter", "wikipedia"
+         ]
+-      },
+-      "KZ": {
+-        "visibleDefaultEngines": [
+-          "yandex-en", "google-b-d", "bing", "amazondotcom", "ddg", "twitter", "wikipedia"
+-        ],
+-        "searchDefault": "Yandex"
+-      },
+-      "BY": {
+-        "visibleDefaultEngines": [
+-          "yandex-en", "google-b-d", "bing", "amazondotcom", "ddg", "twitter", "wikipedia"
+-        ],
+-        "searchDefault": "Yandex"
+-      },
+-      "RU": {
+-        "visibleDefaultEngines": [
+-          "yandex-en", "google-b-d", "bing", "amazondotcom", "ddg", "twitter", "wikipedia"
+-        ],
+-        "searchDefault": "Yandex"
+-      },
+-      "TR": {
+-        "visibleDefaultEngines": [
+-          "yandex-en", "google-b-d", "bing", "amazondotcom", "ddg", "twitter", "wikipedia"
+-        ],
+-        "searchDefault": "Yandex"
+       }
+     },
+     "eo": {
+@@ -397,11 +249,6 @@
+         "visibleDefaultEngines": [
+           "google-b-d", "bing", "ddg", "mercadolibre-mx", "wikipedia-es"
+         ]
+-      },
+-      "experimental-hidden": {
+-        "visibleDefaultEngines": [
+-          "amazon-mx"
+-        ]
+       }
+     },
+     "et": {
+@@ -451,11 +298,6 @@
+         "visibleDefaultEngines": [
+           "google-b-d", "bing", "bolcom-fy-NL", "ddg", "ebay-nl", "marktplaats-fy-NL", "wikipedia-fy-NL"
+         ]
+-      },
+-      "experimental-hidden": {
+-        "visibleDefaultEngines": [
+-          "amazon-nl"
+-        ]
+       }
+     },
+     "ga-IE": {
+@@ -565,7 +407,6 @@
+     },
+     "ja-JP-macos": {
+       "default": {
+-        "searchOrder": ["Google", "Yahoo! JAPAN", "Bing", "Amazon.co.jp", "楽天市場", "ヤフオク!", "教えて！goo", "Twitter", "Wikipedia (ja)"],
+         "visibleDefaultEngines": [
+           "google-b-d", "yahoo-jp", "bing", "amazon-jp", "rakuten", "yahoo-jp-auctions", "oshiete-goo", "twitter-ja", "wikipedia-ja", "ddg"
+         ]
+@@ -573,7 +414,6 @@
+     },
+     "ja": {
+       "default": {
+-        "searchOrder": ["Google", "Yahoo! JAPAN", "Bing", "Amazon.co.jp", "楽天市場", "ヤフオク!", "教えて！goo", "Twitter", "Wikipedia (ja)"],
+         "visibleDefaultEngines": [
+           "google-b-d", "yahoo-jp", "bing", "amazon-jp", "rakuten", "yahoo-jp-auctions", "oshiete-goo", "twitter-ja", "wikipedia-ja", "ddg"
+         ]
+@@ -598,18 +438,6 @@
+         "visibleDefaultEngines": [
+           "yandex-kk", "google-b-d", "ddg", "flip", "twitter", "wikipedia-kk"
+         ]
+-      },
+-      "KZ": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "BY": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "RU": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "TR": {
+-        "searchDefault": "Яндекс"
+       }
+     },
+     "km": {
+@@ -729,11 +557,6 @@
+         "visibleDefaultEngines": [
+           "google-b-d", "bing", "bolcom-nl", "ddg", "ebay-nl", "marktplaats-nl", "wikipedia-nl"
+         ]
+-      },
+-      "experimental-hidden": {
+-        "visibleDefaultEngines": [
+-          "amazon-nl"
+-        ]
+       }
+     },
+     "nn-NO": {
+@@ -804,18 +627,6 @@
+         "visibleDefaultEngines": [
+           "yandex-ru", "google-b-d", "ddg", "ozonru", "priceru", "wikipedia-ru", "mailru"
+         ]
+-      },
+-      "RU": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "BY": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "KZ": {
+-        "searchDefault": "Яндекс"
+-      },
+-      "TR": {
+-        "searchDefault": "Яндекс"
+       }
+     },
+     "si": {
+@@ -900,18 +711,6 @@
+         "visibleDefaultEngines": [
+           "yandex-tr", "google-b-d", "ddg", "twitter", "wikipedia-tr"
+         ]
+-      },
+-      "TR": {
+-        "searchDefault": "Yandex"
+-      },
+-      "BY": {
+-        "searchDefault": "Yandex"
+-      },
+-      "KZ": {
+-        "searchDefault": "Yandex"
+-      },
+-      "RU": {
+-        "searchDefault": "Yandex"
+       }
+     },
+     "trs": {
+@@ -968,9 +767,6 @@
+         "visibleDefaultEngines": [
+           "baidu", "google-b-d", "bing", "ddg", "wikipedia-zh-CN", "amazondotcn"
+         ]
+-      },
+-      "CN": {
+-        "searchDefault": "百度"
+       }
+     },
+     "zh-TW": {

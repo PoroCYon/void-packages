@@ -1,0 +1,284 @@
+# Template file for 'iceweasel'
+pkgname=iceweasel
+epoch=1
+version=70.0.1
+revision=2
+_brandingver=70.0
+_brandingrel=1
+wrksrc=firefox-$version
+archs="i686 x86_64 armv7h"
+build_helper="rust"
+hostmakedepends="autoconf213 unzip zip pkg-config perl python3 yasm rust cargo
+ llvm gcc nodejs cbindgen python nasm inkscape ImageMagick quilt libxslt"
+makedepends="nss-devel libjpeg-turbo-devel gtk+-devel gtk+3-devel icu-devel
+ pixman-devel sqlite-devel libevent-devel libnotify-devel libvpx5-devel
+ libXrender-devel libXcomposite-devel libSM-devel libXt-devel rust-std
+ libXdamage-devel freetype-devel $(vopt_if alsa alsa-lib-devel)
+ $(vopt_if dbus dbus-glib-devel) $(vopt_if pulseaudio pulseaudio-devel)
+ $(vopt_if startup_notification startup-notification-devel)
+ $(vopt_if xscreensaver libXScrnSaver-devel)
+ $(vopt_if sndio sndio-devel) $(vopt_if jack jack-devel)"
+depends="nss>=3.46.1 desktop-file-utils hicolor-icon-theme"
+short_desc="Standalone web browser based on Mozilla Firefox"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="MPL-2.0, GPL-2.0-or-later, LGPL-2.1-or-later"
+homepage="https://wiki.parabola.nu/$pkgname"
+distfiles="
+https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
+https://repo.parabola.nu/other/iceweasel/${pkgname}_${_brandingver}-${_brandingrel}.branding.tar.xz
+"
+checksum='
+f2e9bb26af7682b31e82fdfc3a4b3e04fd1caa8b004469ea608185d33e35691b
+e90956067d8549f02864d612369ed8714d7173f0ee07bbfb4374a7323b4a733e
+'
+lib32disabled=yes
+build_options="alsa dbus pulseaudio startup_notification xscreensaver sndio wayland jack"
+build_options_default="alsa dbus startup_notification xscreensaver sndio wayland jack"
+
+case $XBPS_TARGET_MACHINE in
+	armv6*)
+		broken="required NEON extensions are not supported on armv6"
+		;;
+	ppc64*) ;;
+	ppc*) broken="ftbfs in several places" ;;
+esac
+
+pre_extract() {
+	chmod +x "$FILESDIR/rsvg-convert"
+}
+
+post_patch() {
+	export PATH="$PATH:$FILESDIR"
+
+	patch -Np1 -i "$FILESDIR/no-relinking.patch"
+	patch -Np1 -i "$FILESDIR/0001-Use-remoting-name-for-GDK-application-names.patch"
+	patch -Np1 -i "$FILESDIR/firefox-70.0-update-bindgen.patch"
+	patch -Np1 -i "$FILESDIR/firefox-70.0-add-distro.patch"
+
+	cat >.mozconfig_ <<EOF
+ac_add_options --enable-application=browser
+
+ac_add_options --prefix=/usr
+ac_add_options --libdir=/usr/lib
+
+ac_add_options --with-system-nspr
+ac_add_options --with-system-nss
+ac_add_options --with-system-bz2
+ac_add_options --with-system-jpeg
+ac_add_options --with-system-zlib
+ac_add_options --with-system-libevent
+ac_add_options --with-system-libvpx
+ac_add_options --with-system-icu
+# XXX: the system's libpng doesn't have APNG support
+ac_add_options --without-system-png
+ac_add_options --enable-system-pixman
+ac_add_options --enable-system-sqlite
+ac_add_options --enable-system-ffi
+
+ac_add_options --with-nspr-prefix=\${XBPS_CROSS_BASE}/usr
+ac_add_options --with-nss-prefix=\${XBPS_CROSS_BASE}/usr
+
+nspr_config_args="
+ --libdir=\${XBPS_CROSS_BASE}/usr/lib
+ --includedir=\${XBPS_CROSS_BASE}/usr/include/nspr"
+
+nss_config_args="
+ --libdir=\${XBPS_CROSS_BASE}/usr/lib
+ --includedir=\${XBPS_CROSS_BASE}/usr/include/nss"
+
+ac_add_options --enable-release
+ac_add_options --enable-hardening
+ac_add_options --enable-optimize
+ac_add_options --enable-rust-simd
+#export CC='clang --target=x86_64-unknown-linux-gnu'
+#export CXX='clang++ --target=x86_64-unknown-linux-gnu'
+#export AR=llvm-ar
+#export NM=llvm-nm
+#export RANLIB=llvm-ranlib
+
+# Branding
+ac_add_options --disable-official-branding
+ac_add_options --with-branding=browser/branding/iceweasel
+ac_add_options --enable-update-channel=release
+ac_add_options --with-distribution-id=nu.parabola
+ac_add_options --with-unsigned-addon-scopes=app,system
+export MOZ_APP_REMOTINGNAME=${pkgname//-/}
+export MOZ_TELEMETRY_REPORTING=
+export MOZ_REQUIRE_SIGNING=
+
+# System libraries
+ac_add_options --with-system-nspr
+ac_add_options --with-system-nss
+
+# Features
+ac_add_options $(vopt_enable alsa)
+#ac_add_options $(vopt_enable sndio)
+ac_add_options $(vopt_enable dbus)
+ac_add_options $(vopt_enable dbus necko-wifi)
+ac_add_options $(vopt_enable pulseaudio)
+ac_add_options $(vopt_enable startup_notification startup-notification)
+ac_add_options $(vopt_enable jack)
+ac_add_options --enable-default-toolkit=$(vopt_if wayland 'cairo-gtk3-wayland' 'cairo-gtk3')
+ac_add_options --enable-startup-notification
+ac_add_options --disable-crashreporter
+ac_add_options --disable-gconf
+ac_add_options --disable-install-strip
+ac_add_options --disable-strip
+ac_add_options --disable-updater
+ac_add_options --disable-tests
+ac_add_options --enable-optimize="\$CFLAGS"
+ac_add_options --disable-elf-hack
+EOF
+
+	rm -rf -- browser/branding/${pkgname}
+	cp -aT -- "../${pkgname}-${_brandingver}"/branding browser/branding/${pkgname}
+	# TODO: dont know what aboutlogins.svg is supposed to be or where it is presented
+	#         but it seems to be essential
+	cp browser/branding/${pkgname}/iceweasel_logo.svg browser/branding/${pkgname}/content/aboutlogins.svg
+
+	# produce icons
+	for i in 16 22 24 32 48 64 128 192 256 384; do
+		rsvg-convert -w $i -h $i "../${pkgname}-${_brandingver}/branding/${pkgname}_icon.svg" \
+		  -o "browser/branding/${pkgname}/default$i.png"
+	done
+
+	## Patching
+	export QUILT_PATCHES="../${pkgname}-${_brandingver}"/patches
+	export QUILT_REFRESH_ARGS='-p ab --no-timestamps --no-index'
+	export QUILT_DIFF_ARGS='--no-timestamps'
+	quilt push -av
+
+	patch -Np1 -i "$FILESDIR/libre.patch"
+
+	sed -i 's/;1/;0/' toolkit/components/telemetry/components.conf
+	#sed -i 's/;1/;0/' browser/experiments/Experiments.manifest
+	#sed -i '/pocket/d'          browser/extensions/moz.build
+	#sed -i '/activity-stream/d' browser/extensions/moz.build
+
+	patch -Np1 -i "$FILESDIR/libre-searchengines.patch"
+	sed -i 's|.*oogle.*|          "ddg", "wikipedia"|g' browser/components/search/extensions/list.json
+
+	! grep -E 'Bing|Google|Seznam|Twitter|Yahoo|Yandex|Яндекс|amazon|bing|google|ebay|twitter' \
+	  browser/components/search/extensions/list.json > /dev/null || ! echo "search-engines patch needs re-working"
+}
+
+do_build() {
+	export PATH="$PATH:$FILESDIR"
+
+	case "$XBPS_TARGET_MACHINE" in
+	*-musl)
+		echo "ac_add_options --disable-jemalloc" >>.mozconfig
+		echo "ac_add_options --enable-release" >>.mozconfig
+		;;
+	esac
+
+	case "$XBPS_TARGET_MACHINE" in
+	x86_64*|i686*|arm*)
+		echo "ac_add_options --disable-elf-hack" >>.mozconfig
+		;;
+	esac
+
+	export MOZ_NOSPAM=1
+	export MOZBUILD_STATE_PATH="mozbuild"
+
+	# LTO needs more open files
+	ulimit -n 4096
+
+	# -fno-plt with cross-LTO causes obscure LLVM errors
+	# LLVM ERROR: Function Import: link error
+	CFLAGS="${CFLAGS/-fno-plt/}"
+	CXXFLAGS="${CXXFLAGS/-fno-plt/}"
+	unset AS
+
+#	# Do 3-tier PGO
+#	>&2 echo "===> Building instrumented browser..."
+#	cat >.mozconfig .mozconfig_ - <<END
+#ac_add_options --enable-profile-generate=cross
+#END
+#	./mach build
+#
+#	>&2 echo "===> Profiling instrumented browser..."
+#	./mach package
+#	LLVM_PROFDATA=llvm-profdata \
+#		JARLOG_FILE="$PWD/jarlog" \
+#		xvfb-run -a -n 92 -s "-screen 0 1600x1200x24" \
+#		./mach python build/pgo/profileserver.py
+#
+#	if ! compgen -G '*.profraw' >&2; then
+#		>&2 echo "===> ERROR: No profile data produced."
+#		return 1
+#	fi
+#
+#	if [[ ! -s jarlog ]]; then
+#		>&2 echo "===> ERROR: No jar log produced."
+#		return 1
+#	fi
+#
+#	>&2 echo "===> Removing instrumented browser..."
+#	./mach clobber
+
+	>&2 echo "===> Building optimized browser..."
+	cat >.mozconfig .mozconfig_ - <<END
+#ac_add_options --enable-lto=cross
+#ac_add_options --enable-profile-use=cross
+#ac_add_options --with-pgo-profile-path=${PWD@Q}
+#ac_add_options --with-pgo-jarlog=${PWD@Q}/jarlog
+END
+	./mach build
+
+	>&2 echo "===> Building symbol archive..."
+	./mach buildsymbols
+}
+
+do_install() {
+	unset AS
+	export PATH="$PATH:$FILESDIR"
+
+	DESTDIR="$DESTDIR" ./mach install
+	#find . -name '*crashreporter-symbols-full.zip' -exec cp -fvt "$startdir" {} +
+
+	vinstall "$FILESDIR/vendor.js" 644 "usr/lib/$pkgname/browser/defaults/preferences" "vendor.js"
+
+	# Parabola additions to vendor.js
+	#
+	# TODO: Go through this and figure out what's nescessary, remove
+	# most of it.  This is mostly cargo-cult BS.  For example, disabling
+	# all the EME stuff... that's already off because of `--disable-eme`
+	# in `.mozconfig`.  Some of these settings no longer exist.  Some of
+	# these settings don't do anything on GNU/Linux.
+	#
+	# However, they don't seem to be causing any of the critical issues.
+	vinstall "$FILESDIR/distribution.ini" 644 "usr/lib/$pkgname/distribution" "distribution.ini"
+
+	local i
+	for i in 16 22 24 32 48 64 128 192 256 384; do
+		vinstall browser/branding/$pkgname/default$i.png 644 \
+		  "usr/share/icons/hicolor/${i}x${i}/apps" "$pkgname.png"
+	done
+	vinstall "browser/branding/$pkgname/${pkgname}_icon.svg" 644 \
+	  "usr/share/icons/hicolor/scalable/apps/$pkgname.svg"
+
+	vinstall $FILESDIR/$pkgname.desktop 644 \
+	  "usr/share/applications/$pkgname.desktop"
+
+	# Install a wrapper to avoid confusion about binary path
+	rm -f "usr/bin/$pkgname"
+	vinstall "$FILESDIR/$pkgname-script" 755 "usr/bin" "$pkgname"
+
+	# Replace duplicate binary with wrapper
+	# https://bugzilla.mozilla.org/show_bug.cgi?id=658850
+	ln -srfv "$DESTDIR/usr/bin/$pkgname" "$DESTDIR/usr/lib/$pkgname/$pkgname-bin"
+
+	# Use system certificates
+	if [[ -e $DESTDIR/usr/lib/$pkgname/libnssckbi.so ]]; then
+	  ln -srfv "$DESTDIR/usr/lib/libnssckbi.so" "$nssckbi"
+	fi
+
+	#if [[ -f "$startdir/.crash-stats-api.token" ]]; then
+	#	find . -name '*crashreporter-symbols-full.zip' -exec \
+	#	  "$startdir/upload-symbol-archive" "$startdir/.crash-stats-api.token" {} +
+	#else
+	#	find . -name '*crashreporter-symbols-full.zip' -exec \
+	#	  cp -fvt "$startdir" {} +
+	#fi
+}
