@@ -6,13 +6,15 @@ build_style=gnu-configure
 configure_args="
 	$(vopt_enable sdl2 sdlui2)
 	$(vopt_with sdl2 sdlsound)
-	$(vopt_enable gtk3 gnomeui3)
+	$(vopt_enable gtk3 native-gtk3ui)
+	$(vopt_enable gtk3 debug-gtk3ui)
 	$(vopt_with gtk3 pulse)
 	$(vopt_enable ffmpeg  external-ffmpeg)
 	--disable-option-checking
 	--enable-cpuhistory
 	--enable-x64
 	--disable-pdf-docs
+	--with-alsa --with-sdlsound
 	AR=${AR}"
 hostmakedepends="bdftopcf flex mkfontdir perl pkg-config xa
  glib-devel autoconf texinfo automake dos2unix"
@@ -23,6 +25,7 @@ makedepends="
 	giflib-devel
 	glew-devel
 	alsa-lib-devel
+	SDL2-devel SDL2_mixer-devel
 	$(vopt_if sdl2 SDL2_mixer-devel)
 	$(vopt_if sdl2 SDL2-devel)
 	$(vopt_if gtk3 gtk+3-devel)
