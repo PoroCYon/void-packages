@@ -3,6 +3,7 @@ pkgname=melonDS
 version=0.9.4
 revision=1
 build_style=cmake
+configure_args="-DENABLE_LTO=ON -DBUILD_LIBUI=ON -DUNIX_PORTABLE=OFF"
 hostmakedepends="pkg-config qt5-host-tools qt5-qmake"
 makedepends="qt5-devel libslirp-devel SDL2-devel libepoxy-devel
  libarchive-devel"

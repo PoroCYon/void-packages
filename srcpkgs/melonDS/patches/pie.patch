@@ -1,0 +1,16 @@
+diff --git CMakeLists.txt CMakeLists.txt
+index 048dd44ad0..ed648565e2 100644
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -29,8 +29,8 @@ if(ENABLE_LTO)
+        set(CMAKE_CXX_ARCHIVE_FINISH   true)
+ endif()
+ 
+-add_compile_options(-fno-pic)
+-add_link_options(-no-pie)
++#add_compile_options(-fno-pic)
++#add_link_options(-no-pie)
+ 
+ option(BUILD_LIBUI "Build libui frontend" ON)
+ 
+
