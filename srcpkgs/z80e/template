@@ -1,0 +1,22 @@
+# Template file for 'z80e'
+pkgname=z80e
+version=0.4.0
+revision=2
+#archs="i686 x86_64"
+#wrksrc=
+#create_wrksrc=yes
+build_style=cmake
+configure_args="-Denable-sdl=YES"
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends=""
+makedepends="SDL-devel scas-devel readline-devel"
+depends=""
+short_desc="A z80 calculator emulator (and debugger)"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="MIT"
+homepage="https://github.com/KnightOS/$pkgname"
+distfiles="$homepage/archive/$version.tar.gz"
+checksum=b8940393bfff843ef26b2f43770a9d7e8cb0601f67804571b238bbca52919e7d
