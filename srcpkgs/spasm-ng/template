@@ -1,0 +1,37 @@
+# Template file for 'spasm-ng'
+pkgname=spasm-ng
+version=0.5.beta.3
+wrksrc=$pkgname-0.5-beta.3
+revision=1
+build_style=gnu-makefile
+#make_build_args="LDFLAGS=\"-lm -lgmp -lcrypto\""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends=""
+makedepends="gmp-devel libressl-devel zlib-devel"
+depends=""
+short_desc="SPASM-ng is a z80 assembler with extra features to support development for TI calculators"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GPL-2.0"
+homepage="https://github.com/alberthdev/$pkgname"
+distfiles="$homepage/archive/v0.5-beta.3.tar.gz"
+checksum=53da58977ceb54802fbed44c9bd0345557a06354d0a3aa400d19d7bf64b6e86b
+
+do_build() {
+	: ${make_cmd:=make}
+
+	#if [ -z "$make_use_env" ]; then
+	${make_cmd} \
+		CC="$CC" CXX="$CXX" LD="$LD" AR="$AR" RANLIB="$RANLIB" \
+		CPP="$CPP" AS="$AS" OBJDUMP="$OBJDUMP" \
+		CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS -lm -lgmp -lcrypto -lstdc++" \
+		${makejobs} ${make_build_args} ${make_build_target}
+	#else
+	#	${make_cmd} ${makejobs} ${make_build_args} ${make_build_target}
+	#fi
+}
+
+do_install() {
+	vinstall spasm 755 usr/bin
+}
