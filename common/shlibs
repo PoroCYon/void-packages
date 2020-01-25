@@ -4209,3 +4209,4 @@ libgnunetfs.so.2 gnunet-0.10.1_1
 libgnunettransporttesting.so.0 gnunet-0.10.1_1
 libgnunetblock.so.0 gnunet-0.10.1_1
 libgnurl.so.4 gnurl-7.62.0_1
+libscas.so scas-0.3.4_5
