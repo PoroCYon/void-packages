@@ -1,0 +1,30 @@
+# Template file for 'tilem'
+pkgname=tilem
+version=2.0
+revision=1
+#archs="i686 x86_64"
+#wrksrc=
+#create_wrksrc=yes
+build_style=gnu-configure
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="pkg-config"
+makedepends="libticalcs2-devel gtk+-devel"
+depends=""
+short_desc="TilEm is an emulator and debugger for Texas Instruments Z80-based graphing calculators"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GPL-3.0-or-later"
+homepage="http://lpg.ticalc.org/prj_tilem/index.html"
+distfiles="https://www.ticalc.org/pub/unix/tilem.tar.bz2"
+checksum=fc27235a402dfbee35a15a5aa7c9603211ffa5a1f8b1716310ce8f0b7f4743ad
+
+do_build() {
+	: ${make_cmd:=make}
+
+	${make_cmd} ${makejobs} ${make_build_args} ${make_build_target} \
+		LIBS="-lm"
+}
+
