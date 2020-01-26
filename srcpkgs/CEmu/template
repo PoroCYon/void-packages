@@ -1,0 +1,47 @@
+# Template file for 'CEmu'
+pkgname=CEmu
+version=1.3
+_apng_version=1.6.37
+revision=1
+build_wrksrc=$pkgname-$version/gui/qt
+create_wrksrc=yes
+build_style=qmake
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="qt5-qmake qt5-devel patch pkg-config"
+makedepends="libarchive-devel zlib-devel"
+depends=""
+short_desc="Third-party TI-84 Plus CE / TI-83 Premium CE emulator, focused on developer features"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/CE-Programming/$pkgname"
+distfiles="
+ $homepage/archive/v$version.tar.gz
+ https://downloads.sourceforge.net/sourceforge/libpng/libpng-$_apng_version.tar.xz
+ https://downloads.sourceforge.net/sourceforge/libpng-apng/libpng-$_apng_version-apng.patch.gz
+"
+checksum="581da0eff0c7e5b24dfbe19a125b9f0dd3f17c431a0ba50e1984e1ec4f65d2b5
+ 505e70834d35383537b6491e7ae8641f1a4bed1876dbfe361201fc80868d88ca
+ 823bb2d1f09dc7dae4f91ff56d6c22b4b533e912cbd6c64e8762255e411100b6"
+
+post_extract() {
+	cp -v "$FILESDIR/"*.* "$build_wrksrc/../../core/debug/zdis/"
+}
+
+pre_configure() {
+	: ${make_cmd:=make}
+
+	cd capture
+	#[ -e libpng-apng ] && unlink libpng-apng
+	ln -s -T ../../../../libpng-$_apng_version libpng-apng
+	cd libpng-apng
+	patch -Np1 < "../libpng-$_apng_version-apng.patch"
+	./configure --with-libpng-prefix=a --enable-static --disable-shared \
+		CFLAGS="-O2 -fPIC"
+
+	$make_cmd $makejobs
+}
+
