@@ -1,0 +1,157 @@
+From 981c5f0c0f0052adc047f774a1f0b0f9bff792c4 Mon Sep 17 00:00:00 2001
+From: blackle <isabelle@blackle-mori.com>
+Date: Sun, 24 Nov 2019 20:40:52 -0500
+Subject: [PATCH 01/21] Add 'scale' setting that allows user to render shader
+ at a fraction of the window resolution
+
+---
+ README.md                      |  2 ++
+ src/Renderer.h                 |  2 ++
+ src/main.cpp                   | 10 +++++++++-
+ src/platform_glfw/Renderer.cpp | 31 +++++++++++++++++++++++++++++++
+ 4 files changed, 44 insertions(+), 1 deletion(-)
+
+diff --git README.md README.md
+index 3541357..e1f52a4 100644
+--- README.md
++++ README.md
+@@ -32,6 +32,8 @@ The file can have the following contents: (all fields are optional)
+   "window":{ // default window size / state, if there's a setup dialog, it will override it
+     "width":1920,
+     "height":1080,
++    "scale":0.5, //render the shader at 1/2 the size of the window and scale up
++    "linearFilter":true, //use linear filtering when scaling up
+     "fullscreen":true,
+   },
+   "font":{ // all paths in the file are also relative to the binary, but again, can be absolute paths if that's more convenient
+diff --git src/Renderer.h src/Renderer.h
+index db0c27f..fe84fff 100644
+--- src/Renderer.h
++++ src/Renderer.h
+@@ -10,6 +10,8 @@ typedef struct
+ {
+   int nWidth;
+   int nHeight;
++  float fScale;
++  bool bLinearFilter;
+   RENDERER_WINDOWMODE windowMode;
+   bool bVsync;
+ } RENDERER_SETTINGS;
+diff --git src/main.cpp src/main.cpp
+index 673c9df..69a729f 100644
+--- src/main.cpp
++++ src/main.cpp
+@@ -82,6 +82,8 @@ int main(int argc, const char *argv[])
+   }
+ 
+   RENDERER_SETTINGS settings;
++  settings.fScale = 1.0f;
++  settings.bLinearFilter = false;
+   settings.bVsync = false;
+ #ifdef _DEBUG
+   settings.nWidth = 1280;
+@@ -97,9 +99,15 @@ int main(int argc, const char *argv[])
+       settings.nWidth = options.get<jsonxx::Object>("window").get<jsonxx::Number>("width");
+     if (options.get<jsonxx::Object>("window").has<jsonxx::Number>("height"))
+       settings.nHeight = options.get<jsonxx::Object>("window").get<jsonxx::Number>("height");
++    if (options.get<jsonxx::Object>("window").has<jsonxx::Number>("scale"))
++      settings.fScale = options.get<jsonxx::Object>("window").get<jsonxx::Number>("scale");
++    if (options.get<jsonxx::Object>("window").has<jsonxx::Boolean>("linearFilter"))
++      settings.bLinearFilter = options.get<jsonxx::Object>("window").get<jsonxx::Boolean>("linearFilter");
+     if (options.get<jsonxx::Object>("window").has<jsonxx::Boolean>("fullscreen"))
+       settings.windowMode = options.get<jsonxx::Object>("window").get<jsonxx::Boolean>("fullscreen") ? RENDERER_WINDOWMODE_FULLSCREEN : RENDERER_WINDOWMODE_WINDOWED;
+   }
++  if (settings.fScale < 0.0f) settings.fScale = 0.0f;
++  if (settings.fScale > 1.0f) settings.fScale = 1.0f;
+   if (!Renderer::OpenSetupDialog( &settings ))
+     return -1;
+ #endif
+@@ -424,7 +432,7 @@ int main(int argc, const char *argv[])
+     Renderer::keyEventBufferCount = 0;
+ 
+     Renderer::SetShaderConstant( "fGlobalTime", time );
+-    Renderer::SetShaderConstant( "v2Resolution", settings.nWidth, settings.nHeight );
++    Renderer::SetShaderConstant( "v2Resolution", settings.nWidth*settings.fScale, settings.nHeight*settings.fScale );
+ 
+     for (std::map<int,std::string>::iterator it = midiRoutes.begin(); it != midiRoutes.end(); it++)
+     {
+diff --git src/platform_glfw/Renderer.cpp src/platform_glfw/Renderer.cpp
+index 52f6821..edc2baa 100644
+--- src/platform_glfw/Renderer.cpp
++++ src/platform_glfw/Renderer.cpp
+@@ -165,6 +165,8 @@ namespace Renderer
+   bool run = true;
+ 
+   GLuint theShader = 0;
++  GLuint glhShaderFB = 0;
++  GLuint glhShaderTex = 0;
+   GLuint glhVertexShader = 0;
+   GLuint glhFullscreenQuadVB = 0;
+   GLuint glhFullscreenQuadVA = 0;
+@@ -174,6 +176,8 @@ namespace Renderer
+ 
+   int nWidth = 0;
+   int nHeight = 0;
++  float fScale = 1.0f;
++  bool bLinearFilter = false;
+ 
+   void MatrixOrthoOffCenterLH(float * pout, float l, float r, float b, float t, float zn, float zf)
+   {
+@@ -226,6 +230,8 @@ namespace Renderer
+ 
+     nWidth = settings->nWidth;
+     nHeight = settings->nHeight;
++    fScale = settings->fScale;
++    bLinearFilter = settings->bLinearFilter;
+ 
+     glfwWindowHint(GLFW_RED_BITS, 8);
+     glfwWindowHint(GLFW_GREEN_BITS, 8);
+@@ -305,6 +311,20 @@ namespace Renderer
+     nWidth = settings->nWidth = fbWidth;
+     nHeight = settings->nHeight = fbHeight;
+     printf("[GLFW] Obtained framebuffer size: %d x %d\n", fbWidth, fbHeight);
++
++    if (fScale != 1.0f) {
++      glGenTextures( 1, &glhShaderTex );
++      glBindTexture( GL_TEXTURE_2D, glhShaderTex );
++      glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
++      glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
++      glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA32F, nWidth*fScale, nHeight*fScale, 0, GL_RGBA, GL_FLOAT, NULL );
++      glBindTexture( GL_TEXTURE_2D, 0 );
++
++      glGenFramebuffers( 1, &glhShaderFB );
++      glBindFramebuffer( GL_FRAMEBUFFER, glhShaderFB );
++      glFramebufferTexture( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, glhShaderTex, 0 );
++      glBindFramebuffer( GL_FRAMEBUFFER, 0 );
++    }
+     
+     static float pFullscreenQuadVertices[] =
+     {
+@@ -596,6 +616,10 @@ namespace Renderer
+   {
+     glBindVertexArray(glhFullscreenQuadVA);
+ 
++    if (fScale != 1.0f) {
++      glBindFramebuffer(GL_FRAMEBUFFER, glhShaderFB);
++    }
++
+     glUseProgram(theShader);
+ 
+     glBindBuffer( GL_ARRAY_BUFFER, glhFullscreenQuadVB );
+@@ -624,6 +648,13 @@ namespace Renderer
+       glDisableVertexAttribArray( position );
+ 
+     glUseProgram(0);
++
++    if (fScale != 1.0f) {
++      glBindFramebuffer(GL_FRAMEBUFFER, 0);
++      glBindFramebuffer(GL_READ_FRAMEBUFFER, glhShaderFB);
++      glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
++      glBlitFramebuffer(0, 0, nWidth*fScale, nHeight*fScale, 0, 0, nWidth, nHeight, GL_COLOR_BUFFER_BIT, bLinearFilter ? GL_LINEAR : GL_NEAREST);
++    }
+   }
+ 
+   bool ReloadShader( const char * szShaderCode, int nShaderCodeSize, char * szErrorBuffer, int nErrorBufferSize )
+-- 
+2.25.0
+

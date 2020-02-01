@@ -1,0 +1,24 @@
+From 02db5e72ee1d0dde10cde97998c674d0f76214ae Mon Sep 17 00:00:00 2001
+From: Florent CURE <florent.cure@protonmail.com>
+Date: Tue, 28 May 2019 09:56:37 +0100
+Subject: [PATCH 16/21] Fix missing header for getenv()
+
+---
+ src/platform_linux/Config.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git src/platform_linux/Config.cpp src/platform_linux/Config.cpp
+index 945c76b..24be680 100644
+--- src/platform_linux/Config.cpp
++++ src/platform_linux/Config.cpp
+@@ -5,6 +5,7 @@
+ #include <vector>
+ 
+ #include <unistd.h>
++#include <stdlib.h>
+ 
+ 
+ namespace Config
+-- 
+2.25.0
+

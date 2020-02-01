@@ -1,0 +1,73 @@
+From 986e62f44335a390bee43a95d110b2106e7e0210 Mon Sep 17 00:00:00 2001
+From: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+Date: Fri, 5 Oct 2018 21:28:50 +0200
+Subject: [PATCH 18/21] Build against system GLFW if available
+
+---
+ CMakeLists.txt | 42 ++++++++++++++++++++++++------------------
+ 1 file changed, 24 insertions(+), 18 deletions(-)
+
+diff --git CMakeLists.txt CMakeLists.txt
+index 9992d68..f68f678 100644
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -73,24 +73,30 @@ if (APPLE OR UNIX OR (WIN32 AND (${BONZOMATIC_WINDOWS_FLAVOR} MATCHES "GLFW")))
+   ##############################################################################
+   # GLFW
+   # GLFW settings and project inclusion
+-  set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+-  set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+-  set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+-  set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+-  set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
+-  set(GLFW_VULKAN_STATIC OFF CACHE BOOL "" FORCE)
+-  mark_as_advanced(BUILD_SHARED_LIBS GLFW_BUILD_EXAMPLES GLFW_BUILD_TESTS GLFW_BUILD_DOCS GLFW_INSTALL GLFW_VULKAN_STATIC)
+-  if (UNIX)
+-    set(GLFW_USE_OSMESA OFF CACHE BOOL "" FORCE)
+-    mark_as_advanced(GLFW_USE_OSMESA)
+-  endif()
+-  if (WIN32)
+-    set(USE_MSVC_RUNTIME_LIBRARY_DLL OFF CACHE BOOL "" FORCE)
+-    mark_as_advanced(USE_MSVC_RUNTIME_LIBRARY_DLL)
++  find_package(PkgConfig)
++  pkg_check_modules(GLFW glfw3)
++  if (GLFW_FOUND)
++    set(BZC_PROJECT_INCLUDES ${BZC_PROJECT_INCLUDES} ${GLFW_INCLUDES})
++    set(BZC_PROJECT_LIBS ${BZC_PROJECT_LIBS} ${GLFW_LIBRARIES})
++  else()
++    set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
++    set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
++    set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
++    set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
++    mark_as_advanced(GLFW_BUILD_EXAMPLES GLFW_BUILD_TESTS GLFW_BUILD_DOCS GLFW_INSTALL)
++    if (APPLE)
++      set(GLFW_USE_CHDIR OFF CACHE BOOL "" FORCE)
++      set(GLFW_USE_RETINA OFF CACHE BOOL "" FORCE)
++      set(GLFW_USE_MENUBAR ON CACHE BOOL "" FORCE)
++      mark_as_advanced(GLFW_USE_CHDIR GLFW_USE_RETINA GLFW_USE_MENUBAR)
++    elseif (WIN32)
++      set(USE_MSVC_RUNTIME_LIBRARY_DLL OFF CACHE BOOL "" FORCE)
++      mark_as_advanced(USE_MSVC_RUNTIME_LIBRARY_DLL)
++    endif()
++    add_subdirectory(${CMAKE_SOURCE_DIR}/external/glfw/)
++    set(BZC_PROJECT_INCLUDES ${BZC_PROJECT_INCLUDES} ${CMAKE_SOURCE_DIR}/external/glfw/include)
++    set(BZC_PROJECT_LIBS ${BZC_PROJECT_LIBS} glfw ${GLFW_LIBRARIES})
+   endif()
+-  add_subdirectory(${CMAKE_SOURCE_DIR}/external/glfw/)
+-  set(BZC_PROJECT_INCLUDES ${BZC_PROJECT_INCLUDES} ${CMAKE_SOURCE_DIR}/external/glfw/include)
+-  set(BZC_PROJECT_LIBS ${BZC_PROJECT_LIBS} glfw ${GLFW_LIBRARIES})
+ 
+   ##############################################################################
+   # GLEW
+@@ -454,7 +460,7 @@ if (APPLE)
+   mark_as_advanced(COCOA_FRAMEWORK OPENGL_FRAMEWORK CARBON_FRAMEWORK COREAUDIO_FRAMEWORK AVFOUNDATION_FRAMEWORK)
+   set(PLATFORM_LIBS ${COCOA_FRAMEWORK} ${OPENGL_FRAMEWORK} ${CARBON_FRAMEWORK} ${COREAUDIO_FRAMEWORK} ${AVFOUNDATION_FRAMEWORK})
+ elseif (UNIX)
+-  set(PLATFORM_LIBS GL asound fontconfig)
++  set(PLATFORM_LIBS GL asound fontconfig dl m pthread)
+ elseif (WIN32)
+     if (${BONZOMATIC_WINDOWS_FLAVOR} MATCHES "DX11")
+         set(PLATFORM_LIBS d3d11 d3dcompiler dxguid DXGI winmm shlwapi)
+-- 
+2.25.0
+

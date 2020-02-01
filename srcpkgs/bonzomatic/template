@@ -1,0 +1,40 @@
+# Template file for 'bonzomatic'
+pkgname=bonzomatic
+version=20200202
+revision=4
+#archs="i686 x86_64"
+#wrksrc=
+#create_wrksrc=yes
+build_style=cmake
+configure_args="-DBONZOMATIC_USE_SYSTEMWIDE_GLFW=ON -DBONZOMATIC_USE_SYSTEMWIDE_GLEW=ON"
+#make_build_args=""
+#make_install_args=""
+conf_files="/etc/bonzomatic/config.json"
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="pkg-config"
+makedepends="glfw-devel glew-devel glu-devel libX11-devel fontconfig-devel alsa-lib-devel"
+depends=""
+short_desc="Live shader coding tool and Shader Showdown workhorse"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="Unlicense"
+homepage="https://github.com/gargaj/bonzomatic"
+distfiles="https://pcy.be/tmp/miscbin/bonzomatic-20200202.tar.xz"
+checksum=c70d1fa89a4537a80a1804acb38534b588c4d034fb3c051e681a2f953b8bd99b
+
+do_install() {
+	vinstall data/unix/bonzomatic.desktop 644 usr/share/applications
+	vinstall data/unix/icon.png 644 usr/share/icons bonzomatic.png
+
+	vlicense LICENSE
+	vdoc README.md
+
+	vbin build/bonzomatic
+}
+
+post_install() {
+	vmkdir etc/bonzomatic
+	vinstall "$FILESDIR/config.json" 644 etc/bonzomatic
+
+	vmkdir usr/share/bonzomatic
+	vcopy "$FILESDIR/textures" usr/share/bonzomatic
+}

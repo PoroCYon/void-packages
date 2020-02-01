@@ -1,0 +1,463 @@
+From 06a5e8e3efd7dd599e0fa17b17b4337720bd5ceb Mon Sep 17 00:00:00 2001
+From: Florent CURE <florent.cure@protonmail.com>
+Date: Mon, 27 May 2019 22:38:56 +0100
+Subject: [PATCH 08/21] Add common platform Config implementation
+
+The platform_common (Windows and OSX) implementation always searches for config.json in current working directory.
+---
+ CMakeLists.txt                 | 12 +++--
+ config.json                    | 41 +++++++++++++++
+ src/Config.cpp                 | 94 ----------------------------------
+ src/Config.h                   | 42 ++++++++++-----
+ src/Utils.h                    | 11 ++++
+ src/platform_common/Config.cpp | 35 +++++++++++++
+ src/platform_common/Utils.cpp  | 20 ++++++++
+ src/platform_linux/Config.cpp  | 65 +++++++++++++++++++++++
+ 8 files changed, 210 insertions(+), 110 deletions(-)
+
+diff --git CMakeLists.txt CMakeLists.txt
+index 40914c0..83d9a7d 100644
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -34,7 +34,7 @@ endif ()
+ 
+ if (WIN32)
+   set(BONZOMATIC_WINDOWS_FLAVOR "GLFW" CACHE STRING "Windows renderer flavor selected at CMake configure time (DX11, DX9 or GLFW)")
+-  set_property(CACHE BONZOMATIC_WINDOWS_FLAVOR PROPERTY STRINGS DX11 DX9 GLFW) 
++  set_property(CACHE BONZOMATIC_WINDOWS_FLAVOR PROPERTY STRINGS DX11 DX9 GLFW)
+ endif ()
+ 
+ if (NOT (UNIX AND (NOT APPLE))) #if not linux
+@@ -152,7 +152,7 @@ set(BZC_PROJECT_LIBS ${BZC_PROJECT_LIBS} bzc_jsonxx)
+ ##############################################################################
+ # NDI
+ if (WIN32 AND BONZOMATIC_NDI)
+-  if(DEFINED ENV{NDI_SDK_DIR}) 
++  if(DEFINED ENV{NDI_SDK_DIR})
+     set(NDI_SDK_DIR "$ENV{NDI_SDK_DIR}")
+   else()
+     message(FATAL_ERROR "Could not find NDI SDK. The NDI_SDK_DIR environment variable must be set to the SDK path.")
+@@ -331,7 +331,8 @@ if (APPLE)
+   set(BZC_PLATFORM_SRCS
+     ${CMAKE_SOURCE_DIR}/src/platform_glfw/Renderer.cpp
+     ${CMAKE_SOURCE_DIR}/src/platform_common/FFT.cpp
+-    ${CMAKE_SOURCE_DIR}/src/platform_common/MIDIDummy.cpp
++    ${CMAKE_SOURCE_DIR}/src/platform_common/Utils.cpp
++    ${CMAKE_SOURCE_DIR}/src/platform_x11/MIDI.cpp
+     ${CMAKE_SOURCE_DIR}/src/platform_osx/Misc.mm
+     ${CMAKE_SOURCE_DIR}/src/platform_x11/Timer.cpp
+     ${CMAKE_SOURCE_DIR}/src/platform_osx/SetupDialog.cpp
+@@ -347,11 +348,13 @@ elseif (UNIX)
+   set(BZC_PLATFORM_SRCS
+     ${CMAKE_SOURCE_DIR}/src/platform_glfw/Renderer.cpp
+     ${CMAKE_SOURCE_DIR}/src/platform_common/FFT.cpp
++    ${CMAKE_SOURCE_DIR}/src/platform_common/Utils.cpp
+     ${CMAKE_SOURCE_DIR}/src/platform_x11/MIDI.cpp
+     ${CMAKE_SOURCE_DIR}/src/platform_x11/Misc.cpp
+     ${CMAKE_SOURCE_DIR}/src/platform_x11/SetupDialog.cpp
+     ${CMAKE_SOURCE_DIR}/src/platform_x11/Timer.cpp
+     ${CMAKE_SOURCE_DIR}/src/platform_x11/Clipboard.cpp
++    ${CMAKE_SOURCE_DIR}/src/platform_linux/Config.cpp
+   )
+   source_group("Bonzomatic\\Platform" FILES ${BZC_PLATFORM_SRCS})
+ elseif (WIN32)
+@@ -359,6 +362,7 @@ elseif (WIN32)
+     set(BZC_PLATFORM_SRCS
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_dx11/Renderer.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_common/FFT.cpp
++      ${CMAKE_SOURCE_DIR}/src/platform_common/Utils.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/MIDI.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/Misc.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/SetupDialog.cpp
+@@ -370,6 +374,7 @@ elseif (WIN32)
+     set(BZC_PLATFORM_SRCS
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_dx9/Renderer.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_common/FFT.cpp
++      ${CMAKE_SOURCE_DIR}/src/platform_common/Utils.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/MIDI.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/Misc.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/SetupDialog.cpp
+@@ -381,6 +386,7 @@ elseif (WIN32)
+     set(BZC_PLATFORM_SRCS
+       ${CMAKE_SOURCE_DIR}/src/platform_glfw/Renderer.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_common/FFT.cpp
++      ${CMAKE_SOURCE_DIR}/src/platform_common/Utils.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/MIDI.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/Misc.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/SetupDialog.cpp
+diff --git config.json config.json
+new file mode 100644
+index 0000000..02a3ec1
+--- /dev/null
++++ config.json
+@@ -0,0 +1,41 @@
++{
++  "window":{ // default window size / state, if there's a setup dialog, it will override it
++    "width":1920,
++    "height":1080,
++    "fullscreen":true,
++  },
++//  "font":{ // all paths in the file are also relative to the binary, but again, can be absolute paths if that's more convenient
++//    "file":"Input-Regular_(InputMono-Medium).ttf",
++//    "size":16,
++//  },
++  "rendering":{
++    "fftSmoothFactor": 0.9, // 0.0 means there's no smoothing at all, 1.0 means the FFT is completely smoothed flat
++    "fftAmplification": 1.0, // 1.0 means no change, larger values will result in brighter/stronger bands, smaller values in darker/weaker ones
++  },
++  "textures":{ // the keys below will become the shader variable names
++    "texChecker":"textures/checker.png",
++    "texNoise":"textures/noise.png",
++    "texTex1":"textures/tex1.jpg",
++  },
++  "gui":{
++    "outputHeight": 200,
++    "opacity": 192, // 255 means the editor occludes the effect completely, 0 means the editor is fully transparent
++    "texturePreviewWidth": 128,
++    "spacesForTabs": false,
++    "tabSize": 8,
++    "visibleWhitespace": false,
++    "autoIndent": "smart", // can be "none", "preserve" or "smart"
++  },
++  "midi":{ // the keys below will become the shader variable names, the values are the CC numbers
++    "fMidiKnob": 16, // e.g. this would be CC#16, i.e. by default the leftmost knob on a nanoKONTROL 2
++  },
++  // this section is if you want to enable NDI streaming; otherwise just ignore it
++  "ndi":{
++    "enabled": true,
++    "connectionString": "<ndi_product something=\"123\"/>", // metadata sent to the receiver; completely optional
++    "identifier": "hello!", // additional string to the device name; helps source discovery/identification in the receiver if there are multiple sources on the network
++    "frameRate": 60.0, // frames per second
++    "progressive": true, // progressive or interleaved?
++  },
++  "postExitCmd":"copy_to_dropbox.bat" // this command gets ran when you quit Bonzomatic, and the shader filename gets passed to it as first parameter. Use this to take regular backups.
++}
+\ No newline at end of file
+diff --git src/Config.cpp src/Config.cpp
+deleted file mode 100644
+index 860e36f..0000000
+--- src/Config.cpp
++++ /dev/null
+@@ -1,94 +0,0 @@
+-#include "Config.h"
+-
+-#include <fstream>
+-#include <iostream>
+-#include <vector>
+-
+-#include <unistd.h>
+-
+-
+-namespace Config
+-{
+-	ApplicationSettings::ApplicationSettings( const std::string& cfg_filename )
+-		: _location( Location::NONE ), _config_filename( cfg_filename )
+-	{
+-
+-	}
+-
+-	void ApplicationSettings::load()
+-	{
+-		find_location();
+-
+-		if( _location != Location::NONE )
+-		{
+-			read_config();
+-		}
+-
+-
+-	}
+-
+-	void ApplicationSettings::read_config()
+-	{
+-		std::string config_path( _config_directory + "/" + _config_filename );
+-		std::ifstream fconf( config_path );
+-		fconf.seekg( 0, std::ios::end );
+-		size_t file_size_in_byte = fconf.tellg();
+-		std::vector< char > data;
+-		data.resize( file_size_in_byte );
+-		fconf.seekg( 0, std::ios::beg );
+-		fconf.read( &data[0], file_size_in_byte );
+-		_options.parse( &data[ 0 ] );
+-	}
+-
+-	void ApplicationSettings::find_location()
+-	{
+-		const std::string sysPath( "/etc/bonzomatic" );
+-		const std::string userPath( getenv( "HOME" ) );
+-		const std::string localConfigPath = "/.config/bonzomatic";
+-		std::string localPath = userPath + localConfigPath;
+-
+-		char cwd[ 256 ];
+-		getcwd( cwd, 255 );
+-		std::string curDir( cwd );
+-
+-	  	// 1. search in current directory
+-		std::ifstream cfgFile( _config_filename );
+-		if( cfgFile.is_open() )
+-		{
+-			_config_directory = curDir;
+-			_data_directory = curDir;
+-			cfgFile.close();
+-			_location = Location::DIRECTORY;
+-			std::cout << "Config file found in current directory (" << _config_directory << ")...\n";
+-			return;
+-		}
+-
+-	  	// 2. search in user config path
+-		std::ifstream userCfgFile( localPath + std::string( "/" ) + _config_filename );
+-		if( userCfgFile.is_open() )
+-		{
+-			_config_directory = userPath;
+-			_data_directory = userPath;
+-			userCfgFile.close();
+-			_location = Location::USER;
+-			std::cout << "Config file found in user directory (" << _config_directory << ")...\n";
+-			return;
+-		}
+-
+-	  	// 3. search in system config path
+-		std::ifstream sysCfgFile( sysPath + std::string( "/" ) + _config_filename );
+-		if( sysCfgFile.is_open() )
+-		{
+-			_config_directory = sysPath;
+-			_data_directory = "/usr/share/bonzomatic";
+-			sysCfgFile.close();
+-			_location = Location::SYSTEM;
+-			std::cout << "Config file found in system config path (" << _config_directory << ")...\n";
+-			return;
+-		}
+-
+-		_config_directory = curDir;
+-		_location = Location::NONE;
+-		std::cout << "No config file found, using default ApplicationSettings...\n";
+-	}
+-}
+\ No newline at end of file
+diff --git src/Config.h src/Config.h
+index 8f567bc..e6c2b24 100644
+--- src/Config.h
++++ src/Config.h
+@@ -2,6 +2,8 @@
+ 
+ #include "jsonxx.h"
+ 
++#include "Utils.h"
++
+ #include <string>
+ 
+ namespace Config
+@@ -18,24 +20,38 @@ namespace Config
+ 			NONE
+ 		};
+ 
+-		ApplicationSettings( const std::string& cfg_filename );
++		ApplicationSettings( const std::string& cfg_filename )
++			: location_( Location::NONE ), config_filename_( cfg_filename ) {}
+ 
+-		void load();
++		void load()
++		{
++			find_location();
++			if( location_ != Location::NONE )
++			{
++				read_config();
++			}
++		}
+ 
+-		const jsonxx::Object get_options() const { return _options; }
+-		const std::string get_config_directory() const { return _config_directory; }
+-		const std::string get_data_directory() const { return _data_directory; }
++		const jsonxx::Object get_options() const { return options_; }
++		const std::string get_config_directory_() const { return config_directory_; }
++		const std::string get_data_directory() const { return data_directory_; }
+ 
+ 	private:
+ 		void find_location();
+-		void read_config();
+-
+-		Location _location;
+-		std::string _config_filename;
+-		jsonxx::Object _options;
+-
+-		std::string _config_directory;
+-		std::string _data_directory;
++		void read_config()
++		{
++			std::string config_path( config_directory_ + "/" + config_filename_ );
++			std::vector< char > data;
++			Utils::read_file( config_path, data );
++			options_.parse( &data[ 0 ] );
++		}
++
++		Location location_;
++		std::string config_filename_;
++		jsonxx::Object options_;
++
++		std::string config_directory_;
++		std::string data_directory_;
+ 	};
+ 
+ 
+diff --git src/Utils.h src/Utils.h
+new file mode 100644
+index 0000000..3fb3a12
+--- /dev/null
++++ src/Utils.h
+@@ -0,0 +1,11 @@
++#pragma once
++
++#include <string>
++#include <vector>
++
++namespace Utils
++{
++
++	bool read_file( const std::string& filename, std::vector< char >& out );
++
++}
+\ No newline at end of file
+diff --git src/platform_common/Config.cpp src/platform_common/Config.cpp
+new file mode 100644
+index 0000000..45913b1
+--- /dev/null
++++ src/platform_common/Config.cpp
+@@ -0,0 +1,35 @@
++#include "Config.h"
++
++#ifdef _WIN32
++#include <direct.h>
++#define getcwd _getcwd
++#else
++#include <unistd.h>
++#endif
++
++
++namespace Config
++{
++
++	void ApplicationSettings::find_location()
++	{
++		char cwd[ 256 ];
++		getcwd( cwd, 255 );
++		std::string curDir( cwd );
++
++		std::ifstream cfgFile( config_filename_ );
++		if( cfgFile.is_open() )
++		{
++			config_directory_ = curDir;
++			data_directory_ = curDir;
++			cfgFile.close();
++			location_ = Location::DIRECTORY;
++			std::cout << "Config file found in current directory (" << config_directory_ << ")...\n";
++			return;
++		}
++
++		config_directory_ = curDir;
++		location_ = Location::NONE;
++		std::cout << "No config file found, using default settings...\n";
++	}
++}
+\ No newline at end of file
+diff --git src/platform_common/Utils.cpp src/platform_common/Utils.cpp
+new file mode 100644
+index 0000000..8b67d13
+--- /dev/null
++++ src/platform_common/Utils.cpp
+@@ -0,0 +1,20 @@
++#include <vector>
++#include <string>
++#include <fstream>
++
++namespace Utils
++{
++
++	bool read_file( const std::string& filename, std::vector< char >& out )
++	{
++		std::ifstream fp( filename );
++		if( !fp.is_open() ) return false;
++		fp.seekg( 0, std::ios::end );
++		size_t file_size_in_byte = fp.tellg();
++		out.resize( file_size_in_byte );
++		fp.seekg( 0, std::ios::beg );
++		fp.read( &out[ 0 ], file_size_in_byte );
++		return true;
++	}
++
++}
+\ No newline at end of file
+diff --git src/platform_linux/Config.cpp src/platform_linux/Config.cpp
+new file mode 100644
+index 0000000..5fcec6a
+--- /dev/null
++++ src/platform_linux/Config.cpp
+@@ -0,0 +1,65 @@
++#include "Config.h"
++
++#include <fstream>
++#include <iostream>
++#include <vector>
++
++#include <unistd.h>
++
++
++namespace Config
++{
++
++	void ApplicationSettings::find_location()
++	{
++		const std::string sysPath( "/etc/bonzomatic" );
++		const std::string userPath( getenv( "HOME" ) );
++		const std::string localConfigPath = "/.config/bonzomatic";
++		std::string localPath = userPath + localConfigPath;
++
++		char cwd[ 256 ];
++		getcwd( cwd, 255 );
++		std::string curDir( cwd );
++
++	  	// 1. search in current directory
++		std::ifstream cfgFile( config_filename_ );
++		if( cfgFile.is_open() )
++		{
++			config_directory_ = curDir;
++			data_directory_ = curDir;
++			cfgFile.close();
++			location_ = Location::DIRECTORY;
++			std::cout << "Config file found in current directory (" << config_directory_ << ")...\n";
++			return;
++		}
++
++	  	// 2. search in user config path
++		std::ifstream userCfgFile( localPath + std::string( "/" ) + config_filename_ );
++		if( userCfgFile.is_open() )
++		{
++			config_directory_ = userPath;
++			data_directory_ = userPath;
++			userCfgFile.close();
++			location_ = Location::USER;
++			std::cout << "Config file found in user directory (" << config_directory_ << ")...\n";
++			return;
++		}
++
++	  	// 3. search in system config path
++		std::ifstream sysCfgFile( sysPath + std::string( "/" ) + config_filename_ );
++		if( sysCfgFile.is_open() )
++		{
++			config_directory_ = sysPath;
++			data_directory_ = "/usr/share/bonzomatic";
++			sysCfgFile.close();
++			location_ = Location::SYSTEM;
++			std::cout << "Config file found in system config path (" << config_directory_ << ")...\n";
++			return;
++		}
++
++		config_directory_ = curDir;
++		location_ = Location::NONE;
++		std::cout << "No config file found, using default settings...\n";
++	}
++
++}
+\ No newline at end of file
+-- 
+2.25.0
+

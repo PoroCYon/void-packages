@@ -1,0 +1,51 @@
+From 9b75d521c13c11f59708b152686a1641b348d2ea Mon Sep 17 00:00:00 2001
+From: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+Date: Fri, 5 Oct 2018 21:34:47 +0200
+Subject: [PATCH 19/21] Build against system GLEW if available
+
+---
+ CMakeLists.txt | 27 ++++++++++++++++-----------
+ 1 file changed, 16 insertions(+), 11 deletions(-)
+
+diff --git CMakeLists.txt CMakeLists.txt
+index f68f678..062375e 100644
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -100,18 +100,23 @@ if (APPLE OR UNIX OR (WIN32 AND (${BONZOMATIC_WINDOWS_FLAVOR} MATCHES "GLFW")))
+ 
+   ##############################################################################
+   # GLEW
+-  set(GLEW_SRCS
+-  ${CMAKE_SOURCE_DIR}/external/glew/glew.c
+-  )
+-  add_library(bzc_glew STATIC ${GLEW_SRCS})
+-
+-  target_include_directories(bzc_glew PUBLIC ${CMAKE_SOURCE_DIR}/external/glew)
+-  target_compile_definitions(bzc_glew PUBLIC -DGLEW_STATIC)
+-  if (MSVC)
+-    target_compile_options(bzc_glew PUBLIC "$<$<CONFIG:Release>:/MT>")
++  pkg_check_modules(GLEW glew)
++  if (GLEW_FOUND)
++    set(BZC_PROJECT_INCLUDES ${BZC_PROJECT_INCLUDES} ${GLEW_INCLUDES})
++    set(BZC_PROJECT_LIBS ${BZC_PROJECT_LIBS} ${GLEW_LIBRARIES})
++  else ()
++    set(GLEW_SRCS
++    ${CMAKE_SOURCE_DIR}/external/glew/glew.c
++    )
++    add_library(bzc_glew STATIC ${GLEW_SRCS})
++    target_include_directories(bzc_glew PUBLIC ${CMAKE_SOURCE_DIR}/external/glew)
++    target_compile_definitions(bzc_glew PUBLIC -DGLEW_STATIC)
++    if (MSVC)
++      target_compile_options(bzc_glew PUBLIC "$<$<CONFIG:Release>:/MT>")
++    endif ()
++    set(BZC_PROJECT_INCLUDES ${BZC_PROJECT_INCLUDES} ${CMAKE_SOURCE_DIR}/external/glew)
++    set(BZC_PROJECT_LIBS ${BZC_PROJECT_LIBS} bzc_glew)
+   endif ()
+-  set(BZC_PROJECT_INCLUDES ${BZC_PROJECT_INCLUDES} ${CMAKE_SOURCE_DIR}/external/glew)
+-  set(BZC_PROJECT_LIBS ${BZC_PROJECT_LIBS} bzc_glew)
+ else ()
+   # for windows, use DirectX
+   set(BZC_PROJECT_INCLUDES ${BZC_PROJECT_INCLUDES} $ENV{DXSDK_DIR}/Include)
+-- 
+2.25.0
+

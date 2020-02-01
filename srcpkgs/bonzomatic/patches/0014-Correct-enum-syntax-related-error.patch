@@ -1,0 +1,103 @@
+From b0563d17a079318afd8599530c8b25e34acdfa64 Mon Sep 17 00:00:00 2001
+From: Florent CURE <florent.cure@protonmail.com>
+Date: Tue, 28 May 2019 09:40:33 +0100
+Subject: [PATCH 14/21] Correct enum syntax related error
+
+---
+ src/Config.h                   | 12 ++++++------
+ src/platform_common/Config.cpp |  4 ++--
+ src/platform_linux/Config.cpp  |  8 ++++----
+ 3 files changed, 12 insertions(+), 12 deletions(-)
+
+diff --git src/Config.h src/Config.h
+index e6c2b24..15dcab7 100644
+--- src/Config.h
++++ src/Config.h
+@@ -14,19 +14,19 @@ namespace Config
+ 	public:
+ 		enum Location
+ 		{
+-			SYSTEM,
+-			USER,
+-			DIRECTORY,
+-			NONE
++			LOC_SYSTEM,
++			LOC_USER,
++			LOC_DIRECTORY,
++			LOC_NONE
+ 		};
+ 
+ 		ApplicationSettings( const std::string& cfg_filename )
+-			: location_( Location::NONE ), config_filename_( cfg_filename ) {}
++			: location_( LOC_NONE ), config_filename_( cfg_filename ) {}
+ 
+ 		void load()
+ 		{
+ 			find_location();
+-			if( location_ != Location::NONE )
++			if( location_ != LOC_NONE )
+ 			{
+ 				read_config();
+ 			}
+diff --git src/platform_common/Config.cpp src/platform_common/Config.cpp
+index 0caa5b6..749b965 100644
+--- src/platform_common/Config.cpp
++++ src/platform_common/Config.cpp
+@@ -26,13 +26,13 @@ namespace Config
+ 			config_directory_ = curDir;
+ 			data_directory_ = curDir;
+ 			cfgFile.close();
+-			location_ = Location::DIRECTORY;
++			location_ = LOC_DIRECTORY;
+ 			std::cout << "Config file found in current directory (" << config_directory_ << ")...\n";
+ 			return;
+ 		}
+ 
+ 		config_directory_ = curDir;
+-		location_ = Location::NONE;
++		location_ = LOC_NONE;
+ 		std::cout << "No config file found, using default settings...\n";
+ 	}
+ }
+\ No newline at end of file
+diff --git src/platform_linux/Config.cpp src/platform_linux/Config.cpp
+index 5fcec6a..945c76b 100644
+--- src/platform_linux/Config.cpp
++++ src/platform_linux/Config.cpp
+@@ -28,7 +28,7 @@ namespace Config
+ 			config_directory_ = curDir;
+ 			data_directory_ = curDir;
+ 			cfgFile.close();
+-			location_ = Location::DIRECTORY;
++			location_ = LOC_DIRECTORY;
+ 			std::cout << "Config file found in current directory (" << config_directory_ << ")...\n";
+ 			return;
+ 		}
+@@ -40,7 +40,7 @@ namespace Config
+ 			config_directory_ = userPath;
+ 			data_directory_ = userPath;
+ 			userCfgFile.close();
+-			location_ = Location::USER;
++			location_ = LOC_USER;
+ 			std::cout << "Config file found in user directory (" << config_directory_ << ")...\n";
+ 			return;
+ 		}
+@@ -52,13 +52,13 @@ namespace Config
+ 			config_directory_ = sysPath;
+ 			data_directory_ = "/usr/share/bonzomatic";
+ 			sysCfgFile.close();
+-			location_ = Location::SYSTEM;
++			location_ = LOC_SYSTEM;
+ 			std::cout << "Config file found in system config path (" << config_directory_ << ")...\n";
+ 			return;
+ 		}
+ 
+ 		config_directory_ = curDir;
+-		location_ = Location::NONE;
++		location_ = LOC_NONE;
+ 		std::cout << "No config file found, using default settings...\n";
+ 	}
+ 
+-- 
+2.25.0
+

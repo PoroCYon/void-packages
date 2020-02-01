@@ -1,0 +1,27 @@
+From b0275a3a80b4e58fea44a6ce8bf977d0d066ce93 Mon Sep 17 00:00:00 2001
+From: Florent CURE <florent.cure@protonmail.com>
+Date: Mon, 27 May 2019 23:02:54 +0100
+Subject: [PATCH 09/21] Add loading of shader from correct data directory
+
+Default shader is now loaded from data directory according to where config.json was found.
+---
+ src/main.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git src/main.cpp src/main.cpp
+index 65578a8..ae676e5 100644
+--- src/main.cpp
++++ src/main.cpp
+@@ -300,7 +300,8 @@ int main(int argc, const char *argv[])
+   bool shaderInitSuccessful = false;
+   char szShader[65535];
+   char szError[4096];
+-  FILE * f = fopen(Renderer::defaultShaderFilename,"rb");
++  std::string defaultShaderFilePath = app_settings.get_data_directory() + std::string("/") + std::string(Renderer::defaultShaderFilename);
++  FILE * f = fopen( defaultShaderFilePath.c_str(),"rb" );
+   if (f)
+   {
+     printf("Loading last shader...\n");
+-- 
+2.25.0
+

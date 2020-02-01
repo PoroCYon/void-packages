@@ -1,0 +1,49 @@
+From 21f7b384647b56d3ae37054844e70584c5a1e817 Mon Sep 17 00:00:00 2001
+From: Florent CURE <florent.cure@protonmail.com>
+Date: Mon, 27 May 2019 23:41:36 +0100
+Subject: [PATCH 12/21] Added forgotten platform_common/Config.cpp in
+ CMakeLists.txt
+
+---
+ CMakeLists.txt | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git CMakeLists.txt CMakeLists.txt
+index 83d9a7d..9992d68 100644
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -332,6 +332,7 @@ if (APPLE)
+     ${CMAKE_SOURCE_DIR}/src/platform_glfw/Renderer.cpp
+     ${CMAKE_SOURCE_DIR}/src/platform_common/FFT.cpp
+     ${CMAKE_SOURCE_DIR}/src/platform_common/Utils.cpp
++    ${CMAKE_SOURCE_DIR}/src/platform_common/Config.cpp
+     ${CMAKE_SOURCE_DIR}/src/platform_x11/MIDI.cpp
+     ${CMAKE_SOURCE_DIR}/src/platform_osx/Misc.mm
+     ${CMAKE_SOURCE_DIR}/src/platform_x11/Timer.cpp
+@@ -363,6 +364,7 @@ elseif (WIN32)
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_dx11/Renderer.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_common/FFT.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_common/Utils.cpp
++      ${CMAKE_SOURCE_DIR}/src/platform_common/Config.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/MIDI.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/Misc.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/SetupDialog.cpp
+@@ -375,6 +377,7 @@ elseif (WIN32)
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_dx9/Renderer.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_common/FFT.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_common/Utils.cpp
++      ${CMAKE_SOURCE_DIR}/src/platform_common/Config.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/MIDI.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/Misc.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/SetupDialog.cpp
+@@ -387,6 +390,7 @@ elseif (WIN32)
+       ${CMAKE_SOURCE_DIR}/src/platform_glfw/Renderer.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_common/FFT.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_common/Utils.cpp
++      ${CMAKE_SOURCE_DIR}/src/platform_common/Config.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/MIDI.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/Misc.cpp
+       ${CMAKE_SOURCE_DIR}/src/platform_w32_common/SetupDialog.cpp
+-- 
+2.25.0
+

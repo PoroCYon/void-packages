@@ -1,0 +1,60 @@
+From 58eeca1779b76d30ce190769dc63f4adc76e7791 Mon Sep 17 00:00:00 2001
+From: Florent CURE <florent.cure@protonmail.com>
+Date: Tue, 28 May 2019 10:04:19 +0100
+Subject: [PATCH 17/21] Fixed some file openings that didn't compile on some
+ platform
+
+---
+ src/platform_common/Config.cpp | 2 +-
+ src/platform_linux/Config.cpp  | 8 +++++---
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git src/platform_common/Config.cpp src/platform_common/Config.cpp
+index 749b965..8d62a6a 100644
+--- src/platform_common/Config.cpp
++++ src/platform_common/Config.cpp
+@@ -20,7 +20,7 @@ namespace Config
+ 		getcwd( cwd, 255 );
+ 		std::string curDir( cwd );
+ 
+-		std::ifstream cfgFile( config_filename_ );
++		std::ifstream cfgFile( config_filename_.c_str() );
+ 		if( cfgFile.is_open() )
+ 		{
+ 			config_directory_ = curDir;
+diff --git src/platform_linux/Config.cpp src/platform_linux/Config.cpp
+index 24be680..e6e7426 100644
+--- src/platform_linux/Config.cpp
++++ src/platform_linux/Config.cpp
+@@ -23,7 +23,7 @@ namespace Config
+ 		std::string curDir( cwd );
+ 
+ 	  	// 1. search in current directory
+-		std::ifstream cfgFile( config_filename_ );
++		std::ifstream cfgFile( config_filename_.c_str() );
+ 		if( cfgFile.is_open() )
+ 		{
+ 			config_directory_ = curDir;
+@@ -35,7 +35,8 @@ namespace Config
+ 		}
+ 
+ 	  	// 2. search in user config path
+-		std::ifstream userCfgFile( localPath + std::string( "/" ) + config_filename_ );
++	  	std::string userCfgPath( localPath + std::string( "/" ) + config_filename_ );
++		std::ifstream userCfgFile( userCfgPath.c_str() );
+ 		if( userCfgFile.is_open() )
+ 		{
+ 			config_directory_ = userPath;
+@@ -47,7 +48,8 @@ namespace Config
+ 		}
+ 
+ 	  	// 3. search in system config path
+-		std::ifstream sysCfgFile( sysPath + std::string( "/" ) + config_filename_ );
++	  	std::string sysCfgPath( sysPath + std::string( "/" ) + config_filename_ );
++		std::ifstream sysCfgFile(  sysCfgPath.c_str());
+ 		if( sysCfgFile.is_open() )
+ 		{
+ 			config_directory_ = sysPath;
+-- 
+2.25.0
+

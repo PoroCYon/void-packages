@@ -1,0 +1,117 @@
+From 05221abf724529a9d67d2b16c0b99ddb4c5cb091 Mon Sep 17 00:00:00 2001
+From: Nightfox <cameronscottarmstrong@gmail.com>
+Date: Sat, 18 May 2019 22:00:05 +0800
+Subject: [PATCH 04/21] Ctrl + Slash will now comment and uncomment your
+ selected lines of code
+
+---
+ README.md                      |  1 +
+ src/ShaderEditor.cpp           | 21 +++++++++++++++++++++
+ src/ShaderEditor.h             |  1 +
+ src/main.cpp                   |  6 ++++--
+ src/platform_glfw/Renderer.cpp |  2 +-
+ 5 files changed, 28 insertions(+), 3 deletions(-)
+
+diff --git README.md README.md
+index f3c763a..26d2171 100644
+--- README.md
++++ README.md
+@@ -15,6 +15,7 @@ The tool was originally conceived and implemented after the Revision 2014 demosc
+ - F5 or Ctrl-R: recompile shader
+ - F11 or Ctrl/Cmd-f: hide shader overlay
+ - Alt-F4 or Shift+Escape: exbobolate your planet
++- Ctrl/Cmd + /: comment or uncomment the selected lines of code
+ 
+ ## Requirements
+ On Windows, both DirectX 9 and 11 are supported.
+diff --git src/ShaderEditor.cpp src/ShaderEditor.cpp
+index ff33e47..8ea5595 100644
+--- src/ShaderEditor.cpp
++++ src/ShaderEditor.cpp
+@@ -414,6 +414,27 @@ void ShaderEditor::FineTickerCancel( TickReason )
+ 
+ }
+ 
++void ShaderEditor::CommentSelection()
++{
++  int selectionStartPosition = WndProc(SCI_GETSELECTIONSTART, 0, 0);
++  int selectionEndPosition = WndProc(SCI_GETSELECTIONEND, 0, 0);
++  int firstSelectedLine = WndProc(SCI_LINEFROMPOSITION, selectionStartPosition, 0);
++  int lastSelectedLine = WndProc(SCI_LINEFROMPOSITION, selectionEndPosition, 0);
++
++  for (int line = firstSelectedLine; line <= lastSelectedLine; line++) {
++    int lineStartPosition = WndProc(SCI_POSITIONFROMLINE, line, 0);
++    char firstCharacterOFLine = WndProc(SCI_GETCHARAT, lineStartPosition, 0);
++    if (firstCharacterOFLine == '/') {
++        // We are uncommenting this line
++        WndProc(SCI_DELETERANGE, lineStartPosition, 2);
++    }
++    else {
++        // We are commenting this line
++        WndProc(SCI_INSERTTEXT, lineStartPosition, reinterpret_cast<sptr_t>("//"));
++    }
++  }
++}
++
+ 
+ /////////////////////////////////////////////////////////////////////////////////////////////
+ // Indentation handling
+diff --git src/ShaderEditor.h src/ShaderEditor.h
+index 91f79c0..719d3f9 100644
+--- src/ShaderEditor.h
++++ src/ShaderEditor.h
+@@ -137,6 +137,7 @@ public:
+ 
+   void SetReadOnly( bool );
+   Scintilla::Font * GetTextFont();
++  void CommentSelection();
+     
+ private:
+   enum IndentationStatus {
+diff --git src/main.cpp src/main.cpp
+index 648f5d5..eaf4e43 100644
+--- src/main.cpp
++++ src/main.cpp
+@@ -376,7 +376,6 @@ int main(int argc, const char *argv[])
+   static float fftDataSmoothed[FFT_SIZE];
+   memset(fftDataSmoothed, 0, sizeof(float) * FFT_SIZE);
+ 
+-
+   static float fftDataSlightlySmoothed[FFT_SIZE];
+   memset(fftDataSlightlySmoothed, 0, sizeof(float) * FFT_SIZE);
+   static float fftDataIntegrated[FFT_SIZE];
+@@ -445,6 +444,10 @@ int main(int argc, const char *argv[])
+           mDebugOutput.SetText( szError );
+         }
+       }
++      else if (Renderer::keyEventBuffer[i].ctrl && Renderer::keyEventBuffer[i].scanCode == '/') // Ctrl Slash (/)
++      {
++        mShaderEditor.CommentSelection();
++      }
+       else if (Renderer::keyEventBuffer[i].scanCode == 292 || (Renderer::keyEventBuffer[i].ctrl && Renderer::keyEventBuffer[i].scanCode == 'f')) // F11 or Ctrl/Cmd-f  
+       {
+         bShowGui = !bShowGui;
+@@ -468,7 +471,6 @@ int main(int argc, const char *argv[])
+           Scintilla::UTF8FromUTF16(utf16, 1, utf8, 4 * sizeof(char));
+           mShaderEditor.AddCharUTF(utf8, (unsigned int)strlen(utf8));
+         }
+-
+       }
+     }
+     Renderer::keyEventBufferCount = 0;
+diff --git src/platform_glfw/Renderer.cpp src/platform_glfw/Renderer.cpp
+index edc2baa..d8fb046 100644
+--- src/platform_glfw/Renderer.cpp
++++ src/platform_glfw/Renderer.cpp
+@@ -495,7 +495,7 @@ namespace Renderer
+ //           case GLFW_KEY_LSUPER:       sciKey = SCK_WIN;       break;
+ //           case GLFW_KEY_RSUPER:       sciKey = SCK_RWIN;      break;
+         case GLFW_KEY_MENU:         sciKey = SCK_MENU;      break;
+-//           case GLFW_KEY_SLASH:        sciKey = '/';           break;
++        case GLFW_KEY_SLASH:        sciKey = '/';           break;
+ //           case GLFW_KEY_ASTERISK:     sciKey = '`';           break;
+ //           case GLFW_KEY_LEFTBRACKET:  sciKey = '[';           break;
+ //           case GLFW_KEY_BACKSLASH:    sciKey = '\\';          break;
+-- 
+2.25.0
+
