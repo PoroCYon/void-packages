@@ -1,0 +1,46 @@
+# Template file for 'ries'
+pkgname=ries
+version=201410
+revision=2
+#archs="i686 x86_64"
+#wrksrc=
+create_wrksrc=yes
+build_style=gnu-makefile
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends=""
+makedepends=""
+depends=""
+short_desc="Find Algebraic Equations, Given Their Solution"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GPL-3.0-or-later"
+homepage="https://www.mrob.com/pub/ries/index.html"
+distfiles="https://www.mrob.com/pub/ries/src/ries.c.txt
+ https://www.mrob.com/pub/ries/COPYING.txt
+ https://www.mrob.com/pub/ries/doc/ries-manual.txt"
+checksum="73f77c1a91496056e5bf7629a848f002055554077793d323edf2c9f2c560152b
+ 8281ee7cfed587c0d9a94cf79ba0ecbf552edcc6fa4be34c805dc28851f94c25
+ 37543985fdf6a0a7627fc34195fd4a6568ce9af007a40a2cf0f2c488d892ddb2"
+
+post_extract() {
+	ln -sv -T ries.c.txt ries.c
+	#mv -v ries.c.txt ries.c
+}
+
+do_build() {
+	echo cc ${CFLAGS} ${LDFLAGS} -ories ries.c -lm
+	cc ${CFLAGS} ${LDFLAGS} -ories ries.c -lm
+}
+
+do_install() {
+	vinstall ries 755 usr/bin
+}
+
+post_install() {
+	vmkdir usr/share/doc/ries
+	vinstall COPYING.txt 644 usr/share/doc/ries
+	vinstall ries-manual.txt 644 usr/share/doc/ries
+}
