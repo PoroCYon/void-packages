@@ -2,14 +2,14 @@
 pkgname=iceweasel
 epoch=1
 version=70.0.1
-revision=2
+revision=3
 _brandingver=70.0
 _brandingrel=1
 wrksrc=firefox-$version
 archs="i686 x86_64 armv7h"
 build_helper="rust"
 hostmakedepends="autoconf213 unzip zip pkg-config perl python3 yasm rust cargo
- llvm gcc nodejs cbindgen python nasm inkscape ImageMagick quilt libxslt"
+ llvm gcc nodejs cbindgen python nasm inkscape ImageMagick quilt libxslt which tar"
 makedepends="nss-devel libjpeg-turbo-devel gtk+-devel gtk+3-devel icu-devel
  pixman-devel sqlite-devel libevent-devel libnotify-devel libvpx5-devel
  libXrender-devel libXcomposite-devel libSM-devel libXt-devel rust-std
