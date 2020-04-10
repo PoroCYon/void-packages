@@ -2,7 +2,7 @@
 _pkgname=thunderbird
 pkgname=icedove
 version=68.2.2
-revision=2
+revision=3
 epoch=1
 _brandingver=68.2
 _brandingrel=1
@@ -22,7 +22,7 @@ b36792a6fcbe68841bc842723222c88ecf1f54f7f75bd634b216b61f3ae422f2"
 
 lib32disabled=yes
 
-hostmakedepends="autoconf213 unzip zip pkg-config perl python3 yasm rust cargo
+hostmakedepends="autoconf213 unzip zip pkg-config perl python3 yasm rust cargo which tar
  llvm clang nodejs cbindgen nasm python inkscape ImageMagick quilt python-blessings mozilla-searchplugins"
 makedepends="nss-devel libjpeg-turbo-devel gtk+-devel gtk+3-devel icu-devel
  pixman-devel sqlite-devel libevent-devel libnotify-devel libvpx5-devel
