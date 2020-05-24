@@ -6,6 +6,7 @@ wrksrc="x264-snapshot-${version//./-}-stable"
 build_style=gnu-configure
 configure_args="--enable-static --enable-shared"
 hostmakedepends="nasm perl"
+makedepends="liblsmash-devel ffmpeg-devel libswscale"
 short_desc="Free library for encoding H264/AVC video streams"
 maintainer="DirectorX <void.directorx@protonmail.com>"
 license="GPL-2.0-or-later"
