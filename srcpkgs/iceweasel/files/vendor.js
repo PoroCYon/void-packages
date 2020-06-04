@@ -71,9 +71,9 @@ pref("browser.EULA.override", true);
 // Spoof the useragent to a generic one
 pref("general.useragent.compatMode.firefox", true);
 // Spoof the useragent to a generic one
-pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:70.0) Gecko/20100101 Firefox/70.0");
+pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:76.0) Gecko/20100101 Firefox/76.0");
 pref("general.appname.override", "Netscape");
-pref("general.appversion.override", "70.0");
+pref("general.appversion.override", "76.0");
 pref("general.buildID.override", "Gecko/20100101");
 pref("general.oscpu.override", "Windows NT 6.1");
 pref("general.platform.override", "Win32");
@@ -314,4 +314,15 @@ pref("security.sandbox.content.syscall_whitelist", "16");
 // https://labs.parabola.nu/issues/2409
 pref("extensions.htmlaboutaddons.discover.enabled", false);
 pref("extensions.htmlaboutaddons.recommendations.enabled", false);
+
+pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false);
+
+pref("extensions.getAddons.search.browseURL", "https://www.parabola.nu/packages/?q=%TERMS%");
+
+pref("extensions.webextensions.restrictDomains", "");
+pref("privacy.resistFingerprinting.block_mozAddonManager", true);
+
+pref("browser.messaging-system.whatsNewPanel.enabled", false);
+
+pref("extensions.getAddons.showPane", false);
 

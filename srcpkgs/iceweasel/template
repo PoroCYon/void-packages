@@ -1,17 +1,18 @@
 # Template file for 'iceweasel'
 pkgname=iceweasel
 epoch=1
-version=70.0.1
-revision=3
-_brandingver=70.0
+version=76.0
+revision=1
+_brandingver=76.0
 _brandingrel=1
 wrksrc=firefox-$version
 archs="i686 x86_64 armv7h"
 build_helper="rust"
 hostmakedepends="autoconf213 unzip zip pkg-config perl python3 yasm rust cargo
- llvm gcc nodejs cbindgen python nasm inkscape ImageMagick quilt libxslt which tar"
+ llvm gcc nodejs-lts-10 cbindgen python nasm inkscape ImageMagick quilt libxslt which tar
+ clang"
 makedepends="nss-devel libjpeg-turbo-devel gtk+-devel gtk+3-devel icu-devel
- pixman-devel sqlite-devel libevent-devel libnotify-devel libvpx5-devel
+ pixman-devel libevent-devel libnotify-devel libvpx-devel
  libXrender-devel libXcomposite-devel libSM-devel libXt-devel rust-std
  libXdamage-devel freetype-devel $(vopt_if alsa alsa-lib-devel)
  $(vopt_if dbus dbus-glib-devel) $(vopt_if pulseaudio pulseaudio-devel)
@@ -28,8 +29,8 @@ https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$versio
 https://repo.parabola.nu/other/iceweasel/${pkgname}_${_brandingver}-${_brandingrel}.branding.tar.xz
 "
 checksum='
-f2e9bb26af7682b31e82fdfc3a4b3e04fd1caa8b004469ea608185d33e35691b
-e90956067d8549f02864d612369ed8714d7173f0ee07bbfb4374a7323b4a733e
+3b7b97b0b0625fc6ec23ee28d425988c679d3a56f362d62fd3b225a5d50afdc8
+b49be4fa3d223a22f183f0b6dd0c6b4ab77bd59a8284bafac6c274336eb595a9
 '
 lib32disabled=yes
 build_options="alsa dbus pulseaudio startup_notification xscreensaver sndio wayland jack"
@@ -50,10 +51,10 @@ pre_extract() {
 post_patch() {
 	export PATH="$PATH:$FILESDIR"
 
-	patch -Np1 -i "$FILESDIR/no-relinking.patch"
+	#patch -Np1 -i "$FILESDIR/no-relinking.patch"
 	patch -Np1 -i "$FILESDIR/0001-Use-remoting-name-for-GDK-application-names.patch"
-	patch -Np1 -i "$FILESDIR/firefox-70.0-update-bindgen.patch"
-	patch -Np1 -i "$FILESDIR/firefox-70.0-add-distro.patch"
+	#patch -Np1 -i "$FILESDIR/firefox-70.0-update-bindgen.patch"
+	#patch -Np1 -i "$FILESDIR/firefox-70.0-add-distro.patch"
 
 	cat >.mozconfig_ <<EOF
 ac_add_options --enable-application=browser
@@ -72,7 +73,7 @@ ac_add_options --with-system-icu
 # XXX: the system's libpng doesn't have APNG support
 ac_add_options --without-system-png
 ac_add_options --enable-system-pixman
-ac_add_options --enable-system-sqlite
+#ac_add_options --enable-system-sqlite
 ac_add_options --enable-system-ffi
 
 ac_add_options --with-nspr-prefix=\${XBPS_CROSS_BASE}/usr
@@ -271,7 +272,7 @@ do_install() {
 
 	# Use system certificates
 	if [[ -e $DESTDIR/usr/lib/$pkgname/libnssckbi.so ]]; then
-	  ln -srfv "$DESTDIR/usr/lib/libnssckbi.so" "$nssckbi"
+	  ln -srfv "$DESTDIR/usr/lib/libnssckbi.so" "$DESTDIR/usr/lib/$pkgname/libnssckbi.so"
 	fi
 
 	#if [[ -f "$startdir/.crash-stats-api.token" ]]; then

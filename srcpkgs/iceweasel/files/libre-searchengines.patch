@@ -190,37 +190,6 @@ index d023e0a..15ee5f5 100644
 -        ]
        }
      },
-     "en-ZA": {
-@@ -338,30 +214,6 @@
-         "visibleDefaultEngines": [
-           "google-b-d", "bing", "amazondotcom", "ddg", "twitter", "wikipedia"
-         ]
--      },
--      "KZ": {
--        "visibleDefaultEngines": [
--          "yandex-en", "google-b-d", "bing", "amazondotcom", "ddg", "twitter", "wikipedia"
--        ],
--        "searchDefault": "Yandex"
--      },
--      "BY": {
--        "visibleDefaultEngines": [
--          "yandex-en", "google-b-d", "bing", "amazondotcom", "ddg", "twitter", "wikipedia"
--        ],
--        "searchDefault": "Yandex"
--      },
--      "RU": {
--        "visibleDefaultEngines": [
--          "yandex-en", "google-b-d", "bing", "amazondotcom", "ddg", "twitter", "wikipedia"
--        ],
--        "searchDefault": "Yandex"
--      },
--      "TR": {
--        "visibleDefaultEngines": [
--          "yandex-en", "google-b-d", "bing", "amazondotcom", "ddg", "twitter", "wikipedia"
--        ],
--        "searchDefault": "Yandex"
-       }
-     },
      "eo": {
 @@ -397,11 +249,6 @@
          "visibleDefaultEngines": [

@@ -6,8 +6,10 @@ import subprocess, sys
 
 args = list(sys.argv[1:])
 for i in range(len(args)):
-    if args[i] == '-o':
-        args[i] = '-e'
+    #if args[i] == '-o':
+    #    args[i] = '-e'
+    if args[i] == '-e':
+        args[i] = '-o'
 
 if '-a' in args:
     del args[args.index('-a')]

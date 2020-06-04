@@ -1,5 +1,106 @@
+diff --git a/browser/app/permissions b/browser/app/permissions
+index ecb82a2..5d522ef 100644
+--- a/browser/app/permissions
++++ b/browser/app/permissions
+@@ -14,12 +14,6 @@ origin	uitour	1	https://support.mozilla.org
+ origin	uitour	1	about:home
+ origin	uitour	1	about:newtab
+ 
+-# XPInstall
+-origin	install	1	https://addons.mozilla.org
+-
+ # Remote troubleshooting
+ origin	remote-troubleshooting	1	https://support.mozilla.org
+ 
+-# addon install
+-origin	install	1	https://private-network.firefox.com
+-origin	install	1	https://fpn.firefox.com
+diff --git a/browser/components/preferences/in-content/sync.inc.xhtml b/browser/components/preferences/in-content/sync.inc.xhtml
+index 7d37d26..4ebbc06 100644
+--- a/browser/components/preferences/in-content/sync.inc.xhtml
++++ b/browser/components/preferences/in-content/sync.inc.xhtml
+@@ -35,22 +35,6 @@
+         </hbox>
+       </vbox>
+     </hbox>
+-    <label class="fxaMobilePromo" data-l10n-id="sync-mobile-promo">
+-      <html:img
+-        src="chrome://browser/skin/logo-android.svg"
+-        data-l10n-name="android-icon"
+-        class="androidIcon"/>
+-      <html:a
+-        data-l10n-name="android-link"
+-        class="fxaMobilePromo-android text-link" target="_blank"/>
+-      <html:img
+-        src="chrome://browser/skin/logo-ios.svg"
+-        data-l10n-name="ios-icon"
+-        class="iOSIcon"/>
+-      <html:a
+-        data-l10n-name="ios-link"
+-        class="fxaMobilePromo-ios text-link" target="_blank"/>
+-    </label>
+   </groupbox>
+ 
+   <vbox id="hasFxaAccount">
+diff --git a/browser/locales/en-US/browser/policies/policies-descriptions.ftl b/browser/locales/en-US/browser/policies/policies-descriptions.ftl
+index dabfadc..3ce732e 100644
+--- a/browser/locales/en-US/browser/policies/policies-descriptions.ftl
++++ b/browser/locales/en-US/browser/policies/policies-descriptions.ftl
+@@ -96,7 +96,7 @@ policy-ExtensionSettings = Manage all aspects of extension installation.
+ 
+ policy-ExtensionUpdate = Enable or disable automatic extension updates.
+ 
+-policy-FirefoxHome = Configure Firefox Home.
++policy-FirefoxHome = Configure Iceweasel Home.
+ 
+ policy-FlashPlugin = Allow or deny usage of the Flash plugin.
+ 
+diff --git a/browser/locales/en-US/browser/preferences/preferences.ftl b/browser/locales/en-US/browser/preferences/preferences.ftl
+index 1b29e8d..6f7566c 100644
+--- a/browser/locales/en-US/browser/preferences/preferences.ftl
++++ b/browser/locales/en-US/browser/preferences/preferences.ftl
+@@ -550,7 +550,7 @@ home-restore-defaults =
+ # "Firefox" should be treated as a brand and kept in English,
+ # while "Home" and "(Default)" can be localized.
+ home-mode-choice-default =
+-    .label = Firefox Home (Default)
++    .label = Iceweasel Home (Default)
+ 
+ home-mode-choice-custom =
+     .label = Custom URLs…
+@@ -577,10 +577,10 @@ choose-bookmark =
+     .label = Use Bookmark…
+     .accesskey = B
+ 
+-## Home Section - Firefox Home Content Customization
++## Home Section - Iceweasel Home Content Customization
+ 
+-home-prefs-content-header = Firefox Home Content
+-home-prefs-content-description = Choose what content you want on your Firefox Home screen.
++home-prefs-content-header = Iceweasel Home Content
++home-prefs-content-description = Choose what content you want on your Iceweasel Home screen.
+ 
+ home-prefs-search-header =
+     .label = Web Search
+@@ -714,16 +714,6 @@ sync-signedout-account-signin2 =
+     .label = Sign in to { -sync-brand-short-name }…
+     .accesskey = i
+ 
+-# This message contains two links and two icon images.
+-#   `<img data-l10n-name="android-icon"/>` - Android logo icon
+-#   `<a data-l10n-name="android-link">` - Link to Android Download
+-#   `<img data-l10n-name="ios-icon">` - iOS logo icon
+-#   `<a data-l10n-name="ios-link">` - Link to iOS Download
+-#
+-# They can be moved within the sentence as needed to adapt
+-# to your language, but should not be changed or translated.
+-sync-mobile-promo = Download Firefox for <img data-l10n-name="android-icon"/> <a data-l10n-name="android-link">Android</a> or <img data-l10n-name="ios-icon"/> <a data-l10n-name="ios-link">iOS</a> to sync with your mobile device.
+-
+ ## Firefox Account - Signed in
+ 
+ sync-profile-picture =
 diff --git a/browser/locales/generic/profile/bookmarks.html.in b/browser/locales/generic/profile/bookmarks.html.in
-index dc67747620..00221d37a1 100644
+index 2d3c7b4..00221d3 100644
 --- a/browser/locales/generic/profile/bookmarks.html.in
 +++ b/browser/locales/generic/profile/bookmarks.html.in
 @@ -1,15 +1,15 @@
@@ -23,7 +124,7 @@ index dc67747620..00221d37a1 100644
  <!-- This Source Code Form is subject to the terms of the Mozilla Public
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-@@ -21,30 +21,21 @@
+@@ -21,29 +21,21 @@
  <dl><p>
      <dt><h3 personal_toolbar_folder="true">@bookmarks_toolbarfolder@</h3></dt>
      <dd>@bookmarks_toolbarfolder_description@
@@ -56,7 +157,6 @@ index dc67747620..00221d37a1 100644
 -            <dt><a href="https://developer.mozilla.org/" icon="@mdn_icon@" shortcuturl="mdn">@mdn@</a>
 -            <dt><a href="https://addons.mozilla.org/@AB_CD@/firefox/addon/nightly-tester-tools/" icon="@addon_icon@">@nightly_tester_tools@</a>
 -            <dt><a href="about:crashes" icon="@mozilla_icon@">@crashes@</a>
--            <dt><a href="https://mibbit.com/?server=irc.mozilla.org&channel=%23nightly" icon="@mozilla_icon@">@irc@</a>
 -            <dt><a href="https://planet.mozilla.org/" icon="@mozilla_icon@">@planet@</a>
 +            <dt><a href="https://www.fsf.org/" icon="@fsf_icon@">Free Software Foundation</a>
 +            <dt><a href="https://www.gnu.org/" icon="@gnu_icon@">The GNU Operating System and the Free Software Movement</a>
@@ -65,66 +165,174 @@ index dc67747620..00221d37a1 100644
          </dl>
 -#endif
  </dl>
-diff --git a/devtools/client/locales/en-US/connection-screen.dtd b/devtools/client/locales/en-US/connection-screen.dtd
-index 674a408d5e..d27e97fd58 100644
---- a/devtools/client/locales/en-US/connection-screen.dtd
-+++ b/devtools/client/locales/en-US/connection-screen.dtd
-@@ -24,7 +24,7 @@
- <!-- LOCALIZATION NOTE (remoteHelp, remoteDocumentation, remoteHelpSuffix):
- these strings will be concatenated in a single label, remoteDocumentation will
- be used as text for a link to MDN. -->
--<!ENTITY remoteHelp "Firefox Developer Tools can debug remote devices (Firefox for Android and Firefox OS, for example). Make sure that you have turned on the ‘Remote debugging’ option in the remote device. For more, see the ">
-+<!ENTITY remoteHelp "Iceweasel Developer Tools can debug remote devices. Make sure that you have turned on the ‘Remote debugging’ option in the remote device. For more, see the ">
- <!ENTITY remoteDocumentation "documentation">
- <!ENTITY remoteHelpSuffix ".">
+diff --git a/devtools/client/whats-new/src/main.js b/devtools/client/whats-new/src/main.js
+index 0b62b2e74f..1afd87d0e1 100644
+--- a/devtools/client/whats-new/src/main.js
++++ b/devtools/client/whats-new/src/main.js
+@@ -29,7 +29,7 @@ const aside = {
+ };
  
-diff --git a/devtools/client/locales/en-US/sourceeditor.properties b/devtools/client/locales/en-US/sourceeditor.properties
-index 842d549f04..31dcb82e5a 100644
---- a/devtools/client/locales/en-US/sourceeditor.properties
-+++ b/devtools/client/locales/en-US/sourceeditor.properties
-@@ -4,7 +4,7 @@
+ const release = {
+-  title: "What’s New in DevTools (Firefox 76)",
++  title: "What’s New in DevTools (Iceweasel 76)",
+   linkText: "Read more",
+   linkUrl: `https://developer.mozilla.org/docs/Mozilla/Firefox/Releases/76?${utmParams}`,
+   features: [
+@@ -66,19 +66,6 @@ const release = {
+   ],
+ };
  
- # LOCALIZATION NOTE These strings are used inside the Source Editor component.
- # This component is used whenever source code is displayed for the purpose of
--# being edited, inside the Firefox developer tools - current examples are the
-+# being edited, inside the Iceweasel developer tools - current examples are the
- # Scratchpad and the Style Editor tools.
+-const dev = {
+-  title: "Experimental Features in Firefox Developer Edition",
+-  linkUrl: `https://www.mozilla.org/firefox/developer/?${utmParams}`,
+-  linkText: "Get DevEdition",
+-  features: [
+-    {
+-      header: `Full Asynchronous Stacks in Debugger`,
+-      description: `Step through event, timeout and promise-based function calls over time with the full-featured async stacks in Debugger.`,
+-      href: `https://developer.mozilla.org/en-US/docs/Tools/Debugger/UI_Tour?${utmParams}`,
+-    },
+-  ],
+-};
+-
+ function openLink(href, e) {
+   return openDocLink(href, {
+     relatedToCurrent: true,
+@@ -172,11 +159,6 @@ class App extends Component {
+           ...release.features
+             .filter(feature => !feature.hidden)
+             .map(feature => createFactory(Feature)(feature))
+-        ),
+-        dom.h2({}, dom.span({}, dev.title), Link(dev.linkText, dev.linkUrl)),
+-        dom.ul(
+-          {},
+-          ...dev.features.map(feature => createFactory(Feature)(feature))
+         )
+       )
+     );
+diff --git a/devtools/startup/aboutdevtools/aboutdevtools.xhtml b/devtools/startup/aboutdevtools/aboutdevtools.xhtml
+index 5b0709e..38ea275 100644
+--- a/devtools/startup/aboutdevtools/aboutdevtools.xhtml
++++ b/devtools/startup/aboutdevtools/aboutdevtools.xhtml
+@@ -89,19 +89,6 @@
+       <ul class="features-list">
+       </ul>
+     </div>
+-
+-    <footer>
+-      <img class="dev-edition-logo"
+-           src="chrome://devtools-startup/content/aboutdevtools/images/dev-edition-logo.svg"
+-           alt="" />
+-      <div class="footer-message">
+-        <h1 class="footer-message-title" data-l10n-id="footer-title"></h1>
+-        <p data-l10n-id="footer-message"></p>
+-        <a class="external footer-link"
+-           href="https://www.mozilla.org/firefox/developer/"
+-           target="_blank" data-l10n-id="footer-learn-more-link"></a>
+-      </div>
+-    </footer>
+   </div>
  
- # LOCALIZATION NOTE The correct localization of this file might be to keep it
-diff --git a/devtools/client/locales/en-US/webide.dtd b/devtools/client/locales/en-US/webide.dtd
-index 7bdf151b6a..7ed5cc69de 100644
---- a/devtools/client/locales/en-US/webide.dtd
-+++ b/devtools/client/locales/en-US/webide.dtd
-@@ -2,7 +2,7 @@
-    - License, v. 2.0. If a copy of the MPL was not distributed with this
-    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
- 
--<!ENTITY windowTitle "Firefox WebIDE">
-+<!ENTITY windowTitle "Iceweasel WebIDE">
- 
- <!ENTITY projectMenu_label "Project">
- <!ENTITY projectMenu_accesskey "P">
-@@ -55,7 +55,7 @@
- <!ENTITY projectButton_label "Open App">
- <!ENTITY runtimeButton_label "Select Runtime">
- 
--<!-- We try to repicate Firefox' bindings: -->
-+<!-- We try to repicate Iceweasel's bindings: -->
- <!-- quit app -->
- <!ENTITY key_quit "W">
- <!-- open menu -->
-diff --git a/devtools/client/locales/en-US/webide.properties b/devtools/client/locales/en-US/webide.properties
-index 7899151563..ca84e535e1 100644
---- a/devtools/client/locales/en-US/webide.properties
-+++ b/devtools/client/locales/en-US/webide.properties
-@@ -2,8 +2,8 @@
- # License, v. 2.0. If a copy of the MPL was not distributed with this
+ </body>
+diff --git a/devtools/startup/locales/en-US/aboutDevTools.ftl b/devtools/startup/locales/en-US/aboutDevTools.ftl
+index db2146d..e02ab58 100644
+--- a/devtools/startup/locales/en-US/aboutDevTools.ftl
++++ b/devtools/startup/locales/en-US/aboutDevTools.ftl
+@@ -3,18 +3,18 @@
  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
  
--title_noApp=Firefox WebIDE
--title_app=Firefox WebIDE: %S
-+title_noApp=Iceweasel WebIDE
-+title_app=Iceweasel WebIDE: %S
+ head-title = About Developer Tools
+-enable-title = Enable Firefox Developer Tools
+-enable-inspect-element-title = Enable Firefox Developer Tools to use Inspect Element
++enable-title = Enable Iceweasel Developer Tools
++enable-inspect-element-title = Enable Iceweasel Developer Tools to use Inspect Element
+ enable-inspect-element-message = Examine and edit HTML and CSS with the Developer Tools’ Inspector.
+-enable-about-debugging-message = Develop and debug WebExtensions, web workers, service workers and more with Firefox Developer Tools.
++enable-about-debugging-message = Develop and debug WebExtensions, web workers, service workers and more with Iceweasel Developer Tools.
+ enable-key-shortcut-message = You activated a Developer Tools shortcut. If that was a mistake, you can close this Tab.
+ enable-menu-message = Perfect your website’s HTML, CSS, and JavaScript with tools like Inspector and Debugger.
+-enable-common-message = Firefox Developer Tools are disabled by default to give you more control over your browser.
++enable-common-message = Iceweasel Developer Tools are disabled by default to give you more control over your browser.
+ enable-learn-more-link = Learn more about Developer Tools
+ enable-enable-button = Enable Developer Tools
+ enable-close-button = Close this Tab
  
- runtimeButton_label=Select Runtime
- projectButton_label=Open App
+-welcome-title = Welcome to Firefox Developer Tools!
++welcome-title = Welcome to Iceweasel Developer Tools!
+ newsletter-title = Mozilla Developer Newsletter
+ newsletter-message = Get developer news, tricks and resources sent straight to your inbox.
+ newsletter-email-placeholder =
+@@ -24,8 +24,6 @@ newsletter-subscribe-button = Subscribe
+ newsletter-thanks-title = Thanks!
+ newsletter-thanks-message = If you haven’t previously confirmed a subscription to a Mozilla-related newsletter you may have to do so. Please check your inbox or your spam filter for an email from us.
+ 
+-footer-title = Firefox Developer Edition
+-footer-message = Looking for more than just Developer Tools? Check out the Firefox browser that is built specifically for developers and modern workflows.
+ footer-learn-more-link = Learn more
+ 
+ features-learn-more = Learn more
+diff --git a/toolkit/locales/en-US/toolkit/about/aboutAddons.ftl b/toolkit/locales/en-US/toolkit/about/aboutAddons.ftl
+index edd871b..77870fe 100644
+--- a/toolkit/locales/en-US/toolkit/about/aboutAddons.ftl
++++ b/toolkit/locales/en-US/toolkit/about/aboutAddons.ftl
+@@ -7,7 +7,7 @@ addons-window =
+ addons-page-title = Add-ons Manager
+ 
+ search-header =
+-    .placeholder = Search addons.mozilla.org
++    .placeholder = Search www.parabola.nu/packages
+     .searchbuttonlabel = Search
+
+ search-header-shortcut =
+@@ -482,7 +482,7 @@ theme-heading-search-label = Find more themes
+ extension-heading-search-label = Find more extensions
+ default-heading-search-label = Find more add-ons
+ addons-heading-search-input =
+-    .placeholder = Search addons.mozilla.org
++    .placeholder = Search www.parabola.nu/packages
+
+ addon-page-options-button =
+     .title = Tools for all add-ons
+diff --git a/browser/components/newtab/lib/OnboardingMessageProvider.jsm b/browser/components/newtab/lib/OnboardingMessageProvider.jsm
+index 02eb150..abb3af9 100644
+--- a/browser/components/newtab/lib/OnboardingMessageProvider.jsm
++++ b/browser/components/newtab/lib/OnboardingMessageProvider.jsm
+@@ -270,7 +270,7 @@ const ONBOARDING_MESSAGES = () => [
+         action: { type: "OPEN_PRIVATE_BROWSER_WINDOW" },
+       },
+     },
+-    targeting: "'dynamic' in trailheadTriplet",
++    targeting: "trailheadTriplet in ['supercharge', 'static'] || 'dynamic' in trailheadTriplet",
+     trigger: { id: "showOnboarding" },
+   },
+   {
+@@ -314,7 +314,7 @@ const ONBOARDING_MESSAGES = () => [
+       },
+     },
+     targeting:
+-      "trailheadTriplet in ['supercharge', 'static'] || ('dynamic' in trailheadTriplet && sync.mobileDevices < 1)",
++      "false",
+     trigger: { id: "showOnboarding" },
+   },
+   {
+diff --git a/browser/locales/en-US/chrome/browser-region/region.properties b/browser/locales/en-US/chrome/browser-region/region.properties
+index 4c4ea76..e0f2880 100644
+--- a/browser/locales/en-US/chrome/browser-region/region.properties
++++ b/browser/locales/en-US/chrome/browser-region/region.properties
+@@ -9,16 +9,3 @@
+ # don't make any spelling errors here.
+ gecko.handlerService.defaultHandlersVersion=4
+ 
+-# The default set of protocol handlers for mailto:
+-gecko.handlerService.schemes.mailto.0.name=Yahoo! Mail
+-gecko.handlerService.schemes.mailto.0.uriTemplate=https://compose.mail.yahoo.com/?To=%s
+-gecko.handlerService.schemes.mailto.1.name=Gmail
+-gecko.handlerService.schemes.mailto.1.uriTemplate=https://mail.google.com/mail/?extsrc=mailto&url=%s
+-
+-# The default set of protocol handlers for irc:
+-gecko.handlerService.schemes.irc.0.name=Mibbit
+-gecko.handlerService.schemes.irc.0.uriTemplate=https://www.mibbit.com/?url=%s
+-
+-# The default set of protocol handlers for ircs:
+-gecko.handlerService.schemes.ircs.0.name=Mibbit
+-gecko.handlerService.schemes.ircs.0.uriTemplate=https://www.mibbit.com/?url=%s
