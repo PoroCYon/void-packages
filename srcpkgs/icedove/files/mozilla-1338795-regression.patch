@@ -1,0 +1,11 @@
+--- a/comm/mailnews/base/prefs/content/accountUtils.js	2020-04-04 22:28:38.105521722 +0200
++++ b/comm/mailnews/base/prefs/content/accountUtils.js	2020-04-04 22:28:50.809027238 +0200
+@@ -488,7 +488,7 @@ function msgNewMailAccount(msgWindow, ok
+   let existingWindow = Services.wm.getMostRecentWindow("mail:autoconfig");
+   if (existingWindow) {
+     existingWindow.focus();
+-  } else if (AppConstants.MOZ_APP_NAME == "thunderbird") {
++  } else {
+     // disabling modal for the time being, see 688273 REMOVEME
+     window.openDialog(
+       "chrome://messenger/content/accountcreation/emailWizard.xul",

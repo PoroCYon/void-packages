@@ -1,10 +1,10 @@
 # Template file for 'icedove'
 _pkgname=thunderbird
 pkgname=icedove
-version=68.2.2
-revision=3
+version=68.8.0
+revision=4
 epoch=1
-_brandingver=68.2
+_brandingver=68.6
 _brandingrel=1
 wrksrc=$_pkgname-$version
 #create_wrksrc=yes
@@ -16,9 +16,8 @@ homepage="https://wiki.parabola.nu/$pkgname"
 distfiles="
 https://ftp.mozilla.org/pub/mozilla.org/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz
 https://repo.parabola.nu/other/icedove/${pkgname}_$_brandingver-$_brandingrel.branding.tar.xz"
-checksum="
-c17edbcde0e9e7599cda16b69b130039f69113b498ea394057cedfae153f0dd3
-b36792a6fcbe68841bc842723222c88ecf1f54f7f75bd634b216b61f3ae422f2"
+checksum="ce87c3f2bb37d4ee827a32df16b25396590e98fbf6e8072ca16ba68c0d10cb0b
+ 23693c60df02067981dbcad7c58c29e6e38a73b54fd00cfabd94f38e45062dfd"
 
 lib32disabled=yes
 
@@ -58,7 +57,8 @@ post_extract() {
 	export PATH="$PATH:$(pwd)"
 	chmod +x "./rsvg-convert"
 
-	patch -p1 -i ${FILESDIR}/thunderbird-rust-1.39.patch # Fix build with rust 1.39 (Gentoo)
+	#patch -p1 -i ${FILESDIR}/thunderbird-rust-1.39.patch # Fix build with rust 1.39 (Gentoo)
+	patch -Np1 -i "${FILESDIR}/mozilla-1338795-regression.patch"
 
 
 #ac_add_options $(vopt_enable sndio)
@@ -127,7 +127,7 @@ END
 	# perform rebranding
 	local brandingdir="../$pkgname-$_brandingver"
 	rm -rf -- comm/mail/branding/$pkgname
-	cp -aT -- $brandingdir/$pkgname-branding/ comm/mail/branding/$pkgname
+	cp -aT -- "../$pkgname-$_brandingver"/$pkgname-branding comm/mail/branding/$pkgname
 
 	export QUILT_PATCHES=$brandingdir/patches
 	export QUILT_REFRESH_ARGS='-p ab --no-timestamps --no-index'
@@ -288,7 +288,7 @@ do_build() {
 	#echo AS="$AS"
 	#echo CC="$CC"
 	#unset AS
-	#./mach configure
+	./mach configure
 	#unset AS
 	./mach build
 	#unset AS
@@ -298,6 +298,11 @@ do_build() {
 do_install() {
 	unset AS
 	DESTDIR="$DESTDIR" ./mach install
+
+	# ugly hack
+	[ -d "$DESTDIR/usr/lib/thunderbird" ] \
+		&& { >&2 echo "NOOOOO"; return 1; }
+	#	&& mv "$DESTDIR/usr/lib/thunderbird" "$DESTDIR/usr/lib/$pkgname"
 
 	vinstall /dev/stdin 644 "usr/lib/$pkgname/defaults/preferences" "vendor.js" <<END
 // Use LANG environment variable to choose locale
@@ -358,7 +363,7 @@ END
 	# Install a wrapper to avoid confusion about binary path
 	vinstall /dev/stdin 755 "usr/bin" "$pkgname" <<END
 #!/bin/sh
-exec /usr/lib/$pkgname/$pkgname "\$@"
+exec /usr/lib/$pkgname/$pkgname-bin "\$@"
 END
 
 	rm -rf ${DESTDIR}/usr/{include,lib/$pkgname-devel,share/idl}
