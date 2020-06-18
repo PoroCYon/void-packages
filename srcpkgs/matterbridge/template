@@ -1,6 +1,6 @@
 # Template file for 'matterbridge'
 pkgname=matterbridge
-version=1.13.1
+version=1.17.5
 revision=1
 build_style=go
 go_import_path=github.com/42wim/matterbridge
@@ -11,7 +11,7 @@ maintainer="PoroCYon <pcy@national.shitposting.agency>"
 license="Apache-2.0"
 homepage="https://github.com/42wim/matterbridge"
 distfiles="${homepage}/archive/v${version}.tar.gz"
-checksum=7a8ef0abb60389bf0d6cd917dc5d7d52472b6da6e6a65ecbdde43270cbf71df4
+checksum=8093aba846dd170dbc28f5096adb0f61092389723dccd4960a1887fccb8c09dd
 conf_files="/etc/matterbridge.toml"
 system_accounts=matterbridge
 #make_dirs="/var/log/${pkgname} 0700 ${system_accounts} ${system_accounts}"
