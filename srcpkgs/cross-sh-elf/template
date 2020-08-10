@@ -1,0 +1,11 @@
+# Template file for 'cross-sh-elf'
+_triplet=sh-elf
+pkgname=cross-$_triplet
+version=0.1
+revision=1
+build_style=meta
+depends="cross-$_triplet-binutils cross-$_triplet-gcc cross-$_triplet-newlib"
+short_desc="GNU cross bare metal toolchain (SuperH target)"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="metapackage"
+homepage="https://titandemo.org/"
