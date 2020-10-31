@@ -1,0 +1,22 @@
+# Template file for 'pioneers'
+pkgname=pioneers
+version=15.5
+revision=1
+#archs="i686 x86_64"
+#wrksrc=
+#create_wrksrc=yes
+build_style=gnu-configure
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="pkg-config intltool librsvg itstool"
+makedepends="gtk+-devel"
+depends=""
+short_desc="A clone of the famous Siedler of Catan game"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GPL-2.0"
+homepage="http://pio.sourceforge.net/"
+distfiles="https://downloads.sourceforge.net/pio/$pkgname-$version.tar.gz"
+checksum=3ee1415e7c48dc144fbdb99105a6ef8a818e67ed34e9d0f8e01224c3636cef0c
