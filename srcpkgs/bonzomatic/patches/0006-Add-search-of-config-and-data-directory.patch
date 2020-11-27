@@ -1,24 +1,36 @@
-From 06a5e8e3efd7dd599e0fa17b17b4337720bd5ceb Mon Sep 17 00:00:00 2001
+From 195896d8cc90534da3dc8290c688c60c2ca72cb1 Mon Sep 17 00:00:00 2001
 From: Florent CURE <florent.cure@protonmail.com>
-Date: Mon, 27 May 2019 22:38:56 +0100
-Subject: [PATCH 08/21] Add common platform Config implementation
+Date: Sun, 26 May 2019 19:14:12 +0100
+Subject: [PATCH 06/18] Add search of config and data directory
 
-The platform_common (Windows and OSX) implementation always searches for config.json in current working directory.
+This work is handled by the ApplicationSettings class. On linux, it searches the config.json file first in working directory (directory level), then in ~/.config/bonzomatic (user level),  then in /etc/bonzomatic (system level).
+It also infers the data directory (where are stored textures and other files) based on that location. In directory level and user level it is the same directory, in system level it's /usr/share/bonzomatic.
+
+(fixed so that it doesn't interfere with upstream commits     -poro)
 ---
- CMakeLists.txt                 | 12 +++--
- config.json                    | 41 +++++++++++++++
- src/Config.cpp                 | 94 ----------------------------------
- src/Config.h                   | 42 ++++++++++-----
- src/Utils.h                    | 11 ++++
- src/platform_common/Config.cpp | 35 +++++++++++++
- src/platform_common/Utils.cpp  | 20 ++++++++
- src/platform_linux/Config.cpp  | 65 +++++++++++++++++++++++
- 8 files changed, 210 insertions(+), 110 deletions(-)
+ CMakeLists.txt                  | 16 ++++++--
+ config.json                     | 41 +++++++++++++++++++++
+ src/Capture.h                   |  6 +--
+ src/Config.h                    | 61 +++++++++++++++++++++++++++++++
+ src/Utils.h                     | 11 ++++++
+ src/capturing/Capture_Dummy.cpp |  6 +--
+ src/capturing/Capture_NDI.cpp   |  6 +--
+ src/main.cpp                    | 51 +++++++++++---------------
+ src/platform_common/Config.cpp  | 38 +++++++++++++++++++
+ src/platform_common/Utils.cpp   | 20 ++++++++++
+ src/platform_linux/Config.cpp   | 65 +++++++++++++++++++++++++++++++++
+ 11 files changed, 280 insertions(+), 41 deletions(-)
+ create mode 100644 config.json
+ create mode 100644 src/Config.h
+ create mode 100644 src/Utils.h
+ create mode 100644 src/platform_common/Config.cpp
+ create mode 100644 src/platform_common/Utils.cpp
+ create mode 100644 src/platform_linux/Config.cpp
 
-diff --git CMakeLists.txt CMakeLists.txt
-index 40914c0..83d9a7d 100644
---- CMakeLists.txt
-+++ CMakeLists.txt
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b6fc682..2e520db 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -34,7 +34,7 @@ endif ()
  
  if (WIN32)
@@ -37,17 +49,18 @@ index 40914c0..83d9a7d 100644
      set(NDI_SDK_DIR "$ENV{NDI_SDK_DIR}")
    else()
      message(FATAL_ERROR "Could not find NDI SDK. The NDI_SDK_DIR environment variable must be set to the SDK path.")
-@@ -331,7 +331,8 @@ if (APPLE)
+@@ -331,7 +331,9 @@ if (APPLE)
    set(BZC_PLATFORM_SRCS
      ${CMAKE_SOURCE_DIR}/src/platform_glfw/Renderer.cpp
      ${CMAKE_SOURCE_DIR}/src/platform_common/FFT.cpp
 -    ${CMAKE_SOURCE_DIR}/src/platform_common/MIDIDummy.cpp
 +    ${CMAKE_SOURCE_DIR}/src/platform_common/Utils.cpp
++    ${CMAKE_SOURCE_DIR}/src/platform_common/Config.cpp
 +    ${CMAKE_SOURCE_DIR}/src/platform_x11/MIDI.cpp
      ${CMAKE_SOURCE_DIR}/src/platform_osx/Misc.mm
      ${CMAKE_SOURCE_DIR}/src/platform_x11/Timer.cpp
      ${CMAKE_SOURCE_DIR}/src/platform_osx/SetupDialog.cpp
-@@ -347,11 +348,13 @@ elseif (UNIX)
+@@ -347,11 +349,13 @@ elseif (UNIX)
    set(BZC_PLATFORM_SRCS
      ${CMAKE_SOURCE_DIR}/src/platform_glfw/Renderer.cpp
      ${CMAKE_SOURCE_DIR}/src/platform_common/FFT.cpp
@@ -61,35 +74,38 @@ index 40914c0..83d9a7d 100644
    )
    source_group("Bonzomatic\\Platform" FILES ${BZC_PLATFORM_SRCS})
  elseif (WIN32)
-@@ -359,6 +362,7 @@ elseif (WIN32)
+@@ -359,6 +363,8 @@ elseif (WIN32)
      set(BZC_PLATFORM_SRCS
        ${CMAKE_SOURCE_DIR}/src/platform_w32_dx11/Renderer.cpp
        ${CMAKE_SOURCE_DIR}/src/platform_common/FFT.cpp
 +      ${CMAKE_SOURCE_DIR}/src/platform_common/Utils.cpp
++      ${CMAKE_SOURCE_DIR}/src/platform_common/Config.cpp
        ${CMAKE_SOURCE_DIR}/src/platform_w32_common/MIDI.cpp
        ${CMAKE_SOURCE_DIR}/src/platform_w32_common/Misc.cpp
        ${CMAKE_SOURCE_DIR}/src/platform_w32_common/SetupDialog.cpp
-@@ -370,6 +374,7 @@ elseif (WIN32)
+@@ -370,6 +376,8 @@ elseif (WIN32)
      set(BZC_PLATFORM_SRCS
        ${CMAKE_SOURCE_DIR}/src/platform_w32_dx9/Renderer.cpp
        ${CMAKE_SOURCE_DIR}/src/platform_common/FFT.cpp
 +      ${CMAKE_SOURCE_DIR}/src/platform_common/Utils.cpp
++      ${CMAKE_SOURCE_DIR}/src/platform_common/Config.cpp
        ${CMAKE_SOURCE_DIR}/src/platform_w32_common/MIDI.cpp
        ${CMAKE_SOURCE_DIR}/src/platform_w32_common/Misc.cpp
        ${CMAKE_SOURCE_DIR}/src/platform_w32_common/SetupDialog.cpp
-@@ -381,6 +386,7 @@ elseif (WIN32)
+@@ -381,6 +389,8 @@ elseif (WIN32)
      set(BZC_PLATFORM_SRCS
        ${CMAKE_SOURCE_DIR}/src/platform_glfw/Renderer.cpp
        ${CMAKE_SOURCE_DIR}/src/platform_common/FFT.cpp
 +      ${CMAKE_SOURCE_DIR}/src/platform_common/Utils.cpp
++      ${CMAKE_SOURCE_DIR}/src/platform_common/Config.cpp
        ${CMAKE_SOURCE_DIR}/src/platform_w32_common/MIDI.cpp
        ${CMAKE_SOURCE_DIR}/src/platform_w32_common/Misc.cpp
        ${CMAKE_SOURCE_DIR}/src/platform_w32_common/SetupDialog.cpp
-diff --git config.json config.json
+diff --git a/config.json b/config.json
 new file mode 100644
 index 0000000..02a3ec1
 --- /dev/null
-+++ config.json
++++ b/config.json
 @@ -0,0 +1,41 @@
 +{
 +  "window":{ // default window size / state, if there's a setup dialog, it will override it
@@ -133,129 +149,53 @@ index 0000000..02a3ec1
 +  "postExitCmd":"copy_to_dropbox.bat" // this command gets ran when you quit Bonzomatic, and the shader filename gets passed to it as first parameter. Use this to take regular backups.
 +}
 \ No newline at end of file
-diff --git src/Config.cpp src/Config.cpp
-deleted file mode 100644
-index 860e36f..0000000
---- src/Config.cpp
-+++ /dev/null
-@@ -1,94 +0,0 @@
--#include "Config.h"
--
--#include <fstream>
--#include <iostream>
--#include <vector>
--
--#include <unistd.h>
--
--
--namespace Config
--{
--	ApplicationSettings::ApplicationSettings( const std::string& cfg_filename )
--		: _location( Location::NONE ), _config_filename( cfg_filename )
--	{
--
--	}
--
--	void ApplicationSettings::load()
--	{
--		find_location();
--
--		if( _location != Location::NONE )
--		{
--			read_config();
--		}
--
--
--	}
--
--	void ApplicationSettings::read_config()
--	{
--		std::string config_path( _config_directory + "/" + _config_filename );
--		std::ifstream fconf( config_path );
--		fconf.seekg( 0, std::ios::end );
--		size_t file_size_in_byte = fconf.tellg();
--		std::vector< char > data;
--		data.resize( file_size_in_byte );
--		fconf.seekg( 0, std::ios::beg );
--		fconf.read( &data[0], file_size_in_byte );
--		_options.parse( &data[ 0 ] );
--	}
--
--	void ApplicationSettings::find_location()
--	{
--		const std::string sysPath( "/etc/bonzomatic" );
--		const std::string userPath( getenv( "HOME" ) );
--		const std::string localConfigPath = "/.config/bonzomatic";
--		std::string localPath = userPath + localConfigPath;
--
--		char cwd[ 256 ];
--		getcwd( cwd, 255 );
--		std::string curDir( cwd );
--
--	  	// 1. search in current directory
--		std::ifstream cfgFile( _config_filename );
--		if( cfgFile.is_open() )
--		{
--			_config_directory = curDir;
--			_data_directory = curDir;
--			cfgFile.close();
--			_location = Location::DIRECTORY;
--			std::cout << "Config file found in current directory (" << _config_directory << ")...\n";
--			return;
--		}
--
--	  	// 2. search in user config path
--		std::ifstream userCfgFile( localPath + std::string( "/" ) + _config_filename );
--		if( userCfgFile.is_open() )
--		{
--			_config_directory = userPath;
--			_data_directory = userPath;
--			userCfgFile.close();
--			_location = Location::USER;
--			std::cout << "Config file found in user directory (" << _config_directory << ")...\n";
--			return;
--		}
--
--	  	// 3. search in system config path
--		std::ifstream sysCfgFile( sysPath + std::string( "/" ) + _config_filename );
--		if( sysCfgFile.is_open() )
--		{
--			_config_directory = sysPath;
--			_data_directory = "/usr/share/bonzomatic";
--			sysCfgFile.close();
--			_location = Location::SYSTEM;
--			std::cout << "Config file found in system config path (" << _config_directory << ")...\n";
--			return;
--		}
--
--		_config_directory = curDir;
--		_location = Location::NONE;
--		std::cout << "No config file found, using default ApplicationSettings...\n";
--	}
+diff --git a/src/Capture.h b/src/Capture.h
+index fdfbce0..f164356 100644
+--- a/src/Capture.h
++++ b/src/Capture.h
+@@ -1,7 +1,7 @@
+ namespace Capture
+ {
+-  void LoadSettings(jsonxx::Object & o);
+-  bool Open(RENDERER_SETTINGS & settings);
++  void LoadSettings(const jsonxx::Object & o);
++  bool Open(const RENDERER_SETTINGS & settings);
+   void CaptureFrame();
+   void Close();
 -}
 \ No newline at end of file
-diff --git src/Config.h src/Config.h
-index 8f567bc..e6c2b24 100644
---- src/Config.h
-+++ src/Config.h
-@@ -2,6 +2,8 @@
- 
- #include "jsonxx.h"
- 
++}
+diff --git a/src/Config.h b/src/Config.h
+new file mode 100644
+index 0000000..732365e
+--- /dev/null
++++ b/src/Config.h
+@@ -0,0 +1,61 @@
++#pragma once
++
++#include "jsonxx.h"
++
 +#include "Utils.h"
 +
- #include <string>
- 
- namespace Config
-@@ -18,24 +20,38 @@ namespace Config
- 			NONE
- 		};
- 
--		ApplicationSettings( const std::string& cfg_filename );
++#include <string>
++
++namespace Config
++{
++
++	class ApplicationSettings
++	{
++	public:
++		enum Location
++		{
++			SYSTEM,
++			USER,
++			DIRECTORY,
++			NONE
++		};
++
 +		ApplicationSettings( const std::string& cfg_filename )
 +			: location_( Location::NONE ), config_filename_( cfg_filename ) {}
- 
--		void load();
++
 +		void load()
 +		{
 +			find_location();
@@ -264,24 +204,13 @@ index 8f567bc..e6c2b24 100644
 +				read_config();
 +			}
 +		}
- 
--		const jsonxx::Object get_options() const { return _options; }
--		const std::string get_config_directory() const { return _config_directory; }
--		const std::string get_data_directory() const { return _data_directory; }
-+		const jsonxx::Object get_options() const { return options_; }
-+		const std::string get_config_directory_() const { return config_directory_; }
-+		const std::string get_data_directory() const { return data_directory_; }
- 
- 	private:
- 		void find_location();
--		void read_config();
--
--		Location _location;
--		std::string _config_filename;
--		jsonxx::Object _options;
--
--		std::string _config_directory;
--		std::string _data_directory;
++
++		const jsonxx::Object& get_options() const { return options_; }
++		const std::string& get_config_directory_() const { return config_directory_; }
++		const std::string& get_data_directory() const { return data_directory_; }
++
++	private:
++		void find_location();
 +		void read_config()
 +		{
 +			std::string config_path( config_directory_ + "/" + config_filename_ );
@@ -296,14 +225,18 @@ index 8f567bc..e6c2b24 100644
 +
 +		std::string config_directory_;
 +		std::string data_directory_;
- 	};
- 
- 
-diff --git src/Utils.h src/Utils.h
++	};
++
++
++
++
++
++}
+diff --git a/src/Utils.h b/src/Utils.h
 new file mode 100644
 index 0000000..3fb3a12
 --- /dev/null
-+++ src/Utils.h
++++ b/src/Utils.h
 @@ -0,0 +1,11 @@
 +#pragma once
 +
@@ -317,13 +250,169 @@ index 0000000..3fb3a12
 +
 +}
 \ No newline at end of file
-diff --git src/platform_common/Config.cpp src/platform_common/Config.cpp
-new file mode 100644
-index 0000000..45913b1
---- /dev/null
-+++ src/platform_common/Config.cpp
-@@ -0,0 +1,35 @@
+diff --git a/src/capturing/Capture_Dummy.cpp b/src/capturing/Capture_Dummy.cpp
+index b0ca4f2..0bdcf7e 100644
+--- a/src/capturing/Capture_Dummy.cpp
++++ b/src/capturing/Capture_Dummy.cpp
+@@ -3,10 +3,10 @@
+ 
+ namespace Capture
+ {
+-  void LoadSettings(jsonxx::Object & o)
++  void LoadSettings(const jsonxx::Object & o)
+   {
+   }
+-  bool Open(RENDERER_SETTINGS & settings)
++  bool Open(const RENDERER_SETTINGS & settings)
+   {
+     return true;
+   }
+@@ -16,4 +16,4 @@ namespace Capture
+   void Close()
+   {
+   }
+-}
+\ No newline at end of file
++}
+diff --git a/src/capturing/Capture_NDI.cpp b/src/capturing/Capture_NDI.cpp
+index 1d7609e..68fbb0d 100644
+--- a/src/capturing/Capture_NDI.cpp
++++ b/src/capturing/Capture_NDI.cpp
+@@ -16,7 +16,7 @@ namespace Capture
+   NDIlib_video_frame_v2_t pNDIFrame;
+   NDIlib_send_instance_t pNDI_send;
+ 
+-  void LoadSettings(jsonxx::Object & o)
++  void LoadSettings(const jsonxx::Object & o)
+   {
+     if (o.has<jsonxx::Object>("ndi"))
+     {
+@@ -32,7 +32,7 @@ namespace Capture
+         bNDIProgressive = o.get<jsonxx::Object>("ndi").get<jsonxx::Boolean>("progressive");
+     }
+   }
+-  bool Open(RENDERER_SETTINGS & settings)
++  bool Open(const RENDERER_SETTINGS & settings)
+   {
+     if (bNDIEnabled)
+     {
+@@ -105,4 +105,4 @@ namespace Capture
+       NDIlib_destroy();
+     }
+   }
+-}
+\ No newline at end of file
++}
+diff --git a/src/main.cpp b/src/main.cpp
+index 174e1d1..5827b12 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -9,6 +9,8 @@
+ #include <unistd.h>
+ #endif
+ 
++#include <iostream>
++
+ #include "ShaderEditor.h"
+ #include "Renderer.h"
+ #include "FFT.h"
+@@ -19,6 +21,7 @@
+ #include "jsonxx.h"
+ #include "Capture.h"
+ #include "SetupDialog.h"
 +#include "Config.h"
+ 
+ unsigned int ParseColor(const std::string& color) {
+   if (color.size() < 6 || color.size() > 8) return 0xFFFFFFFF;
+@@ -65,38 +68,25 @@ void ReplaceTokens( std::string &sDefShader, const char * sTokenBegin, const cha
+   }
+ }
+ 
++
++
++
++
+ int main(int argc, const char *argv[])
+ {
+   Misc::PlatformStartup();
+ 
+-  const char * configFile = "config.json";
++  std::string cfg_file_name( "config.json" );
++
+   if ( argc > 1 )
+   {
+-    configFile = argv[ 1 ];
+-    printf( "Loading config file '%s'...\n", configFile );
+-  }
+-  else
+-  {
+-    char configPath[ 256 ] = { 0 };
+-    if ( getcwd( configPath, 255 ) )
+-    {
+-      printf( "Looking for config.json in '%s'...\n", configPath );
+-    }
++    cfg_file_name = argv[ 1 ];
+   }
++  std::cout << "Loading config file '" << cfg_file_name << "'...\n";
+ 
+-  jsonxx::Object options;
+-  FILE * fConf = fopen( configFile, "rb" );
+-  if (fConf)
+-  {
+-    printf("Config file found, parsing...\n");
+-
+-    char szConfig[65535];
+-    memset( szConfig, 0, 65535 );
+-    fread( szConfig, 1, 65535, fConf );
+-    fclose(fConf);
+-
+-    options.parse( szConfig );
+-  }
++  Config::ApplicationSettings app_settings( cfg_file_name );
++  app_settings.load();
++  const jsonxx::Object& options = app_settings.get_options();
+ 
+   FFT::Create();
+ 
+@@ -206,12 +196,15 @@ int main(int argc, const char *argv[])
+       std::map<std::string, jsonxx::Value*> tex = options.get<jsonxx::Object>("textures").kv_map();
+       for (std::map<std::string, jsonxx::Value*>::iterator it = tex.begin(); it != tex.end(); it++)
+       {
+-        const char * fn = it->second->string_value_->c_str();
+-        printf("* %s...\n",fn);
+-        Renderer::Texture * tex = Renderer::CreateRGBA8TextureFromFile( fn );
++        //const char * fn = it->second->string_value_->c_str();
++        std::string file_name = app_settings.get_data_directory() + std::string( "/" ) + std::string( it->second->string_value_->c_str() );
++        //printf("* %s...\n",fn);
++        std::cout << file_name << "...\n";
++        //Renderer::Texture * tex = Renderer::CreateRGBA8TextureFromFile( fn );
++        Renderer::Texture * tex = Renderer::CreateRGBA8TextureFromFile( file_name.c_str() );
+         if (!tex)
+         {
+-          printf("Renderer::CreateRGBA8TextureFromFile(%s) failed\n",fn);
++          printf("Renderer::CreateRGBA8TextureFromFile(%s) failed\n",file_name.c_str());
+           return -1;
+         }
+         textures[it->first] = tex;
+@@ -474,7 +467,7 @@ int main(int argc, const char *argv[])
+       {
+         mShaderEditor.CommentSelection(ctLinesAll);
+       }
+-      else if (Renderer::keyEventBuffer[i].scanCode == 292 || (Renderer::keyEventBuffer[i].ctrl && Renderer::keyEventBuffer[i].scanCode == 'f')) // F11 or Ctrl/Cmd-f  
++      else if (Renderer::keyEventBuffer[i].scanCode == 292 || (Renderer::keyEventBuffer[i].ctrl && Renderer::keyEventBuffer[i].scanCode == 'f')) // F11 or Ctrl/Cmd-f
+       {
+         bShowGui = !bShowGui;
+       }
+diff --git a/src/platform_common/Config.cpp b/src/platform_common/Config.cpp
+new file mode 100644
+index 0000000..0caa5b6
+--- /dev/null
++++ b/src/platform_common/Config.cpp
+@@ -0,0 +1,38 @@
++#include "Config.h"
++
++#include <string>
++#include <fstream>
 +
 +#ifdef _WIN32
 +#include <direct.h>
@@ -359,11 +448,11 @@ index 0000000..45913b1
 +	}
 +}
 \ No newline at end of file
-diff --git src/platform_common/Utils.cpp src/platform_common/Utils.cpp
+diff --git a/src/platform_common/Utils.cpp b/src/platform_common/Utils.cpp
 new file mode 100644
 index 0000000..8b67d13
 --- /dev/null
-+++ src/platform_common/Utils.cpp
++++ b/src/platform_common/Utils.cpp
 @@ -0,0 +1,20 @@
 +#include <vector>
 +#include <string>
@@ -386,11 +475,11 @@ index 0000000..8b67d13
 +
 +}
 \ No newline at end of file
-diff --git src/platform_linux/Config.cpp src/platform_linux/Config.cpp
+diff --git a/src/platform_linux/Config.cpp b/src/platform_linux/Config.cpp
 new file mode 100644
 index 0000000..5fcec6a
 --- /dev/null
-+++ src/platform_linux/Config.cpp
++++ b/src/platform_linux/Config.cpp
 @@ -0,0 +1,65 @@
 +#include "Config.h"
 +
@@ -459,5 +548,5 @@ index 0000000..5fcec6a
 +}
 \ No newline at end of file
 -- 
-2.25.0
+2.29.2
 

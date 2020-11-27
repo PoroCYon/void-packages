@@ -1,17 +1,17 @@
-From 522874b4943587e503fe8a2621ba45d57cdefffc Mon Sep 17 00:00:00 2001
+From 627bf14bb74683d973207c836da7eadf24fe9574 Mon Sep 17 00:00:00 2001
 From: Florent CURE <florent.cure@protonmail.com>
 Date: Mon, 27 May 2019 23:03:19 +0100
-Subject: [PATCH 10/21] Update Readme.md to reflect modifications
+Subject: [PATCH 08/18] Update Readme.md to reflect modifications
 
 ---
  README.md | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git README.md README.md
-index 0c48dfd..061a049 100644
---- README.md
-+++ README.md
-@@ -27,7 +27,8 @@ For the OpenGL version (for any platform), at least OpenGL 4.1 is required.
+diff --git a/README.md b/README.md
+index 2a8dc11..1dfc4b8 100644
+--- a/README.md
++++ b/README.md
+@@ -29,7 +29,8 @@ For the OpenGL version (for any platform), at least OpenGL 4.1 is required.
  On recent macOS, to allow sound input to be captured (for FFT textures to be generated), you need to: Open up System Preferences, click on Security & Privacy, click on the Privacy tab then click on the Microphone menu item. Make sure Bonzomatic.app is in the list and ticked.
  
  ## Configuration
@@ -22,5 +22,5 @@ index 0c48dfd..061a049 100644
  The file can have the following contents: (all fields are optional)
  ``` javascript
 -- 
-2.25.0
+2.29.2
 

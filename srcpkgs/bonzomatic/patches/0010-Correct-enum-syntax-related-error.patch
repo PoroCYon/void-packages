@@ -1,7 +1,7 @@
-From b0563d17a079318afd8599530c8b25e34acdfa64 Mon Sep 17 00:00:00 2001
+From dd72a4c58c1779bf88a26c717ecf865bb5d64198 Mon Sep 17 00:00:00 2001
 From: Florent CURE <florent.cure@protonmail.com>
 Date: Tue, 28 May 2019 09:40:33 +0100
-Subject: [PATCH 14/21] Correct enum syntax related error
+Subject: [PATCH 10/18] Correct enum syntax related error
 
 ---
  src/Config.h                   | 12 ++++++------
@@ -9,10 +9,10 @@ Subject: [PATCH 14/21] Correct enum syntax related error
  src/platform_linux/Config.cpp  |  8 ++++----
  3 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git src/Config.h src/Config.h
-index e6c2b24..15dcab7 100644
---- src/Config.h
-+++ src/Config.h
+diff --git a/src/Config.h b/src/Config.h
+index 732365e..e209173 100644
+--- a/src/Config.h
++++ b/src/Config.h
 @@ -14,19 +14,19 @@ namespace Config
  	public:
  		enum Location
@@ -39,10 +39,10 @@ index e6c2b24..15dcab7 100644
  			{
  				read_config();
  			}
-diff --git src/platform_common/Config.cpp src/platform_common/Config.cpp
+diff --git a/src/platform_common/Config.cpp b/src/platform_common/Config.cpp
 index 0caa5b6..749b965 100644
---- src/platform_common/Config.cpp
-+++ src/platform_common/Config.cpp
+--- a/src/platform_common/Config.cpp
++++ b/src/platform_common/Config.cpp
 @@ -26,13 +26,13 @@ namespace Config
  			config_directory_ = curDir;
  			data_directory_ = curDir;
@@ -60,10 +60,10 @@ index 0caa5b6..749b965 100644
  	}
  }
 \ No newline at end of file
-diff --git src/platform_linux/Config.cpp src/platform_linux/Config.cpp
+diff --git a/src/platform_linux/Config.cpp b/src/platform_linux/Config.cpp
 index 5fcec6a..945c76b 100644
---- src/platform_linux/Config.cpp
-+++ src/platform_linux/Config.cpp
+--- a/src/platform_linux/Config.cpp
++++ b/src/platform_linux/Config.cpp
 @@ -28,7 +28,7 @@ namespace Config
  			config_directory_ = curDir;
  			data_directory_ = curDir;
@@ -99,5 +99,5 @@ index 5fcec6a..945c76b 100644
  	}
  
 -- 
-2.25.0
+2.29.2
 

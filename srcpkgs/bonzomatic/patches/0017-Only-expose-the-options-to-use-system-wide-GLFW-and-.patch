@@ -1,17 +1,17 @@
-From 0cf1c4c640ea9071f1590557f350321ed50d7b08 Mon Sep 17 00:00:00 2001
+From a25c7c84657c0af03ff69dfb3b60f51fc5e8bf60 Mon Sep 17 00:00:00 2001
 From: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 Date: Mon, 22 Oct 2018 16:03:44 +0200
-Subject: [PATCH 21/21] Only expose the options to use system-wide GLFW and
+Subject: [PATCH 17/18] Only expose the options to use system-wide GLFW and
  GLEW on Linux
 
 ---
  CMakeLists.txt | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git CMakeLists.txt CMakeLists.txt
-index 64b5266..2b49f4f 100644
---- CMakeLists.txt
-+++ CMakeLists.txt
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3599ff0..15eaf9f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -32,8 +32,10 @@ if (WIN32)
    option(BONZOMATIC_NDI "Enable NDI?" OFF)
  endif ()
@@ -26,5 +26,5 @@ index 64b5266..2b49f4f 100644
  set(BONZOMATIC_WINDOWS_FLAVOR "DX11" CACHE STRING "Windows renderer flavor selected at CMake configure time (DX11, DX9 or GLFW)")
  set_property(CACHE BONZOMATIC_WINDOWS_FLAVOR PROPERTY STRINGS DX11 DX9 GLFW) 
 -- 
-2.25.0
+2.29.2
 

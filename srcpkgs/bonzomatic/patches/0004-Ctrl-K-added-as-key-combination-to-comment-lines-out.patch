@@ -1,17 +1,17 @@
-From 9c2a4bae2fb59d9278e05ae51f92cc5cd22124dd Mon Sep 17 00:00:00 2001
+From a2be5417233f8be76415cf2b23a805f9b7ba89a2 Mon Sep 17 00:00:00 2001
 From: Nightfox <cameronscottarmstrong@gmail.com>
 Date: Sat, 25 May 2019 17:56:33 +0800
-Subject: [PATCH 05/21] Ctrl - K added as key combination to comment lines out
+Subject: [PATCH 04/18] Ctrl - K added as key combination to comment lines out
 
 ---
  src/main.cpp | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git src/main.cpp src/main.cpp
-index eaf4e43..29f3969 100644
---- src/main.cpp
-+++ src/main.cpp
-@@ -444,7 +444,7 @@ int main(int argc, const char *argv[])
+diff --git a/src/main.cpp b/src/main.cpp
+index 4816816..dcbb01c 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -458,7 +458,7 @@ int main(int argc, const char *argv[])
            mDebugOutput.SetText( szError );
          }
        }
@@ -21,5 +21,5 @@ index eaf4e43..29f3969 100644
          mShaderEditor.CommentSelection();
        }
 -- 
-2.25.0
+2.29.2
 

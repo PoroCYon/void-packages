@@ -1,12 +1,13 @@
 # Template file for 'bonzomatic'
 pkgname=bonzomatic
-version=20200202
-revision=4
+version=20201127
+revision=1
 #archs="i686 x86_64"
 #wrksrc=
 #create_wrksrc=yes
 build_style=cmake
 configure_args="-DBONZOMATIC_USE_SYSTEMWIDE_GLFW=ON -DBONZOMATIC_USE_SYSTEMWIDE_GLEW=ON"
+patch_args="-Np1"
 #make_build_args=""
 #make_install_args=""
 conf_files="/etc/bonzomatic/config.json"
@@ -18,8 +19,8 @@ short_desc="Live shader coding tool and Shader Showdown workhorse"
 maintainer="PoroCYon <porocyon@titandemo.org>"
 license="Unlicense"
 homepage="https://github.com/gargaj/bonzomatic"
-distfiles="https://pcy.be/tmp/miscbin/bonzomatic-20200202.tar.xz"
-checksum=c70d1fa89a4537a80a1804acb38534b588c4d034fb3c051e681a2f953b8bd99b
+distfiles="https://pcy.be/tmp/src/$pkgname-$version.tar.xz"
+checksum=3327ec81bef69fb0f3c1dc02dd1552d6fdfdeb3fd84158ce7e0e2f872b0a2aa1
 
 do_install() {
 	vinstall data/unix/bonzomatic.desktop 644 usr/share/applications

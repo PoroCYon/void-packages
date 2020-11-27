@@ -1,16 +1,16 @@
-From 986e62f44335a390bee43a95d110b2106e7e0210 Mon Sep 17 00:00:00 2001
+From a831a9f05b1ed972348fa9779f42bfdd79eddfa5 Mon Sep 17 00:00:00 2001
 From: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 Date: Fri, 5 Oct 2018 21:28:50 +0200
-Subject: [PATCH 18/21] Build against system GLFW if available
+Subject: [PATCH 14/18] Build against system GLFW if available
 
 ---
  CMakeLists.txt | 42 ++++++++++++++++++++++++------------------
  1 file changed, 24 insertions(+), 18 deletions(-)
 
-diff --git CMakeLists.txt CMakeLists.txt
-index 9992d68..f68f678 100644
---- CMakeLists.txt
-+++ CMakeLists.txt
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2e520db..000e9f5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -73,24 +73,30 @@ if (APPLE OR UNIX OR (WIN32 AND (${BONZOMATIC_WINDOWS_FLAVOR} MATCHES "GLFW")))
    ##############################################################################
    # GLFW
@@ -69,5 +69,5 @@ index 9992d68..f68f678 100644
      if (${BONZOMATIC_WINDOWS_FLAVOR} MATCHES "DX11")
          set(PLATFORM_LIBS d3d11 d3dcompiler dxguid DXGI winmm shlwapi)
 -- 
-2.25.0
+2.29.2
 

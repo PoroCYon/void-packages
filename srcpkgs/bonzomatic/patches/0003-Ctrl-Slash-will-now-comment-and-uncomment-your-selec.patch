@@ -1,7 +1,7 @@
-From 05221abf724529a9d67d2b16c0b99ddb4c5cb091 Mon Sep 17 00:00:00 2001
+From 3fa85a54f45595edb321d76b4e61933c582b9ea7 Mon Sep 17 00:00:00 2001
 From: Nightfox <cameronscottarmstrong@gmail.com>
 Date: Sat, 18 May 2019 22:00:05 +0800
-Subject: [PATCH 04/21] Ctrl + Slash will now comment and uncomment your
+Subject: [PATCH 03/18] Ctrl + Slash will now comment and uncomment your
  selected lines of code
 
 ---
@@ -12,11 +12,11 @@ Subject: [PATCH 04/21] Ctrl + Slash will now comment and uncomment your
  src/platform_glfw/Renderer.cpp |  2 +-
  5 files changed, 28 insertions(+), 3 deletions(-)
 
-diff --git README.md README.md
-index f3c763a..26d2171 100644
---- README.md
-+++ README.md
-@@ -15,6 +15,7 @@ The tool was originally conceived and implemented after the Revision 2014 demosc
+diff --git a/README.md b/README.md
+index b0b31e6..ef6ae06 100644
+--- a/README.md
++++ b/README.md
+@@ -17,6 +17,7 @@ The tool was originally conceived and implemented after the Revision 2014 demosc
  - F5 or Ctrl-R: recompile shader
  - F11 or Ctrl/Cmd-f: hide shader overlay
  - Alt-F4 or Shift+Escape: exbobolate your planet
@@ -24,10 +24,10 @@ index f3c763a..26d2171 100644
  
  ## Requirements
  On Windows, both DirectX 9 and 11 are supported.
-diff --git src/ShaderEditor.cpp src/ShaderEditor.cpp
+diff --git a/src/ShaderEditor.cpp b/src/ShaderEditor.cpp
 index ff33e47..8ea5595 100644
---- src/ShaderEditor.cpp
-+++ src/ShaderEditor.cpp
+--- a/src/ShaderEditor.cpp
++++ b/src/ShaderEditor.cpp
 @@ -414,6 +414,27 @@ void ShaderEditor::FineTickerCancel( TickReason )
  
  }
@@ -56,11 +56,11 @@ index ff33e47..8ea5595 100644
  
  /////////////////////////////////////////////////////////////////////////////////////////////
  // Indentation handling
-diff --git src/ShaderEditor.h src/ShaderEditor.h
-index 91f79c0..719d3f9 100644
---- src/ShaderEditor.h
-+++ src/ShaderEditor.h
-@@ -137,6 +137,7 @@ public:
+diff --git a/src/ShaderEditor.h b/src/ShaderEditor.h
+index 4b46b01..01f78a4 100644
+--- a/src/ShaderEditor.h
++++ b/src/ShaderEditor.h
+@@ -152,6 +152,7 @@ public:
  
    void SetReadOnly( bool );
    Scintilla::Font * GetTextFont();
@@ -68,11 +68,11 @@ index 91f79c0..719d3f9 100644
      
  private:
    enum IndentationStatus {
-diff --git src/main.cpp src/main.cpp
-index 648f5d5..eaf4e43 100644
---- src/main.cpp
-+++ src/main.cpp
-@@ -376,7 +376,6 @@ int main(int argc, const char *argv[])
+diff --git a/src/main.cpp b/src/main.cpp
+index 73415b5..4816816 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -390,7 +390,6 @@ int main(int argc, const char *argv[])
    static float fftDataSmoothed[FFT_SIZE];
    memset(fftDataSmoothed, 0, sizeof(float) * FFT_SIZE);
  
@@ -80,7 +80,7 @@ index 648f5d5..eaf4e43 100644
    static float fftDataSlightlySmoothed[FFT_SIZE];
    memset(fftDataSlightlySmoothed, 0, sizeof(float) * FFT_SIZE);
    static float fftDataIntegrated[FFT_SIZE];
-@@ -445,6 +444,10 @@ int main(int argc, const char *argv[])
+@@ -459,6 +458,10 @@ int main(int argc, const char *argv[])
            mDebugOutput.SetText( szError );
          }
        }
@@ -91,7 +91,7 @@ index 648f5d5..eaf4e43 100644
        else if (Renderer::keyEventBuffer[i].scanCode == 292 || (Renderer::keyEventBuffer[i].ctrl && Renderer::keyEventBuffer[i].scanCode == 'f')) // F11 or Ctrl/Cmd-f  
        {
          bShowGui = !bShowGui;
-@@ -468,7 +471,6 @@ int main(int argc, const char *argv[])
+@@ -482,7 +485,6 @@ int main(int argc, const char *argv[])
            Scintilla::UTF8FromUTF16(utf16, 1, utf8, 4 * sizeof(char));
            mShaderEditor.AddCharUTF(utf8, (unsigned int)strlen(utf8));
          }
@@ -99,11 +99,11 @@ index 648f5d5..eaf4e43 100644
        }
      }
      Renderer::keyEventBufferCount = 0;
-diff --git src/platform_glfw/Renderer.cpp src/platform_glfw/Renderer.cpp
-index edc2baa..d8fb046 100644
---- src/platform_glfw/Renderer.cpp
-+++ src/platform_glfw/Renderer.cpp
-@@ -495,7 +495,7 @@ namespace Renderer
+diff --git a/src/platform_glfw/Renderer.cpp b/src/platform_glfw/Renderer.cpp
+index 77a17fe..a345ea0 100644
+--- a/src/platform_glfw/Renderer.cpp
++++ b/src/platform_glfw/Renderer.cpp
+@@ -496,7 +496,7 @@ namespace Renderer
  //           case GLFW_KEY_LSUPER:       sciKey = SCK_WIN;       break;
  //           case GLFW_KEY_RSUPER:       sciKey = SCK_RWIN;      break;
          case GLFW_KEY_MENU:         sciKey = SCK_MENU;      break;
@@ -113,5 +113,5 @@ index edc2baa..d8fb046 100644
  //           case GLFW_KEY_LEFTBRACKET:  sciKey = '[';           break;
  //           case GLFW_KEY_BACKSLASH:    sciKey = '\\';          break;
 -- 
-2.25.0
+2.29.2
 

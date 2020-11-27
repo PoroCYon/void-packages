@@ -1,7 +1,7 @@
-From 58eeca1779b76d30ce190769dc63f4adc76e7791 Mon Sep 17 00:00:00 2001
+From cc8b46d02f61a63f5eee6b1abdc0b17dbcbe2bce Mon Sep 17 00:00:00 2001
 From: Florent CURE <florent.cure@protonmail.com>
 Date: Tue, 28 May 2019 10:04:19 +0100
-Subject: [PATCH 17/21] Fixed some file openings that didn't compile on some
+Subject: [PATCH 13/18] Fixed some file openings that didn't compile on some
  platform
 
 ---
@@ -9,10 +9,10 @@ Subject: [PATCH 17/21] Fixed some file openings that didn't compile on some
  src/platform_linux/Config.cpp  | 8 +++++---
  2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git src/platform_common/Config.cpp src/platform_common/Config.cpp
+diff --git a/src/platform_common/Config.cpp b/src/platform_common/Config.cpp
 index 749b965..8d62a6a 100644
---- src/platform_common/Config.cpp
-+++ src/platform_common/Config.cpp
+--- a/src/platform_common/Config.cpp
++++ b/src/platform_common/Config.cpp
 @@ -20,7 +20,7 @@ namespace Config
  		getcwd( cwd, 255 );
  		std::string curDir( cwd );
@@ -22,10 +22,10 @@ index 749b965..8d62a6a 100644
  		if( cfgFile.is_open() )
  		{
  			config_directory_ = curDir;
-diff --git src/platform_linux/Config.cpp src/platform_linux/Config.cpp
+diff --git a/src/platform_linux/Config.cpp b/src/platform_linux/Config.cpp
 index 24be680..e6e7426 100644
---- src/platform_linux/Config.cpp
-+++ src/platform_linux/Config.cpp
+--- a/src/platform_linux/Config.cpp
++++ b/src/platform_linux/Config.cpp
 @@ -23,7 +23,7 @@ namespace Config
  		std::string curDir( cwd );
  
@@ -56,5 +56,5 @@ index 24be680..e6e7426 100644
  		{
  			config_directory_ = sysPath;
 -- 
-2.25.0
+2.29.2
 

@@ -1,0 +1,21 @@
+From 4c2173bec14de14d73b344be4a6a8730fa8b5d01 Mon Sep 17 00:00:00 2001
+From: PoroCYon <porocyon@titandemo.org>
+Date: Fri, 27 Nov 2020 23:53:45 +0100
+Subject: [PATCH 18/18] update gitignore
+
+---
+ .gitignore | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/.gitignore b/.gitignore
+index 4d3bdc8..06b7f96 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -6,3 +6,4 @@ build
+ .DS_Store
+ cmake-build*
+ .vscode
++.pkg
+-- 
+2.29.2
+

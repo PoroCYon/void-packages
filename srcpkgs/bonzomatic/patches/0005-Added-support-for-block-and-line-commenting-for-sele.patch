@@ -1,7 +1,7 @@
-From 2ac2dfcfc05eea8c4416ee1e2cc9f003b0c131e6 Mon Sep 17 00:00:00 2001
+From 4c318af3422ff9b043ea76530deabc1a30b33da4 Mon Sep 17 00:00:00 2001
 From: Nightfox <cameronscottarmstrong@gmail.com>
 Date: Sat, 8 Jun 2019 20:29:42 +0800
-Subject: [PATCH 06/21] Added support for block and line commenting for
+Subject: [PATCH 05/18] Added support for block and line commenting for
  selected text
 
 ---
@@ -13,20 +13,20 @@ Subject: [PATCH 06/21] Added support for block and line commenting for
  src/platform_glfw/Renderer.cpp |  1 +
  6 files changed, 84 insertions(+), 13 deletions(-)
 
-diff --git .gitignore .gitignore
+diff --git a/.gitignore b/.gitignore
 index 5efe05f..4d3bdc8 100644
---- .gitignore
-+++ .gitignore
+--- a/.gitignore
++++ b/.gitignore
 @@ -5,3 +5,4 @@ build
  .vs
  .DS_Store
  cmake-build*
 +.vscode
-diff --git README.md README.md
-index 26d2171..0c48dfd 100644
---- README.md
-+++ README.md
-@@ -15,7 +15,9 @@ The tool was originally conceived and implemented after the Revision 2014 demosc
+diff --git a/README.md b/README.md
+index ef6ae06..2a8dc11 100644
+--- a/README.md
++++ b/README.md
+@@ -17,7 +17,9 @@ The tool was originally conceived and implemented after the Revision 2014 demosc
  - F5 or Ctrl-R: recompile shader
  - F11 or Ctrl/Cmd-f: hide shader overlay
  - Alt-F4 or Shift+Escape: exbobolate your planet
@@ -37,10 +37,10 @@ index 26d2171..0c48dfd 100644
  
  ## Requirements
  On Windows, both DirectX 9 and 11 are supported.
-diff --git src/ShaderEditor.cpp src/ShaderEditor.cpp
+diff --git a/src/ShaderEditor.cpp b/src/ShaderEditor.cpp
 index 8ea5595..fa7ea2e 100644
---- src/ShaderEditor.cpp
-+++ src/ShaderEditor.cpp
+--- a/src/ShaderEditor.cpp
++++ b/src/ShaderEditor.cpp
 @@ -414,28 +414,73 @@ void ShaderEditor::FineTickerCancel( TickReason )
  
  }
@@ -125,13 +125,13 @@ index 8ea5595..fa7ea2e 100644
  /////////////////////////////////////////////////////////////////////////////////////////////
  // Indentation handling
  
-diff --git src/ShaderEditor.h src/ShaderEditor.h
-index 719d3f9..f2d9206 100644
---- src/ShaderEditor.h
-+++ src/ShaderEditor.h
-@@ -67,6 +67,11 @@ struct SHADEREDITOR_THEME {
-   unsigned int charBackground   = 0xC0000000;
-   bool bUseCharBackground = false;
+diff --git a/src/ShaderEditor.h b/src/ShaderEditor.h
+index 01f78a4..e67309e 100644
+--- a/src/ShaderEditor.h
++++ b/src/ShaderEditor.h
+@@ -82,6 +82,11 @@ struct SHADEREDITOR_THEME {
+   {
+   }
  };
 +enum CommentType {
 +  ctLinesSelectedOnly,
@@ -141,7 +141,7 @@ index 719d3f9..f2d9206 100644
  
  struct SHADEREDITOR_OPTIONS {
    std::string sFontPath;
-@@ -137,7 +142,7 @@ public:
+@@ -152,7 +157,7 @@ public:
  
    void SetReadOnly( bool );
    Scintilla::Font * GetTextFont();
@@ -150,7 +150,7 @@ index 719d3f9..f2d9206 100644
      
  private:
    enum IndentationStatus {
-@@ -146,6 +151,11 @@ private:
+@@ -161,6 +166,11 @@ private:
      isBlockEnd,    // indentation end indicator such as "}" or VB "end"
      isKeyWordStart // Keywords that cause indentation
    };
@@ -162,11 +162,11 @@ index 719d3f9..f2d9206 100644
    
    int GetLineLength(int line);
    int GetCurrentLineNumber();
-diff --git src/main.cpp src/main.cpp
-index 29f3969..af64e10 100644
---- src/main.cpp
-+++ src/main.cpp
-@@ -444,9 +444,21 @@ int main(int argc, const char *argv[])
+diff --git a/src/main.cpp b/src/main.cpp
+index dcbb01c..174e1d1 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -458,9 +458,21 @@ int main(int argc, const char *argv[])
            mDebugOutput.SetText( szError );
          }
        }
@@ -189,11 +189,11 @@ index 29f3969..af64e10 100644
        }
        else if (Renderer::keyEventBuffer[i].scanCode == 292 || (Renderer::keyEventBuffer[i].ctrl && Renderer::keyEventBuffer[i].scanCode == 'f')) // F11 or Ctrl/Cmd-f  
        {
-diff --git src/platform_glfw/Renderer.cpp src/platform_glfw/Renderer.cpp
-index d8fb046..83031c8 100644
---- src/platform_glfw/Renderer.cpp
-+++ src/platform_glfw/Renderer.cpp
-@@ -496,6 +496,7 @@ namespace Renderer
+diff --git a/src/platform_glfw/Renderer.cpp b/src/platform_glfw/Renderer.cpp
+index a345ea0..947c9fe 100644
+--- a/src/platform_glfw/Renderer.cpp
++++ b/src/platform_glfw/Renderer.cpp
+@@ -497,6 +497,7 @@ namespace Renderer
  //           case GLFW_KEY_RSUPER:       sciKey = SCK_RWIN;      break;
          case GLFW_KEY_MENU:         sciKey = SCK_MENU;      break;
          case GLFW_KEY_SLASH:        sciKey = '/';           break;
@@ -202,5 +202,5 @@ index d8fb046..83031c8 100644
  //           case GLFW_KEY_LEFTBRACKET:  sciKey = '[';           break;
  //           case GLFW_KEY_BACKSLASH:    sciKey = '\\';          break;
 -- 
-2.25.0
+2.29.2
 

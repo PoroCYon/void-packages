@@ -1,16 +1,16 @@
-From 138e5a61629addc8bf3ecbad0331bb2ef067ca6c Mon Sep 17 00:00:00 2001
+From 2690b2d6a00d9f90e2f2ae37feff5c78bf4a5122 Mon Sep 17 00:00:00 2001
 From: Florent CURE <florent.cure@protonmail.com>
 Date: Tue, 28 May 2019 09:51:37 +0100
-Subject: [PATCH 15/21] Fix read_file which didnt compile on some platform
+Subject: [PATCH 11/18] Fix read_file which didnt compile on some platform
 
 ---
  src/platform_common/Utils.cpp | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git src/platform_common/Utils.cpp src/platform_common/Utils.cpp
+diff --git a/src/platform_common/Utils.cpp b/src/platform_common/Utils.cpp
 index 8b67d13..101ce61 100644
---- src/platform_common/Utils.cpp
-+++ src/platform_common/Utils.cpp
+--- a/src/platform_common/Utils.cpp
++++ b/src/platform_common/Utils.cpp
 @@ -7,7 +7,7 @@ namespace Utils
  
  	bool read_file( const std::string& filename, std::vector< char >& out )
@@ -21,5 +21,5 @@ index 8b67d13..101ce61 100644
  		fp.seekg( 0, std::ios::end );
  		size_t file_size_in_byte = fp.tellg();
 -- 
-2.25.0
+2.29.2
 
