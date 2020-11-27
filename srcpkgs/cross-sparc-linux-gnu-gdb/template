@@ -1,0 +1,47 @@
+# Template file for 'cross-sparc-linux-gnu'
+_triplet=sparc-linux-gnu
+_pkgname=gdb
+pkgname=cross-${_triplet}-${_pkgname}
+version=10.1
+revision=1
+wrksrc="${_pkgname}-${version}"
+build_style=gnu-configure
+pycompile_dirs="/usr/share/${_pkgname}"
+configure_args="
+ --disable-gdbserver
+ --disable-nls
+ --disable-werror
+ --host=${XBPS_CROSS_TRIPLE}
+ --prefix=/usr
+ --target=${_triplet}
+ --with-babeltrace
+ --with-expat
+ --with-mpfr
+ --with-system-readline
+ --with-system-zlib
+ --without-isl
+ $(vopt_with guile)
+ $(vopt_with python)
+"
+hostmakedepends="autoconf automake bison flex pkg-config texinfo"
+makedepends="babeltrace-devel expat-devel mpfr-devel ncurses-devel readline-devel zlib-devel $(vopt_if guile guile-devel) $(vopt_if python 'python3-devel gettext-libs')"
+short_desc="GNU Debugger ($_triplet target)"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GPL-3.0-or-later"
+homepage="https://www.gnu.org/software/${_pkgname}"
+distfiles="${GNU_SITE}/${_pkgname}/${_pkgname}-${version}.tar.xz"
+checksum=f82f1eceeec14a3afa2de8d9b0d3c91d5a3820e23e0a01bbb70ef9f0276b62c0
+python_version=2 #unverified
+build_options="guile python"
+# don't enable guile and python interfaces until they are moved into
+# platform independent packages
+build_options_default=" "
+nocross=yes
+
+CFLAGS="-fcommon"
+
+post_install() {
+	# resolve conflicts with binutils and native gdb
+	rm -fr ${DESTDIR}/usr/{share/{locale,gdb,info},include}
+}
+
