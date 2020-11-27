@@ -1,0 +1,2 @@
+ATTR{idVendor}=="04f9", KERNEL=="lp[0-9]", MODE:="0664", GROUP:="lp", ENV{libsane_matched}:="yes"
+#KERNEL=="lp[0-9]", SYMLINK+="%k", GROUP="lp"

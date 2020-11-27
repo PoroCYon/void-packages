@@ -1,0 +1,25 @@
+# Template file for 'brother-dcp1510-lpr'
+pkgname=brother-dcp1510-lpr
+version=3.0.1
+revision=1
+archs="i686 x86_64"
+create_wrksrc=yes
+depends="a2ps ghostscript"
+hostmakedepends="rpmextract"
+short_desc="LPR driver for the brother DCP-1510 printer/scanner"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GPL-2.0-only"
+homepage="https://support.brother.com/g/b/index.aspx"
+distfiles="https://www.brother.com/pub/bsc/linux/dlf/dcp1510lpr-$version-1.i386.rpm"
+checksum=9ec2f10326839ec70e097c53ed3854acc6179264212f64da29e989b6c416629a
+mutable_files="/opt/brother/Printers/dcp1510/inf/brdcp1510rc"
+nopie=yes
+
+if [ "$XBPS_TARGET_MACHINE" = "x86_64" ]; then
+	depends+=" glibc-32bit"
+fi
+
+do_install() {
+	mkdir -p ${DESTDIR}
+	cp -avr {etc,opt,var}/ ${DESTDIR}
+}
