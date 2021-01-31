@@ -1,4 +1,4 @@
-From 71f182f5891dc7e2b4ed171d84a151f75646ffc4 Mon Sep 17 00:00:00 2001
+From b8277026a7d0eceec0ed6f8f7c5218bdc6de040c Mon Sep 17 00:00:00 2001
 From: Florent CURE <florent.cure@protonmail.com>
 Date: Mon, 27 May 2019 23:18:35 +0100
 Subject: [PATCH 09/18] Improved formatting in Readme.md
@@ -20,5 +20,5 @@ index 1dfc4b8..cadf291 100644
  
  The file can have the following contents: (all fields are optional)
 -- 
-2.29.2
+2.30.0
 

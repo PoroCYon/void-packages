@@ -1,4 +1,4 @@
-From 627bf14bb74683d973207c836da7eadf24fe9574 Mon Sep 17 00:00:00 2001
+From 668dad95f1d9676e1465955e823ebb0f58bf3d21 Mon Sep 17 00:00:00 2001
 From: Florent CURE <florent.cure@protonmail.com>
 Date: Mon, 27 May 2019 23:03:19 +0100
 Subject: [PATCH 08/18] Update Readme.md to reflect modifications
@@ -22,5 +22,5 @@ index 2a8dc11..1dfc4b8 100644
  The file can have the following contents: (all fields are optional)
  ``` javascript
 -- 
-2.29.2
+2.30.0
 

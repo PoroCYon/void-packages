@@ -1,4 +1,4 @@
-From 195896d8cc90534da3dc8290c688c60c2ca72cb1 Mon Sep 17 00:00:00 2001
+From 431dd8dde039920fdfc0f067453e592a9bcecdbe Mon Sep 17 00:00:00 2001
 From: Florent CURE <florent.cure@protonmail.com>
 Date: Sun, 26 May 2019 19:14:12 +0100
 Subject: [PATCH 06/18] Add search of config and data directory
@@ -304,7 +304,7 @@ index 1d7609e..68fbb0d 100644
 \ No newline at end of file
 +}
 diff --git a/src/main.cpp b/src/main.cpp
-index 174e1d1..5827b12 100644
+index cf6def4..ed8436b 100644
 --- a/src/main.cpp
 +++ b/src/main.cpp
 @@ -9,6 +9,8 @@
@@ -394,7 +394,7 @@ index 174e1d1..5827b12 100644
            return -1;
          }
          textures[it->first] = tex;
-@@ -474,7 +467,7 @@ int main(int argc, const char *argv[])
+@@ -476,7 +469,7 @@ int main(int argc, const char *argv[])
        {
          mShaderEditor.CommentSelection(ctLinesAll);
        }
@@ -548,5 +548,5 @@ index 0000000..5fcec6a
 +}
 \ No newline at end of file
 -- 
-2.29.2
+2.30.0
 

@@ -1,4 +1,4 @@
-From 2690b2d6a00d9f90e2f2ae37feff5c78bf4a5122 Mon Sep 17 00:00:00 2001
+From bfcd9ab3aaea2a31d7b0d5a13b6d7847461455f9 Mon Sep 17 00:00:00 2001
 From: Florent CURE <florent.cure@protonmail.com>
 Date: Tue, 28 May 2019 09:51:37 +0100
 Subject: [PATCH 11/18] Fix read_file which didnt compile on some platform
@@ -21,5 +21,5 @@ index 8b67d13..101ce61 100644
  		fp.seekg( 0, std::ios::end );
  		size_t file_size_in_byte = fp.tellg();
 -- 
-2.29.2
+2.30.0
 

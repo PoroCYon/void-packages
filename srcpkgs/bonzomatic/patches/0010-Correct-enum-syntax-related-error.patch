@@ -1,4 +1,4 @@
-From dd72a4c58c1779bf88a26c717ecf865bb5d64198 Mon Sep 17 00:00:00 2001
+From cc9be71e6b38fd5afc464c12057717b76fb98032 Mon Sep 17 00:00:00 2001
 From: Florent CURE <florent.cure@protonmail.com>
 Date: Tue, 28 May 2019 09:40:33 +0100
 Subject: [PATCH 10/18] Correct enum syntax related error
@@ -99,5 +99,5 @@ index 5fcec6a..945c76b 100644
  	}
  
 -- 
-2.29.2
+2.30.0
 

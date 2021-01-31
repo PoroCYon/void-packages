@@ -1,4 +1,4 @@
-From cc8b46d02f61a63f5eee6b1abdc0b17dbcbe2bce Mon Sep 17 00:00:00 2001
+From 9390268b40cddde705c22232bdbbbd664392181c Mon Sep 17 00:00:00 2001
 From: Florent CURE <florent.cure@protonmail.com>
 Date: Tue, 28 May 2019 10:04:19 +0100
 Subject: [PATCH 13/18] Fixed some file openings that didn't compile on some
@@ -56,5 +56,5 @@ index 24be680..e6e7426 100644
  		{
  			config_directory_ = sysPath;
 -- 
-2.29.2
+2.30.0
 

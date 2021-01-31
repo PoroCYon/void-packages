@@ -1,4 +1,4 @@
-From 9bce4ca0c3e18dbf0f9439ab737d0fafb092bc71 Mon Sep 17 00:00:00 2001
+From d39da3a759a1b3073df67424e0a2388113342acc Mon Sep 17 00:00:00 2001
 From: blackle <isabelle@blackle-mori.com>
 Date: Sun, 24 Nov 2019 20:40:52 -0500
 Subject: [PATCH 01/18] Add 'scale' setting that allows user to render shader
@@ -26,7 +26,7 @@ index 7107148..b0b31e6 100644
    },
    "audio":{ // default audio device settings; if there's a setup dialog, it will override it
 diff --git a/src/Renderer.h b/src/Renderer.h
-index db0c27f..fe84fff 100644
+index f77aa88..80ad021 100644
 --- a/src/Renderer.h
 +++ b/src/Renderer.h
 @@ -10,6 +10,8 @@ typedef struct
@@ -39,7 +39,7 @@ index db0c27f..fe84fff 100644
    bool bVsync;
  } RENDERER_SETTINGS;
 diff --git a/src/main.cpp b/src/main.cpp
-index cb73826..73415b5 100644
+index 05ee728..1fbc3db 100644
 --- a/src/main.cpp
 +++ b/src/main.cpp
 @@ -109,6 +109,8 @@ int main(int argc, const char *argv[])
@@ -77,20 +77,20 @@ index cb73826..73415b5 100644
      return -1;
    }
  #endif
-@@ -479,7 +488,7 @@ int main(int argc, const char *argv[])
+@@ -481,7 +490,7 @@ int main(int argc, const char *argv[])
      Renderer::keyEventBufferCount = 0;
  
      Renderer::SetShaderConstant( "fGlobalTime", time );
 -    Renderer::SetShaderConstant( "v2Resolution", settings.sRenderer.nWidth, settings.sRenderer.nHeight );
 +    Renderer::SetShaderConstant( "v2Resolution", settings.sRenderer.nWidth*settings.sRenderer.fScale, settings.sRenderer.nHeight*settings.sRenderer.fScale );
  
-     for (std::map<int,std::string>::iterator it = midiRoutes.begin(); it != midiRoutes.end(); it++)
-     {
+     float fTime = Timer::GetTime();
+     Renderer::SetShaderConstant( "fFrameTime", ( fTime - fLastTimeMS ) / 1000.0f );
 diff --git a/src/platform_glfw/Renderer.cpp b/src/platform_glfw/Renderer.cpp
-index e44d246..77a17fe 100644
+index 1f9c06c..dd70da1 100644
 --- a/src/platform_glfw/Renderer.cpp
 +++ b/src/platform_glfw/Renderer.cpp
-@@ -166,6 +166,8 @@ namespace Renderer
+@@ -168,6 +168,8 @@ namespace Renderer
    bool run = true;
  
    GLuint theShader = 0;
@@ -99,7 +99,7 @@ index e44d246..77a17fe 100644
    GLuint glhVertexShader = 0;
    GLuint glhFullscreenQuadVB = 0;
    GLuint glhFullscreenQuadVA = 0;
-@@ -175,6 +177,8 @@ namespace Renderer
+@@ -177,6 +179,8 @@ namespace Renderer
  
    int nWidth = 0;
    int nHeight = 0;
@@ -108,7 +108,7 @@ index e44d246..77a17fe 100644
  
    void MatrixOrthoOffCenterLH(float * pout, float l, float r, float b, float t, float zn, float zf)
    {
-@@ -227,6 +231,8 @@ namespace Renderer
+@@ -229,6 +233,8 @@ namespace Renderer
  
      nWidth = settings->nWidth;
      nHeight = settings->nHeight;
@@ -117,7 +117,7 @@ index e44d246..77a17fe 100644
  
      glfwWindowHint(GLFW_RED_BITS, 8);
      glfwWindowHint(GLFW_GREEN_BITS, 8);
-@@ -306,6 +312,20 @@ namespace Renderer
+@@ -308,6 +314,20 @@ namespace Renderer
      nWidth = settings->nWidth = fbWidth;
      nHeight = settings->nHeight = fbHeight;
      printf("[GLFW] Obtained framebuffer size: %d x %d\n", fbWidth, fbHeight);
@@ -138,7 +138,7 @@ index e44d246..77a17fe 100644
      
      static float pFullscreenQuadVertices[] =
      {
-@@ -597,6 +617,10 @@ namespace Renderer
+@@ -599,6 +619,10 @@ namespace Renderer
    {
      glBindVertexArray(glhFullscreenQuadVA);
  
@@ -149,7 +149,7 @@ index e44d246..77a17fe 100644
      glUseProgram(theShader);
  
      glBindBuffer( GL_ARRAY_BUFFER, glhFullscreenQuadVB );
-@@ -625,6 +649,13 @@ namespace Renderer
+@@ -627,6 +651,13 @@ namespace Renderer
        glDisableVertexAttribArray( position );
  
      glUseProgram(0);
@@ -164,5 +164,5 @@ index e44d246..77a17fe 100644
  
    bool ReloadShader( const char * szShaderCode, int nShaderCodeSize, char * szErrorBuffer, int nErrorBufferSize )
 -- 
-2.29.2
+2.30.0
 

@@ -1,4 +1,4 @@
-From d99d45d5142710ac649de2de0676559a6d6c3aa3 Mon Sep 17 00:00:00 2001
+From 6f596fce032527ae43432d2ccc5c1d7edf9824e8 Mon Sep 17 00:00:00 2001
 From: Florent CURE <florent.cure@protonmail.com>
 Date: Tue, 28 May 2019 09:56:37 +0100
 Subject: [PATCH 12/18] Fix missing header for getenv()
@@ -20,5 +20,5 @@ index 945c76b..24be680 100644
  
  namespace Config
 -- 
-2.29.2
+2.30.0
 

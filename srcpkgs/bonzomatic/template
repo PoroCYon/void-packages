@@ -1,7 +1,7 @@
 # Template file for 'bonzomatic'
 pkgname=bonzomatic
-version=20201127
-revision=1
+version=20210201
+revision=2
 #archs="i686 x86_64"
 #wrksrc=
 #create_wrksrc=yes
@@ -20,7 +20,7 @@ maintainer="PoroCYon <porocyon@titandemo.org>"
 license="Unlicense"
 homepage="https://github.com/gargaj/bonzomatic"
 distfiles="https://pcy.be/tmp/src/$pkgname-$version.tar.xz"
-checksum=3327ec81bef69fb0f3c1dc02dd1552d6fdfdeb3fd84158ce7e0e2f872b0a2aa1
+checksum=717d3699181346eb2b4189ff80792f435fec30d986113d598b4c8f6ffa9b3d14
 
 do_install() {
 	vinstall data/unix/bonzomatic.desktop 644 usr/share/applications

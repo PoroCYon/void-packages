@@ -1,4 +1,4 @@
-From 610078d8b72299e38989e0553ec4c843eaa60f33 Mon Sep 17 00:00:00 2001
+From fbc0c7b26b57b214d78262f171c5ad324a9d9156 Mon Sep 17 00:00:00 2001
 From: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 Date: Sat, 6 Oct 2018 12:43:46 +0200
 Subject: [PATCH 16/18] Add an option to build against system-wide GLFW and
@@ -55,5 +55,5 @@ index 493f674..3599ff0 100644
      set(BZC_PROJECT_LIBS ${BZC_PROJECT_LIBS} ${GLEW_LIBRARIES})
    else ()
 -- 
-2.29.2
+2.30.0
 

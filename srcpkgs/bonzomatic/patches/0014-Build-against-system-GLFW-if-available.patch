@@ -1,4 +1,4 @@
-From a831a9f05b1ed972348fa9779f42bfdd79eddfa5 Mon Sep 17 00:00:00 2001
+From b7e4cfbc570b5334a3b11b7bf7a95b67c2d8f599 Mon Sep 17 00:00:00 2001
 From: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 Date: Fri, 5 Oct 2018 21:28:50 +0200
 Subject: [PATCH 14/18] Build against system GLFW if available
@@ -69,5 +69,5 @@ index 2e520db..000e9f5 100644
      if (${BONZOMATIC_WINDOWS_FLAVOR} MATCHES "DX11")
          set(PLATFORM_LIBS d3d11 d3dcompiler dxguid DXGI winmm shlwapi)
 -- 
-2.29.2
+2.30.0
 

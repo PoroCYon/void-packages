@@ -1,4 +1,4 @@
-From 3c810bdc1dae536386bff061279bce58e5db55c7 Mon Sep 17 00:00:00 2001
+From 8be77b4c80922e0c2989f22364b24e9f1231190b Mon Sep 17 00:00:00 2001
 From: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 Date: Fri, 5 Oct 2018 21:34:47 +0200
 Subject: [PATCH 15/18] Build against system GLEW if available
@@ -47,5 +47,5 @@ index 000e9f5..493f674 100644
    # for windows, use DirectX
    set(BZC_PROJECT_INCLUDES ${BZC_PROJECT_INCLUDES} $ENV{DXSDK_DIR}/Include)
 -- 
-2.29.2
+2.30.0
 

@@ -1,4 +1,4 @@
-From a25c7c84657c0af03ff69dfb3b60f51fc5e8bf60 Mon Sep 17 00:00:00 2001
+From a100078a5777cc71332c60a33e4faaab8c137e14 Mon Sep 17 00:00:00 2001
 From: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 Date: Mon, 22 Oct 2018 16:03:44 +0200
 Subject: [PATCH 17/18] Only expose the options to use system-wide GLFW and
@@ -26,5 +26,5 @@ index 3599ff0..15eaf9f 100644
  set(BONZOMATIC_WINDOWS_FLAVOR "DX11" CACHE STRING "Windows renderer flavor selected at CMake configure time (DX11, DX9 or GLFW)")
  set_property(CACHE BONZOMATIC_WINDOWS_FLAVOR PROPERTY STRINGS DX11 DX9 GLFW) 
 -- 
-2.29.2
+2.30.0
 

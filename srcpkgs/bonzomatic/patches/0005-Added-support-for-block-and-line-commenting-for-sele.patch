@@ -1,4 +1,4 @@
-From 4c318af3422ff9b043ea76530deabc1a30b33da4 Mon Sep 17 00:00:00 2001
+From 4e7bad5c8c2ca47780ae90597c42426e50f7fcda Mon Sep 17 00:00:00 2001
 From: Nightfox <cameronscottarmstrong@gmail.com>
 Date: Sat, 8 Jun 2019 20:29:42 +0800
 Subject: [PATCH 05/18] Added support for block and line commenting for
@@ -14,10 +14,10 @@ Subject: [PATCH 05/18] Added support for block and line commenting for
  6 files changed, 84 insertions(+), 13 deletions(-)
 
 diff --git a/.gitignore b/.gitignore
-index 5efe05f..4d3bdc8 100644
+index b8161ab..8d10137 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -5,3 +5,4 @@ build
+@@ -6,3 +6,4 @@ build.*
  .vs
  .DS_Store
  cmake-build*
@@ -163,10 +163,10 @@ index 01f78a4..e67309e 100644
    int GetLineLength(int line);
    int GetCurrentLineNumber();
 diff --git a/src/main.cpp b/src/main.cpp
-index dcbb01c..174e1d1 100644
+index 099cade..cf6def4 100644
 --- a/src/main.cpp
 +++ b/src/main.cpp
-@@ -458,9 +458,21 @@ int main(int argc, const char *argv[])
+@@ -460,9 +460,21 @@ int main(int argc, const char *argv[])
            mDebugOutput.SetText( szError );
          }
        }
@@ -190,10 +190,10 @@ index dcbb01c..174e1d1 100644
        else if (Renderer::keyEventBuffer[i].scanCode == 292 || (Renderer::keyEventBuffer[i].ctrl && Renderer::keyEventBuffer[i].scanCode == 'f')) // F11 or Ctrl/Cmd-f  
        {
 diff --git a/src/platform_glfw/Renderer.cpp b/src/platform_glfw/Renderer.cpp
-index a345ea0..947c9fe 100644
+index 863eae8..11c8848 100644
 --- a/src/platform_glfw/Renderer.cpp
 +++ b/src/platform_glfw/Renderer.cpp
-@@ -497,6 +497,7 @@ namespace Renderer
+@@ -499,6 +499,7 @@ namespace Renderer
  //           case GLFW_KEY_RSUPER:       sciKey = SCK_RWIN;      break;
          case GLFW_KEY_MENU:         sciKey = SCK_MENU;      break;
          case GLFW_KEY_SLASH:        sciKey = '/';           break;
@@ -202,5 +202,5 @@ index a345ea0..947c9fe 100644
  //           case GLFW_KEY_LEFTBRACKET:  sciKey = '[';           break;
  //           case GLFW_KEY_BACKSLASH:    sciKey = '\\';          break;
 -- 
-2.29.2
+2.30.0
 

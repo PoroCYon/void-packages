@@ -1,4 +1,4 @@
-From 7cb78154a3cd57d7c1f4f9c2f36d5adcf91efb64 Mon Sep 17 00:00:00 2001
+From 0a395775106d1771d1fcb844dc19b48559e777bf Mon Sep 17 00:00:00 2001
 From: Florent CURE <florent.cure@protonmail.com>
 Date: Mon, 27 May 2019 23:02:54 +0100
 Subject: [PATCH 07/18] Add loading of shader from correct data directory
@@ -9,10 +9,10 @@ Default shader is now loaded from data directory according to where config.json 
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/src/main.cpp b/src/main.cpp
-index 5827b12..3ac56c0 100644
+index ed8436b..396aa72 100644
 --- a/src/main.cpp
 +++ b/src/main.cpp
-@@ -313,7 +313,8 @@ int main(int argc, const char *argv[])
+@@ -314,7 +314,8 @@ int main(int argc, const char *argv[])
    bool shaderInitSuccessful = false;
    char szShader[65535];
    char szError[4096];
@@ -23,5 +23,5 @@ index 5827b12..3ac56c0 100644
    {
      printf("Loading last shader...\n");
 -- 
-2.29.2
+2.30.0
 
