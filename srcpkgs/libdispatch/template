@@ -1,0 +1,27 @@
+# Template file for 'libdispatch'
+pkgname=libdispatch
+#version=4.2.2
+version=2021.03.05.a
+versiondash=2021-03-05-a
+revision=1
+#archs="i686 x86_64"
+#wrksrc="swift-corelibs-$pkgname-swift-$version-RELEASE"
+wrksrc="swift-corelibs-$pkgname-swift-DEVELOPMENT-SNAPSHOT-$versiondash"
+#create_wrksrc=yes
+build_style=cmake
+configure_args="-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DBUILD_TESTING=OFF -DBUILD_TESTING_STATIC=OFF -DBUILD_TESTING_SHARED=OFF"
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="cmake clang pkg-config"
+makedepends=""
+depends=""
+short_desc="The libdispatch Project, (a.k.a. Grand Central Dispatch), for concurrency on multicore hardware"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="Apache-2.0"
+homepage="https://github.com/apple/swift-corelibs-$pkgname/"
+#distfiles="${homepage}archive/swift-$version-RELEASE.tar.gz"
+distfiles="${homepage}archive/swift-DEVELOPMENT-SNAPSHOT-$versiondash.tar.gz"
+#checksum=4d421565a62a67e0fa51483328bb393e4d96ffd4071a5abd0e31bcaac4edc7e1
+checksum=0fb6837b7d37d748c1d146c72ae9f4abf6939db018676551178c3a191a6aaf9a
