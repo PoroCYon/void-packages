@@ -1,0 +1,25 @@
+{
+  "name": "Parabola Packages",
+  "description": "Parabola GNU/Linux-libre Package Repository Search",
+  "manifest_version": 2,
+  "version": "1.0",
+  "applications": {
+    "gecko": {
+      "id": "parabola-packages@search.mozilla.org"
+    }
+  },
+  "hidden": true,
+  "icons": {
+    "16": "favicon.ico"
+  },
+  "web_accessible_resources": [
+    "favicon.ico"
+  ],
+  "chrome_settings_overrides": {
+    "search_provider": {
+      "name": "Parabola Packages",
+      "search_url": "https://parabola.nu/packages/?q={searchTerms}",
+      "suggest_url": "https://www.parabola.nu/opensearch/packages/suggest?q={searchTerms}"
+    }
+  }
+}

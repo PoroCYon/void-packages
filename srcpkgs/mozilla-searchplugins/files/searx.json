@@ -1,0 +1,25 @@
+{
+  "name": "searx",
+  "description": "Search searx",
+  "manifest_version": 2,
+  "version": "1.0",
+  "applications": {
+    "gecko": {
+      "id": "searx@search.mozilla.org"
+    }
+  },
+  "hidden": true,
+  "icons": {
+    "16": "favicon.ico"
+  },
+  "web_accessible_resources": [
+    "favicon.ico"
+  ],
+  "chrome_settings_overrides": {
+    "search_provider": {
+      "name": "searx",
+      "search_url": "https://searx.laquadrature.net",
+      "search_url_post_params": "q={searchTerms}"
+    }
+  }
+}

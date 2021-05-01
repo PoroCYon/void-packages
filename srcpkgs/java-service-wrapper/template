@@ -1,6 +1,6 @@
 # Template file for 'java-service-wrapper'
 pkgname=java-service-wrapper
-version=3.5.35
+version=3.5.45
 revision=1
 wrksrc=wrapper_${version}_src
 #create_wrksrc=yes
@@ -14,11 +14,11 @@ only_for_archs="i686 x86_64"
 hostmakedepends="openjdk apache-ant"
 depends="virtual?java-runtime"
 short_desc="Enables a Java Application to be run as a Unix Daemon"
-maintainer="PoroCYon <pcy@national.shitposting.agency>"
+maintainer="PoroCYon <porocyon@titandemo.org>"
 license="custom"
 homepage="https://wrapper.tanukisoftware.com/doc/english/introduction.html"
 distfiles="https://wrapper.tanukisoftware.com/download/${version}/wrapper_${version}_src.tar.gz"
-checksum=82f7d89414ce4ff0cdbb8357d779362bb5ddf068aede20a4a56627ed55e25e56
+checksum=ae7965a1ad0389c593d5194fdaccc3bc120dbd3e7f459d7b18e6ab533bd7d402
 
 pre_build() {
 	sed -i "build.xml" \
@@ -30,7 +30,7 @@ pre_build() {
 
 do_build() {
 	source /etc/profile.d/apache-ant.sh
-	source /etc/profile.d/10_openjdk.sh
+	source /etc/profile.d/10_openjdk8.sh
 	export JAVA_HOME="${JAVA_HOME:-/usr/lib/jvm/default}/.."
 	#export JAVA_HOME=/usr/lib/jvm/openjdk
 

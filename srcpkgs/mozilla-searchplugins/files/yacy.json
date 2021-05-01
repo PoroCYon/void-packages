@@ -1,0 +1,26 @@
+{
+  "name": "YaCy",
+  "description": "YaCy.net - Web Search by the People, for the People",
+  "manifest_version": 2,
+  "version": "1.0",
+  "applications": {
+    "gecko": {
+      "id": "yacy@search.mozilla.org"
+    }
+  },
+  "hidden": true,
+  "icons": {
+    "16": "favicon.ico"
+  },
+  "web_accessible_resources": [
+    "favicon.ico"
+  ],
+  "chrome_settings_overrides": {
+    "search_provider": {
+      "name": "YaCy",
+      "search_url": "https://yacy.searchlab.eu/yacysearch.html",
+      "search_url_post_params": "query={searchTerms}&nav=all&resource=global",
+      "suggest_url": "https://yacy.searchlab.eu/suggest.json?query={searchTerms}"
+    }
+  }
+}

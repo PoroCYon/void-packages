@@ -1,6 +1,6 @@
 # Template file for 'wla-dx'
 pkgname=wla-dx
-version=9.10
+version=9.12
 revision=1
 #wrksrc=
 #create_wrksrc=yes
@@ -20,4 +20,4 @@ license="GPL-2.0"
 _url="http://www.villehelin.com/"
 homepage="${_url}wla.html"
 distfiles="${_url}wla_dx_$version.tar.gz"
-checksum=a04eb7b0bdc314ba7cefd5ed1f8529ecc1b18ef524e8f7446e1a2cbf76fdcc4f
+checksum=c5e2b1825cfb88d593379d48bd4971764a83124429e6ecb85ff1150dcf7b78f8

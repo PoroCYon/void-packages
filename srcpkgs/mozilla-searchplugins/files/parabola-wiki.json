@@ -1,0 +1,26 @@
+{
+  "name": "Parabola Wiki",
+  "description": "Search Parabola Wiki",
+  "manifest_version": 2,
+  "version": "1.0",
+  "applications": {
+    "gecko": {
+      "id": "parabola-wiki@search.mozilla.org"
+    }
+  },
+  "hidden": true,
+  "icons": {
+    "16": "favicon.ico"
+  },
+  "web_accessible_resources": [
+    "favicon.ico"
+  ],
+  "chrome_settings_overrides": {
+    "search_provider": {
+      "name": "Parabola Wiki",
+      "search_url": "https://wiki.parabola.nu/index.php",
+      "search_url_post_params": "title=Special:Search&search={searchTerms}",
+      "suggest_url": "https://wiki.parabola.nu/api.php?action=opensearch&search={searchTerms}&namespace=0"
+    }
+  }
+}

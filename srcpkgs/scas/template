@@ -1,7 +1,7 @@
 # Template file for 'scas'
 pkgname=scas
-version=0.3.4
-revision=5
+version=0.4.6
+revision=1
 build_style=cmake
 configure_args="-DSCAS_DOCUMENTATION=ON"
 hostmakedepends="asciidoc"
@@ -12,17 +12,13 @@ maintainer="PoroCYon <porocyon@titandemo.org>"
 license="custom"
 homepage="https://github.com/KnightOS/$pkgname"
 distfiles="$homepage/archive/$version.tar.gz"
-checksum=ed672209911cdb1f617fdace09d5604347fd4598880d3809eb344ddc1e73e965
+checksum=ead83fed4df0df485ab3c2dd6297d07f59296bd4602474ae081dbc021c218c61
 
 post_install() {
 	vlicense LICENSE
 
 	mkdir -vp "$DESTDIR/usr/share/doc/scas"
 	vcopy doc/* "usr/share/doc/scas"
-
-	# fixup stupid cmake crap
-	#mkdir -vp "$DESTDIR/usr/share"
-	mv -v "$DESTDIR/usr/man" "$DESTDIR/usr/share/man"
 }
 
 scas-devel_package() {

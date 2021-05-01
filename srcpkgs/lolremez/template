@@ -1,7 +1,7 @@
 # Template file for 'lolremez'
 pkgname=lolremez
-version=0.5
-revision=2
+version=0.7
+revision=1
 #archs="i686 x86_64"
 #wrksrc=
 #create_wrksrc=yes
@@ -18,11 +18,11 @@ short_desc="Polynomial Approximations using the Remez Algorithm"
 maintainer="PoroCYon <porocyon@titandemo.org>"
 license="WTFPL"
 homepage="https://github.com/samhocevar/lolremez"
-distfiles="$homepage/releases/download/v0.5/lolremez-0.5.tar.xz"
-checksum=47bd0ee483fc048a1631fe6b378f9d167682bc2e5ef511cbdbe3404d8cf184c1
+distfiles="$homepage/releases/download/v$version/lolremez-$version.tar.xz"
+checksum=59fb1b49d27991cb93ae318862bd5088c4a22a0f0819f8b1d56f8e112a824698
 
 post_install() {
 	vmkdir usr/share/doc/lolremez
 	vinstall README.md 644 usr/share/doc/lolremez
-	vinstall lol/COPYING 644 usr/share/doc/lolremez
+	#vinstall lol/COPYING 644 usr/share/doc/lolremez
 }

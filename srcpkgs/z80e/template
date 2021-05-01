@@ -1,6 +1,6 @@
 # Template file for 'z80e'
 pkgname=z80e
-version=0.5.0
+version=0.5.3
 revision=1
 #archs="i686 x86_64"
 #wrksrc=
@@ -19,4 +19,4 @@ maintainer="PoroCYon <porocyon@titandemo.org>"
 license="MIT"
 homepage="https://github.com/KnightOS/$pkgname"
 distfiles="$homepage/archive/$version.tar.gz"
-checksum=f51bbab4b0973175c36e3dde5bf4255f4beba28eb5540745e3dbebf2b3dabd52
+checksum=30a5cd089b3c083c596c7239486d0d9d40476ed1e89f0b884ab251e633cb6e70

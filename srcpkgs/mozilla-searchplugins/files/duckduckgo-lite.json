@@ -1,0 +1,26 @@
+{
+  "name": "DuckDuckGo Lite",
+  "description": "Search DuckDuckGo Lite",
+  "manifest_version": 2,
+  "version": "1.0",
+  "applications": {
+    "gecko": {
+      "id": "duckduckgo-lite@search.mozilla.org"
+    }
+  },
+  "hidden": true,
+  "icons": {
+    "16": "favicon.ico"
+  },
+  "web_accessible_resources": [
+    "favicon.ico"
+  ],
+  "chrome_settings_overrides": {
+    "search_provider": {
+      "name": "DuckDuckGo Lite",
+      "search_url": "https://lite.duckduckgo.com/lite/",
+      "search_url_post_params": "q={searchTerms}&kae=b&kp=-1&kaj=m",
+      "suggest_url": "https://ac.duckduckgo.com/ac/?q={searchTerms}&type=list"
+    }
+  }
+}

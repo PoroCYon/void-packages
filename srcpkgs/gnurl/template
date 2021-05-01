@@ -1,6 +1,6 @@
 # Template file for 'gnurl'
 pkgname=gnurl
-version=7.62.0
+version=7.65.3
 revision=1
 #wrksrc=
 #create_wrksrc=yes
@@ -8,19 +8,24 @@ revision=1
 build_style=gnu-configure
 configure_args="--prefix=/usr --mandir=/usr/share/man --disable-ldap
 --disable-ldaps --enable-ipv6 --enable-manual --enable-versioned-symbols
---enable-threaded-resolver --with-gssapi --with-gnutls --without-ssl
+--enable-threaded-resolver --without-gssapi --with-gnutls --without-ssl
 --without-libidn --with-random=/dev/urandom
+--disable-ftp --disable-file --disable-rtsp --enable-http --disable-dict
+--disable-telnet --disable-tftp --disable-pop3 --disable-imap
+--disable-smb --disable-smtp --disable-gopher --without-libpsl
+--without-libmetalink --without-libssh --without-librtmp
+--without-nghttp2 --disable-ntlm-wb
 --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt"
 #make_build_args=""
 #make_install_args=""
 #conf_files=""
 #make_dirs="/var/log/dir 0755 root root"
 hostmakedepends=""
-makedepends="gnutls-devel libpsl-devel nghttp2-devel perl"
-depends="gnutls libpsl nghttp2"
+makedepends="gnutls-devel perl"
+depends="gnutls"
 short_desc="Fork of libcurl, which is mostly for GNUnet"
-maintainer="PoroCYon <pcy@national.shitposting.agency>"
+maintainer="PoroCYon <porocyon@titandemo.org>"
 license="GPL-3.0-or-later"
 homepage="https://gnunet.org/gnurl"
 distfiles="https://ftp.gnu.org/gnu/gnunet/${pkgname}-${version}.tar.gz"
-checksum=3b44c9af87bd6dddf27c3abc50fa52008f9da83a4e8248eeaf7f276589756595
+checksum=49e102886a3ed650a0ac3658584ba17dff9d06bbc8a4e2953f130fd4079787a6

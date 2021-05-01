@@ -1,9 +1,0 @@
-duckduckgo-html
-duckduckgo-lite
-internet-archive
-parabola-packages
-parabola-wiki-en
-searx
-seeks
-wikipedia-en
-yacy

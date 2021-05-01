@@ -1,8 +1,8 @@
 # Template file for 'libdispatch'
 pkgname=libdispatch
 #version=4.2.2
-version=2021.03.05.a
-versiondash=2021-03-05-a
+version=2021.04.26.a
+versiondash=2021-04-26-a
 revision=1
 #archs="i686 x86_64"
 #wrksrc="swift-corelibs-$pkgname-swift-$version-RELEASE"
@@ -21,7 +21,5 @@ short_desc="The libdispatch Project, (a.k.a. Grand Central Dispatch), for concur
 maintainer="PoroCYon <porocyon@titandemo.org>"
 license="Apache-2.0"
 homepage="https://github.com/apple/swift-corelibs-$pkgname/"
-#distfiles="${homepage}archive/swift-$version-RELEASE.tar.gz"
 distfiles="${homepage}archive/swift-DEVELOPMENT-SNAPSHOT-$versiondash.tar.gz"
-#checksum=4d421565a62a67e0fa51483328bb393e4d96ffd4071a5abd0e31bcaac4edc7e1
-checksum=0fb6837b7d37d748c1d146c72ae9f4abf6939db018676551178c3a191a6aaf9a
+checksum=136781ceebc4658e7f65e193ef3cb8a577fc02f72f1411afb4e65e866d6489d8

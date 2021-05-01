@@ -1,17 +1,17 @@
 # Template file for 'matterbridge'
 pkgname=matterbridge
-version=1.17.5
+version=1.22.1
 revision=1
 build_style=go
 go_import_path=github.com/42wim/matterbridge
 go_package="${go_import_path}"
 hostmakedepends="git"
 short_desc="Bridge between many chat protocols, with REST API"
-maintainer="PoroCYon <pcy@national.shitposting.agency>"
+maintainer="PoroCYon <porocyon@titandemo.org>"
 license="Apache-2.0"
 homepage="https://github.com/42wim/matterbridge"
 distfiles="${homepage}/archive/v${version}.tar.gz"
-checksum=8093aba846dd170dbc28f5096adb0f61092389723dccd4960a1887fccb8c09dd
+checksum=c95f34e4e58534ec4a20677ab76911714cdd07cc585981c52be5b6bbf40f4d78
 conf_files="/etc/matterbridge.toml"
 system_accounts=matterbridge
 #make_dirs="/var/log/${pkgname} 0700 ${system_accounts} ${system_accounts}"

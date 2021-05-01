@@ -1,6 +1,6 @@
 # Template file for 'rgbds'
 pkgname=rgbds
-version=0.4.0
+version=0.5.0
 revision=1
 wrksrc=$pkgname
 #create_wrksrc=yes
@@ -19,7 +19,7 @@ maintainer="PoroCYon <porocyon@titandemo.org>"
 license="MIT"
 homepage="https://rednex.github.io/$pkgname/"
 distfiles="https://github.com/rednex/$pkgname/releases/download/v$version/$pkgname-$version.tar.gz"
-checksum=bd8ed69ac395b224d2b55db2cd57791bfd6b836891e7691cd8742344873d33e5
+checksum=56708515afafa8bf6e8e5aec398d23484859008da5714d2c160107626142964b
 
 post_extract() {
 	sed 's/STRIP/STRIP_ARG/g' -i Makefile
