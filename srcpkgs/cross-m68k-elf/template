@@ -2,7 +2,7 @@
 _triplet=m68k-elf
 pkgname=cross-$_triplet
 version=0.1
-revision=1
+revision=2
 build_style=meta
 depends="cross-$_triplet-binutils cross-$_triplet-gcc cross-$_triplet-newlib"
 short_desc="GNU cross bare metal toolchain (Motorola 68k target)"

@@ -1,5 +1,5 @@
 # Template file for 'cross-xtensa-elf-binutils'
-_triplet=xtensa-elf
+_triplet=riscv32-unknown-elf
 _pkgname=binutils
 pkgname=cross-$_triplet-$_pkgname
 version=2.36.1

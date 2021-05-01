@@ -1,12 +1,13 @@
-# Template file for 'cross-sh-elf-gdb'
-_triplet=sh-elf
+# Template file for 'cross-xtensa-elf-gdb'
+_triplet=riscv32-unknown-elf
 _pkgname=gdb
 pkgname=cross-$_triplet-$_pkgname
 version=10.2
 revision=1
 wrksrc="${_pkgname}-${version}"
+#create_wrksrc=yes
+#archs="i686 x86_64"
 build_style=gnu-configure
-pycompile_dirs="/usr/share/${_pkgname}"
 configure_args="
  --disable-gdbserver
  --disable-nls
@@ -35,7 +36,6 @@ build_options="guile python"
 # don't enable guile and python interfaces until they are moved into
 # platform independent packages
 build_options_default=" "
-python_version=3
 nocross=yes
 
 post_install() {

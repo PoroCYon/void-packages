@@ -2,8 +2,8 @@
 _triplet=sh-elf
 _pkgname=newlib
 pkgname=cross-${_triplet}-${_pkgname}
-version=3.1.0.20181231
-revision=2
+version=4.1.0
+revision=1
 wrksrc="${_pkgname}-${version}"
 build_style=gnu-configure
 configure_args="
@@ -16,8 +16,8 @@ short_desc="C library intended for use on embedded systems (SuperH target)"
 maintainer="PoroCYon <porocyon@titandemo.org>"
 license="GPL-3.0-or-later"
 homepage="https://www.sourceware.org/${_pkgname}/"
-distfiles="ftp://sources.redhat.com/pub/${_pkgname}/${_pkgname}-${version}.tar.gz"
-checksum=9e12fea7297648b114434033ed4458755afe7b9b6c7d58123389e82bd37681c0
+distfiles="ftp://sourceware.org/pub/${_pkgname}/${_pkgname}-${version}.tar.gz"
+checksum=f296e372f51324224d387cc116dc37a6bd397198756746f93a2b02e9a5d40154
 nostrip=yes
 
 post_extract() {

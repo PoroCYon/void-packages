@@ -2,7 +2,7 @@
 _triplet=sh-elf
 _pkgname=binutils
 pkgname=cross-$_triplet-$_pkgname
-version=2.34
+version=2.36.1
 revision=1
 wrksrc=$_pkgname-$version
 build_style=gnu-configure
@@ -19,7 +19,7 @@ maintainer="PoroCYon <porocyon@titandemo.org>"
 license="GPL-3.0-or-later"
 homepage="https://www.gnu.org/software/${_pkgname}/"
 distfiles="${GNU_SITE}/${_pkgname}/${_pkgname}-${version}.tar.xz"
-checksum=f00b0e8803dc9bab1e2165bd568528135be734df3fabf8d0161828cd56028952
+checksum=e81d9edf373f193af428a0f256674aea62a9d74dfe93f65192d4eae030b0f3b0
 nocross=yes
 
 post_install() {

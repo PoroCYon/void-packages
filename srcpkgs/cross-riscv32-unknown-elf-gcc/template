@@ -1,5 +1,5 @@
 # Template file for 'cross-xtensa-elf-gcc'
-_triplet=xtensa-elf
+_triplet=riscv32-unknown-elf
 _pkgname=gcc
 pkgname=cross-$_triplet-$_pkgname
 version=11.1.0
@@ -43,13 +43,13 @@ configure_args="
  --with-libelf
  --with-mpc
  --with-mpfr
- --with-multilib-list=rmprofile
  --with-native-system-header-dir=/include
  --with-newlib
  --with-python-dir=share/${_pkgname}-${_triplet}
  --with-sysroot=/usr/${_triplet}
  --with-system-zlib
 "
+# --with-multilib-list=rmprofile
 #configure_args=""
 #make_build_args=""
 #make_install_args=""
@@ -57,7 +57,7 @@ configure_args="
 #make_dirs="/var/log/dir 0755 root root"
 make_build_target="all-gcc"
 make_install_target="install-gcc"
-hostmakedepends="autoconf automake cross-$_triplet-binutils bison flex perl tar"
+hostmakedepends="autoconf automake cross-$_triplet-binutils bison flex perl tar which python3"
 makedepends="gmp-devel isl15-devel libmpc-devel mpfr-devel zlib-devel"
 depends="cross-$_triplet-binutils"
 short_desc="GNU Compiler Collection ($_triplet target)"
