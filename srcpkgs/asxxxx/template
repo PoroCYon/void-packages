@@ -1,0 +1,46 @@
+# Template file for 'asxxxx'
+pkgname=asxxxx
+_ver_major=5
+_ver_minor=40
+_builddir=asxv${_ver_major}pxx/asxmak/linux/build/
+version=${_ver_major}.${_ver_minor}
+revision=1
+#archs="i686 x86_64"
+create_wrksrc=no
+build_style=gnu-makefile
+#configure_args=""
+make_build_args="-C $_builddir LD=cc"
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends=""
+makedepends=""
+depends=""
+short_desc="The ASxxxx assemblers are a series of microprocessor assemblers"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GPL-3.0-or-later"
+homepage="https://shop-pdp.net/ashtml/asxxxx.php"
+distfiles="https://shop-pdp.net/_ftp/asxxxx/asxs5p40.zip"
+checksum=ac8277b85308b9fdc3e27c50557cc3ba45fe0de85ddc96c936fb25e5fd3a3e22
+
+_as_binaries="as1802 as430 as61860 as6800 as6804 as6808 as6811 as6816 as78k0
+as8008 as8048 as8085 as8x300 asavr asez80 asf8 ash8 asm8c asrab asst6 asst8
+asxscn asz8 as2650 as6100 as6500 as6801 as6805 as6809 as6812 as740 as78k0s
+as8008s as8051 as89lp as8xcxxx ascheck asf2mc8 asgb aslink aspic asscmp asst7
+asxcnv asz280 asz80"
+
+do_install() {
+	for x in $_as_binaries; do
+		vbin "$_builddir/$x"
+	done
+
+	for x in asmlnk.pdf asmlnk.txt changes.txt readme.txt Asxxxx_for_Android.pdf; do
+		vdoc "asxv${_ver_major}pxx/asxdoc/$x"
+	done
+
+	for x in asxv${_ver_major}pxx/asxhtml/*; do
+		vdoc "$x"
+	done
+
+	vlicense asxv${_ver_major}pxx/gpl3.txt
+}
