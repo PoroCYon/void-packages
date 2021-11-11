@@ -1,0 +1,22 @@
+# Template file for 'f2mc8dasm'
+pkgname=f2mc8dasm
+version=0.1
+revision=1
+#archs="i686 x86_64"
+wrksrc=$pkgname-master
+#create_wrksrc=yes
+build_style=python3-module
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="python3-setuptools"
+makedepends=""
+depends="python3"
+short_desc="Cypress (Fujitsu) F2MC-8 disassembler"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="BSD-3-Clause"
+homepage="https://github.com/mnaberez/f2mc8dasm"
+distfiles="https://pcy.be/tmp/pkg/f2mc8dasm.zip"
+checksum=8f0747e98c6155e518fee82864378b331c3366a5b588d9eb9557b72aef0418da
