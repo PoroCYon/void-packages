@@ -1,0 +1,22 @@
+# Template file for 'm740dasm'
+pkgname=m740dasm
+version=0.1
+revision=1
+#archs="i686 x86_64"
+wrksrc=$pkgname-master
+#create_wrksrc=yes
+build_style=python3-module
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="python3-setuptools"
+makedepends=""
+depends="python3"
+short_desc="Renesas (Mitsubishi) 740 disassembler"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/mnaberez/m740dasm"
+distfiles="https://pcy.be/tmp/pkg/m740dasm.zip"
+checksum=360be72735db5ec4dedb7a9a9e8241b632d7a9e7df859e9ed8d1c6a6cb1fc63c
