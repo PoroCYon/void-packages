@@ -1,0 +1,22 @@
+# Template file for 'k0dasm'
+pkgname=k0dasm
+version=1.0.1
+revision=1
+#archs="i686 x86_64"
+#wrksrc=
+#create_wrksrc=yes
+build_style=python3-module
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="python3-setuptools"
+makedepends=""
+depends="python3"
+short_desc="Renesas (NEC) 78K0 disassembler"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="BSD-3-Clause"
+homepage="https://github.com/mnaberez/k0dasm"
+distfiles="https://files.pythonhosted.org/packages/98/4e/599a99321c89f911109a1ac3b442e06ac3904a026bc862a52f297f750043/k0dasm-$version.tar.gz"
+checksum=819d940b468ee7c9d43312c37c9a5a3730b1086aa03adcace80d04389cfa8f71
