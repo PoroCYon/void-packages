@@ -1,0 +1,68 @@
+# Template file for 'asl'
+pkgname=asl
+version=1.41r8
+revision=2
+#archs="i686 x86_64"
+#wrksrc=
+#create_wrksrc=yes
+build_style=gnu-makefile
+#configure_args=""
+make_build_args="PATH=\"$PATH:$FILESDIR\" LD=cc all tex2doc tex2html"
+make_install_args="PATH=\"$PATH:$FILESDIR\""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends=""
+makedepends=""
+depends=""
+short_desc="AS is a portable macro cross assembler for a variety of microprocessors and -controllers"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="custom:Wineware"
+homepage="http://john.ccac.rwth-aachen.de:8000/as/"
+distfiles="http://john.ccac.rwth-aachen.de:8000/ftp/as/source/c_version/asl-1.41r8.tar.gz"
+checksum=22ff3f3ccf7c3005b6f8f9014773905b309e3a8942a3a6a8fc911c8648a42345
+
+#	export PATH="$PATH:$FILESDIR"
+
+pre_configure() {
+	cp -v "$FILESDIR/Makefile.def" "$XBPS_BUILDDIR/${pkgname}-${version}/"
+}
+
+post_build() {
+	for x in DE EN; do
+		${make_cmd} -C doc_$x as.doc as.html TEX2DOC=../tex2doc TEX2HTML=../tex2html CC="$CC" RM="rm -f"
+	done
+}
+
+do_install() {
+	# reimplement "make install" stuff because it's very broken
+	for x in asl plist pbind p2hex p2bin; do
+		vbin "$x"
+	done
+
+	vmkdir usr/include/asl/
+	vcopy include/*.inc usr/include/asl/
+
+	for x in asl plist pbind p2hex p2bin; do
+		vman "${x}.1"
+	done
+
+	vmkdir usr/lib/asl/
+	vcopy *.msg usr/lib/asl/
+
+	for x in DE EN; do
+		vdoc doc_$x/as.doc as-$x.doc
+		vdoc doc_$x/as.tex as-$x.tex
+		if [ -f doc_$x/as.dvi ]; then
+			vdoc doc_$x/as.dvi as-$x.dvi
+		fi
+		if [ -f doc_$x/as.ps ]; then
+			vdoc doc_$x/as.ps as-$x.ps
+		fi
+	done
+}
+
+post_install() {
+	vdoc "$XBPS_BUILDDIR/${pkgname}-${version}/README"
+	vlicense "$FILESDIR/LICENSE"
+}
+

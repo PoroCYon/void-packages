@@ -1,0 +1,114 @@
+From 4ba3627ee28f2910ec55b023181a0a9d343cf217 Mon Sep 17 00:00:00 2001
+From: PoroCYon <porocyon@titandemo.org>
+Date: Mon, 1 Nov 2021 15:09:10 +0100
+Subject: [PATCH] fix compile errors etc.
+
+---
+ as.res    |  6 +++---
+ p2bin.res |  4 ++--
+ p2hex.res | 12 ++++++------
+ sysdefs.h |  7 +++++++
+ 4 files changed, 18 insertions(+), 11 deletions(-)
+
+diff --git a/as.res b/as.res
+index 4c5f01d..402e6fe 100644
+--- a/as.res
++++ b/as.res
+@@ -955,17 +955,17 @@ Message InfoMessHelp
+  "-p : share file formatted for Pascal  -c : share file formatted for C\n" \
+  "-a : share file formatted for AS\n" \
+  "-o <name> : change name of code file\n" \
+- "-shareout <nname> : change name of share file\n" \
++ "-shareout <name> : change name of share file\n" \
+  "-q,  -quiet : silent compilation\n" \
+  "-cpu <name> : set target processor\n" \
+  "-alias <new>=<old> : define processor alias\n" \
+  "-l : listing to console               -L : listing to file\n" \
+  "-i <path>[;path]... : list of paths for include files\n" \
+  "-D <symbol>[,symbol]... : predefine symbols\n" \
+- "-E <name> : target file for error list,\n" \
++ "-E [name] : target file for error list,\n" \
+  "            !0..!4 for standard handles\n" \
+  "            default is <srcname>.LOG\n" \
+- "-r : generate messages if repassing necessary\n" \
++ "-r : generate messages if repassing is necessary\n" \
+  "-Y : branch error suppression (see manual)\n" \
+  "-w : suppress warnings                +G : suppress code generation\n" \
+  "-s : generate section list            -t : enable/disable parts of listing\n" \
+diff --git a/p2bin.res b/p2bin.res
+index 99f535a..db00814 100644
+--- a/p2bin.res
++++ b/p2bin.res
+@@ -29,10 +29,10 @@ Message InfoMessHelp
+  "          -r <Start>-<Stop> :  auszufilternder Adre&szlig;bereich\n" \
+  "          ($ = erste bzw. letzte auftauchende Adresse)\n" \
+  "          -l <8-Bit-Zahl>   :  Inhalt unbenutzter Speicherzellen festlegen\n" \
+- "          -s                :  Pr&uuml;fsumme in Datei ablegen\n" \
++ "          -s                :  Pruefsumme in Datei ablegen\n" \
+  "          -m <Modus>        :  EPROM-Modus (odd,even,byte0..byte3)\n" \
+  "          -e <Adresse>      :  Startadresse festlegen\n" \
+- "          -S [L|B]<L&auml;nge>   :  Startadresse voranstellen\n" \
++ "          -S [L|B]<Laenge>  :  Startadresse voranstellen\n" \
+  "          -k                :  Quelldateien automatisch l&ouml;schen\n"
+  "\n" \
+  "options: -f <header list>  :  records to filter out\n" \
+diff --git a/p2hex.res b/p2hex.res
+index be60312..267088a 100644
+--- a/p2hex.res
++++ b/p2hex.res
+@@ -43,28 +43,28 @@ Message InfoMessHelp
+  "          -R <offset>       : Adressen um Offset verschieben\n" \
+  "          ($ = erste bzw. letzte auftauchende Adresse)\n" \
+  "          -a                : Adressen relativ zum Start ausgeben\n" \
+- "          -l <L&auml;nge>        : L&auml;nge Datenzeile/Bytes\n" \
++ "          -l <Laenge>       : L&auml;nge Datenzeile/Bytes\n" \
+  "          -i <0|1|2>        : Terminierer f&uuml;r Intel-Hexfiles\n" \
+- "          -m <0..3>         : Multibyte-Modus\n" \
++ "          -m <0|1|2|3>      : Multibyte-Modus\n" \
+  "          -F <Default|Moto|\n" \
+  "              Intel|MOS|Tek|\n" \
+  "              Intel16|DSK|\n" \
+  "              Intel32>      : Zielformat\n" \
+  "          +5                : S5-Records unterdr&uuml;cken\n" \
+  "          -s                : S-Record-Gruppen einzeln terminieren\n" \
+- "          -M <1|2|3>        : Minimallaenge Adressen S-Records\n" \
++ "          -M <1|2|3>        : Minimall&auml;nge Adressen S-Records\n" \
+  "          -d <Start>-<Stop> : Datenbereich festlegen\n" \
+  "          -e <Adresse>      : Startadresse festlegen\n" \
+- "          -k                : Quelldateien autom. l&ouml;schen\n"  
++ "          -k                : Quelldateien autom. loeschen\n"
+  "\n" \
+  "options: -f <header list>  : records to filter out\n" \
+  "         -r <start>-<stop> : address range to filter out\n" \
+  "         -R <offset>       : relocate addresses by offset\n" \
+  "         ($ = first resp. last occuring address)\n" \
+  "         -a                : addresses in hex file relativ to start\n" \
+- "         -l <length>       : set length of data line in bytes\n" \
++ "         -l <length>       : length of data line in bytes\n" \
+  "         -i <0|1|2>        : terminating line for intel hex\n" \
+- "         -m <0..3>         : multibyte mode\n" \
++ "         -m <0|1|2|3>      : multibyte mode\n" \
+  "         -F <Default|Moto|\n" \
+  "             Intel|MOS|Tek|\n" \
+  "             Intel16|DSK|\n" \
+diff --git a/sysdefs.h b/sysdefs.h
+index d145cd5..642e274 100644
+--- a/sysdefs.h
++++ b/sysdefs.h
+@@ -40,6 +40,13 @@
+ #endif
+ #endif
+ 
++/* Ugly hack to get it to work on amd64, too */
++#ifdef __x86_64__
++#ifndef __i386
++#define __i386
++#endif
++#endif
++
+ /*---------------------------------------------------------------------------*/
+ /* If the compiler claims to be ANSI, we surely can use prototypes */
+ 
+-- 
+2.33.1
+
