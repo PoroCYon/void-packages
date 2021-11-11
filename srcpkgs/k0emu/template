@@ -1,0 +1,22 @@
+# Template file for 'k0emu'
+pkgname=k0emu
+version=1.0.0
+revision=1
+#archs="i686 x86_64"
+#wrksrc=
+#create_wrksrc=yes
+build_style=python3-module
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="python3-setuptools"
+makedepends=""
+depends="python3"
+short_desc="Renesas (NEC) 78K0 emulator"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="BSD-3-Clause"
+homepage="https://github.com/mnaberez/k0emu"
+distfiles="https://files.pythonhosted.org/packages/b6/26/630c3e1625dae9f60765d0bc0052947a7e75e4752f830c76c2f81d462b68/k0emu-$version.tar.gz"
+checksum=1c21f0daa1b9c9996aa2b4087da6fe6950dc66dc51f61f03ec2665b996141504
