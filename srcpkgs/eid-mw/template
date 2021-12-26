@@ -1,6 +1,6 @@
 # Template file for 'eid-mw'
 pkgname=eid-mw
-version=5.0.23
+version=5.0.28
 revision=1
 build_style=gnu-configure
 hostmakedepends="pkg-config automake gettext gettext-devel libtool glib-devel
@@ -13,7 +13,7 @@ maintainer="Andrew Benson <abenson+void@gmail.com>"
 license="LGPL-3.0-or-later"
 homepage="https://eid.belgium.be/en"
 distfiles="https://github.com/Fedict/eid-mw/archive/v${version}.tar.gz"
-checksum=ea33f974ac203414cffb1e65378407e5e17f4cfafc10191727d1e2fcae6735f6
+checksum=44fa020dd40ae6801a941991780d0efcc4d7ec2b8949e19544f695bc24c22bfb
 
 if [ "$XBPS_TARGET_LIBC" = "glibc" ]; then
 	makedepends+=" libbsd-devel"
@@ -21,6 +21,14 @@ fi
 
 pre_configure() {
 	autoreconf -fi
+}
+
+do_configure() {
+	: ${configure_script:=./configure}
+
+	export lt_cv_sys_lib_dlsearch_path_spec="/usr/lib64 /usr/lib32 /usr/lib /lib /usr/local/lib"
+	CFLAGS="$CFLAGS -I/usr/include/openssl" \
+		${configure_script} ${configure_args}
 }
 
 eid-mw-devel_package() {
