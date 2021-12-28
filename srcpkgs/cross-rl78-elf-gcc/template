@@ -3,7 +3,7 @@ _triplet=rl78-elf
 _pkgname=gcc
 pkgname=cross-${_triplet}-gcc
 version=11.1.0
-revision=2
+revision=3
 wrksrc="${_pkgname}-${version}"
 build_wrksrc=build
 build_style=gnu-configure
@@ -52,10 +52,8 @@ do_configure() {
 		--enable-__cxa_atexit \
 		--enable-c99 \
 		--enable-gnu-indirect-function \
-		--enable-interwork \
 		--enable-languages=c,c++ \
 		--enable-long-long \
-		--enable-multilib \
 		--enable-plugins \
 		--host=${XBPS_CROSS_TRIPLET} \
 		--libdir=/usr/lib \
