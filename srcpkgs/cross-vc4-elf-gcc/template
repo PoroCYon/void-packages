@@ -1,0 +1,96 @@
+# Template file for 'cross-vc4-elf-gcc'
+_triplet=vc4-elf
+_pkgname=gcc
+pkgname=cross-${_triplet}-gcc
+version=6.2.0
+revision=1
+wrksrc=$_pkgname-vc4
+build_wrksrc=build
+build_style=gnu-configure
+make_build_args="INHIBIT_LIBC_CFLAGS='-DUSE_TM_CLONE_REGISTRY=0'"
+hostmakedepends="autoconf automake cross-${_triplet}-binutils bison flex
+ perl tar texinfo"
+makedepends="gmp-devel isl15-devel libmpc-devel mpfr-devel zlib-devel"
+depends="cross-${_triplet}-binutils"
+short_desc="GNU Compiler Collection"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GFDL-1.2-or-later, GPL-3.0-or-later, LGPL-2.1-or-later"
+homepage="https://github.com/itszor/vc4-toolchain"
+distfiles="https://pcy.be/tmp/pkg/gcc-vc4.zip"
+checksum=21c3691ffbde0d96f5c69006d08b5edc68991fc38b041a2665f83a09a47a5c4d
+alternatives="${_triplet}:/usr/bin/${_triplet}-cc:/usr/bin/${_triplet}-gcc"
+nocross=yes
+nopie=yes
+nostrip_files="libgcc.a libgcov.a"
+
+post_extract() {
+	mkdir -p build
+	cp config.sub config-subbak
+}
+
+pre_configure() {
+	# circumvent annoying pre-configure hook that breaks everything
+	cp ../config-subbak ../config.sub
+	export CFLAGS_FOR_TARGET="-g -Os -ffunction-sections -fdata-sections"
+	export CXXFLAGS_FOR_TARGET="-g -Os -ffunction-sections -fdata-sections"
+}
+
+do_configure() {
+	../configure \
+		--disable-gtest \
+		--disable-gcov \
+		--disable-decimal-float \
+		--disable-libatomic \
+		--disable-libitm \
+		--disable-libsanitizer \
+		--disable-lto \
+		--disable-libffi \
+		--disable-libgomp \
+		--disable-libmudflap \
+		--disable-libquadmath \
+		--disable-libssp \
+		--disable-libstdcxx-pch \
+		--disable-libstdc__-v3 \
+		--disable-nls \
+		--disable-ssp \
+		--disable-shared \
+		--disable-threads \
+		--disable-tls \
+		--disable-werror \
+		--enable-__cxa_atexit \
+		--enable-c99 \
+		--enable-gnu-indirect-function \
+		--enable-sjlj-exceptions \
+		--enable-languages=c,c++ \
+		--enable-long-long \
+		--enable-plugins \
+		--host=${XBPS_CROSS_TRIPLET} \
+		--libdir=/usr/lib \
+		--libexecdir=/usr/lib \
+		--prefix=/usr \
+		--target=${_triplet} \
+		--with-gmp \
+		--with-gnu-as \
+		--with-gnu-ld \
+		--with-headers=/usr/${_triplet}/include \
+		--with-host-libstdcxx='-static-libgcc -Wl,-Bstatic,-lstdc++,-Bdynamic -lm' \
+		--with-isl \
+		--with-libelf \
+		--with-mpc \
+		--with-mpfr \
+		--with-multilib-list=rmprofile \
+		--with-native-system-header-dir=/include \
+		--with-newlib \
+		--with-python-dir=share/gcc-${_triplet} \
+		--with-sysroot=/usr/${_triplet} \
+		--with-system-zlib
+}
+
+pre_build() {
+	pre_configure
+}
+
+post_install() {
+	rm -fr ${DESTDIR}/usr/share/{info,man/man7}
+	rm -fr ${DESTDIR}/usr/lib/libcc1.*
+}

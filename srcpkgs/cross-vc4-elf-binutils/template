@@ -1,0 +1,40 @@
+# Template file for 'cross-vc4-elf-binutils'
+_triplet=vc4-elf
+_pkgname=binutils
+pkgname=cross-$_triplet-$_pkgname
+version=2.23.51
+revision=1
+#archs="i686 x86_64"
+wrksrc=$_pkgname-vc4
+#create_wrksrc=yes
+build_style=gnu-configure
+configure_args="--disable-nls --enable-deterministic-archives --enable-ld
+ --enable-plugins --host=$XBPS_CROSS_TRIPLET --prefix=/usr --target=$_triplet
+ --with-gnu-as --with-gnu-ld --with-sysroot=/usr/$_triplet --with-system-zlib
+ --without-isl --disable-werror
+"
+make_build_args="CFLAGS=-Wno-error"
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="autoconf automake bison flex perl texinfo"
+makedepends="zlib-devel"
+depends="binutils-doc"
+short_desc="GNU binary utilities (RL78 target)"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/itszor/vc4-toolchain"
+distfiles="https://pcy.be/tmp/pkg/binutils-vc4.zip"
+checksum=7c9603edb658c23aa208f892c815892aad499522dc28fb5932616d2291ff4247
+nocross=yes
+
+post_extract() {
+	cp config.sub config-subbak
+}
+pre_configure() {
+	# circumvent annoying pre-configure hook that breaks everything
+	cp config-subbak config.sub
+}
+post_install() {
+	rm -fr ${DESTDIR}/usr/share/info
+}

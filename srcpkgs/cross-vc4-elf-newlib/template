@@ -1,0 +1,80 @@
+# Template file for 'cross-vc4-elf-newlib'
+_triplet=vc4-elf
+_pkgname=newlib
+pkgname=cross-${_triplet}-${_pkgname}
+version=2.2.0
+revision=1
+wrksrc="${_pkgname}"
+build_style=gnu-configure
+configure_args="
+ --prefix=/usr --target=${_triplet} --host=${XBPS_CROSS_TRIPLET}"
+hostmakedepends="cross-${_triplet}-binutils cross-${_triplet}-gcc texinfo"
+short_desc="C library intended for use on embedded systems"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GPL-2.0-or-later, LGPL-2.1-or-later"
+homepage="https://github.com/itszor/vc4-toolchain"
+distfiles="https://pcy.be/tmp/pkg/newlib-vc4.zip"
+checksum=3c63403fa478d1ca2add2437ae0644ab278574a89ffa864be8570d2c568619d6
+nostrip=yes
+
+post_extract() {
+	mkdir -p build-{newlib,nano}
+	cp config.sub config-subbak
+}
+
+pre_configure() {
+	# circumvent annoying pre-configure hook that breaks everything
+	cp config-subbak config.sub
+}
+
+do_configure() {
+	pushd build-newlib
+	export CFLAGS_FOR_TARGET="-g -O2 -ffunction-sections -fdata-sections"
+	../configure ${configure_args} \
+		--enable-newlib-io-long-long \
+		--enable-newlib-register-fini
+	popd
+
+	sed -i 's|^MAKEINFO = /builddir/newlib/missing makeinfo$|MAKEINFO = makeinfo|' build-newlib/Makefile
+
+	pushd build-nano
+	export CFLAGS_FOR_TARGET="-g -Os -ffunction-sections -fdata-sections"
+	../configure ${configure_args} \
+		--enable-newlib-reent-small \
+		--disable-newlib-fvwrite-in-streamio \
+		--disable-newlib-fseek-optimization \
+		--disable-newlib-wide-orient \
+		--enable-newlib-nano-malloc \
+		--disable-newlib-unbuf-stream-opt \
+		--enable-lite-exit \
+		--enable-newlib-global-atexit \
+		--enable-newlib-nano-formatted-io
+	popd
+
+	sed -i 's|^MAKEINFO = /builddir/newlib/missing makeinfo$|MAKEINFO = makeinfo|' build-nano/Makefile
+}
+
+do_build() {
+	pushd build-newlib
+	make ${makejobs}
+	popd
+
+	pushd build-nano
+	make ${makejobs}
+	popd
+}
+
+do_install() {
+	pushd build-nano
+	make DESTDIR=${DESTDIR} install
+	find ${DESTDIR} -regex ".*/lib\(c\|g\|rdimon\)\.a" \
+		-exec rename .a _nano.a '{}' \;
+	install -d ${DESTDIR}/usr/${_triplet}/include/newlib-nano
+	install -m644 -t ${DESTDIR}/usr/${_triplet}/include/newlib-nano \
+		${DESTDIR}/usr/${_triplet}/include/newlib.h
+	popd
+
+	pushd build-newlib
+	make DESTDIR=${DESTDIR} install
+	popd
+}
