@@ -1,0 +1,26 @@
+# Template file for 'wofi-emoji-picker'
+pkgname=wofi-emoji-picker
+version=0.0.1
+revision=1
+#archs="i686 x86_64"
+wrksrc=${pkgname}-main
+#create_wrksrc=yes
+build_style=gnu-makefile
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends=""
+makedepends=""
+depends="bash curl grep coreutils wofi wl-clipboard"
+short_desc="Simple emoji picker for wofi written in bash"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/evlli/wofi-emoji-picker"
+distfiles="https://pcy.be/tmp/pkg/wofi-emoji-picker.zip"
+checksum=000f284c4834b4e3c503a6e88fde7cafb0bc7c508db9affc6ded0054f99f49f6
+
+do_build() {
+	true
+}
