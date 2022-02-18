@@ -1,0 +1,42 @@
+# Template file for 'cross-msp430-none-elf-mcu'
+pkgname=cross-msp430-none-elf-mcu
+version=9.3.1.11
+revision=2
+#archs="i686 x86_64"
+wrksrc=msp430-gcc-support-files
+#create_wrksrc=yes
+build_style=gnu-makefile
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends=""
+makedepends=""
+depends=""
+short_desc="MSP430 MCU-specific headers and linker scripts"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="GPL-2.0-only"
+homepage="https://www.ti.com/tool/msp430-gcc-opensource"
+_version_underscore="9_3_1_2"
+_support_sfix=-1.212
+distfiles="https://software-dl.ti.com/msp430/msp430_public_sw/mcu/msp430/MSPGCC/${_version_underscore}/export/msp430-gcc-support-files${_support_sfix}.zip"
+checksum=3b1a39f10a344dfefb767e60ac35becef4c065013be86993195b138a5fb0b8d6
+_target=msp430-none-elf
+_prefix=/usr/${_target}
+
+
+do_configure() {
+	true
+}
+
+do_build() {
+	true
+}
+
+do_install() {
+	vmkdir ${_prefix}/include/
+	vmkdir ${_prefix}/lib/430/
+	vcopy include/*.h ${_prefix}/include/
+	vcopy include/*.ld ${_prefix}/lib/430/
+}

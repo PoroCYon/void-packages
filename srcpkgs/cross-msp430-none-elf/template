@@ -1,0 +1,14 @@
+# Template file for 'cross-msp430-none-elf'
+_triplet=msp430-none-elf
+pkgname=cross-msp430-none-elf
+version=0.1
+revision=1
+build_style=meta
+depends="cross-msp430-none-elf-binutils cross-msp430-none-elf-gcc
+ cross-msp430-none-elf-newlib cross-msp430-none-elf-gdb
+ cross-msp430-none-elf-mcu"
+short_desc="GNU cross bare metal toolchain"
+maintainer="PoroCYon <porocyon@titandemo.org>"
+license="metapackage"
+homepage="https://www.voidlinux.org/"
+replaces="msp430-toolchain>=0"

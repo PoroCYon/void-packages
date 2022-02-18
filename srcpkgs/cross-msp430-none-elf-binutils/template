@@ -1,0 +1,45 @@
+# Template file for 'cross-${_triplet}-${_pkgname}'
+_triplet=msp430-none-elf
+_pkgname=binutils
+pkgname=cross-${_triplet}-${_pkgname}
+version=2.35.1
+revision=3
+wrksrc="${_pkgname}-${version}"
+build_style=gnu-configure
+configure_args="
+ --disable-nls
+ --enable-deterministic-archives
+ --enable-interwork
+ --enable-ld
+ --enable-multilib
+ --enable-plugins
+ --host=${XBPS_CROSS_TRIPLET}
+ --prefix=/usr
+ --target=${_triplet}
+ --with-gnu-as
+ --with-gnu-ld
+ --with-headers=/usr/${_triplet}
+ --with-sysroot=/usr/${_triplet}
+ --with-system-zlib
+ --without-isl
+"
+# --program-prefix=msp430-
+hostmakedepends="autoconf automake bison flex perl"
+makedepends="zlib-devel"
+depends="binutils-doc"
+short_desc="GNU binary utilities"
+maintainer="PoroCYon <porocyon@titandemo.org"
+license="GPL-3.0-or-later"
+homepage="https://www.gnu.org/software/${_pkgname}/"
+distfiles="${GNU_SITE}/${_pkgname}/${_pkgname}-${version}.tar.xz"
+checksum=3ced91db9bf01182b7e420eab68039f2083aed0a214c0424e257eae3ddee8607
+nocross=yes
+
+post_install() {
+	rm -fr ${DESTDIR}/usr/share/info
+	#mv ${DESTDIR}/usr/msp430-none-elf/ ${DESTDIR}/usr/msp430/
+
+	for x in addr2line ar as c++filt elfedit gprof ld ld.bfd nm objcopy objdump ranlib readelf size strings strip; do
+		ln -s -T "msp430-none-elf-$x" "${DESTDIR}/usr/bin/msp430-$x"
+	done
+}
