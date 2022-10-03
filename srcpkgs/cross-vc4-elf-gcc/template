@@ -22,6 +22,8 @@ alternatives="${_triplet}:/usr/bin/${_triplet}-cc:/usr/bin/${_triplet}-gcc"
 nocross=yes
 nopie=yes
 nostrip_files="libgcc.a libgcov.a"
+make_build_target="all-gcc all-target-libgcc"
+make_install_target="install-gcc install-target-libgcc"
 
 post_extract() {
 	mkdir -p build

@@ -21,7 +21,10 @@ checksum=4c4a6fb8a8396059241c2e674b85b351c26a5d678274007f076957afa1cc9ddf
 alternatives="$_triplet:/usr/bin/$_triplet-cc:/usr/bin/$_triplet-gcc"
 nocross=yes
 nopie=yes
-nostrip_files="libgcc.a"
+nostrip_files="libgcc.a libgcov.a"
+make_build_target="all-gcc all-target-libgcc"
+make_install_target="install-gcc install-target-libgcc"
+
 
 post_extract() {
 	mkdir -p build

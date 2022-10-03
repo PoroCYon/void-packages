@@ -2,7 +2,7 @@
 _triplet=riscv32-unknown-elf
 _pkgname=gdb
 pkgname=cross-$_triplet-$_pkgname
-version=10.2
+version=12.1
 revision=1
 wrksrc="${_pkgname}-${version}"
 #create_wrksrc=yes
@@ -31,7 +31,7 @@ maintainer="PoroCYon <porocyon@titandemo.org>"
 license="GPL-3.0-or-later"
 homepage="https://www.gnu.org/software/${_pkgname}"
 distfiles="${GNU_SITE}/${_pkgname}/${_pkgname}-${version}.tar.xz"
-checksum=aaa1223d534c9b700a8bec952d9748ee1977513f178727e1bee520ee000b4f29
+checksum=0e1793bf8f2b54d53f46dea84ccfd446f48f81b297b28c4f7fc017b818d69fed
 build_options="guile python"
 # don't enable guile and python interfaces until they are moved into
 # platform independent packages

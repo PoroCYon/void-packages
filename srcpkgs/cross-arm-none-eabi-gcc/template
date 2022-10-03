@@ -8,6 +8,8 @@ wrksrc="gcc-${version}"
 build_wrksrc=build
 build_style=gnu-configure
 make_build_args="INHIBIT_LIBC_CFLAGS='-DUSE_TM_CLONE_REGISTRY=0'"
+make_build_target="gcc all-target-libgcc"
+make_install_target="install-gcc install-target-libgcc"
 hostmakedepends="autoconf automake cross-arm-none-eabi-binutils bison flex
  perl tar texinfo"
 makedepends="gmp-devel isl15-devel libmpc-devel mpfr-devel zlib-devel"

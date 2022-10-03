@@ -3,7 +3,7 @@ _triplet=riscv32-unknown-elf
 _pkgname=gcc
 pkgname=cross-$_triplet-$_pkgname
 version=11.1.0
-revision=1
+revision=3
 wrksrc="${_pkgname}-${version}"
 #create_wrksrc=yes
 #archs="i686 x86_64"
@@ -29,6 +29,7 @@ configure_args="
  --enable-long-long
  --enable-multilib
  --enable-plugins
+ --enable-lto
  --host=${XBPS_CROSS_TRIPLET}
  --libdir=/usr/lib
  --libexecdir=/usr/lib
@@ -50,13 +51,8 @@ configure_args="
  --with-system-zlib
 "
 # --with-multilib-list=rmprofile
-#configure_args=""
-#make_build_args=""
-#make_install_args=""
 #conf_files=""
 #make_dirs="/var/log/dir 0755 root root"
-make_build_target="all-gcc"
-make_install_target="install-gcc"
 hostmakedepends="autoconf automake cross-$_triplet-binutils bison flex perl tar which python3"
 makedepends="gmp-devel isl15-devel libmpc-devel mpfr-devel zlib-devel"
 depends="cross-$_triplet-binutils"
@@ -69,6 +65,42 @@ checksum=4c4a6fb8a8396059241c2e674b85b351c26a5d678274007f076957afa1cc9ddf
 alternatives="$_triplet:/usr/bin/$_triplet-cc:/usr/bin/$_triplet-gcc"
 nocross=yes
 nopie=yes
+nostrip_files="libgcc.a libgcov.a"
+make_build_target="all-gcc all-target-libgcc"
+make_build_args="INHIBIT_LIBC_CFLAGS='-DUSE_TM_CLONE_REGISTRY=0' -C build"
+make_install_target="install-gcc install-target-libgcc"
+make_install_args="-C build"
+
+
+post_extract() {
+	mkdir -p build
+}
+
+pre_configure() {
+	export CFLAGS_FOR_TARGET="-g -Os -ffunction-sections -fdata-sections"
+	export CXXFLAGS_FOR_TARGET="-g -Os -ffunction-sections -fdata-sections"
+}
+
+do_configure() {
+	pushd build
+	export CFLAGS_FOR_TARGET="-g -Os -ffunction-sections -fdata-sections"
+	export CXXFLAGS_FOR_TARGET="-g -Os -ffunction-sections -fdata-sections"
+
+	../configure ${configure_args}
+	popd
+}
+
+pre_build() {
+	pre_configure
+}
+
+do_build() {
+	make ${makejobs} ${make_build_args} ${make_build_target}
+}
+
+do_install() {
+	make DESTDIR=${DESTDIR} ${make_install_args} ${make_install_target}
+}
 
 post_install() {
 	rm -fr ${DESTDIR}/usr/share/{info,man/man7}

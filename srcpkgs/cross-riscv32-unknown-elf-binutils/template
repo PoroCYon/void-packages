@@ -2,7 +2,7 @@
 _triplet=riscv32-unknown-elf
 _pkgname=binutils
 pkgname=cross-$_triplet-$_pkgname
-version=2.36.1
+version=2.39
 revision=1
 wrksrc=$_pkgname-$version
 #create_wrksrc=yes
@@ -16,7 +16,7 @@ configure_args="--disable-nls --enable-deterministic-archives --enable-ld
 #make_install_args=""
 #conf_files=""
 #make_dirs="/var/log/dir 0755 root root"
-hostmakedepends="autoconf automake bison flex perl"
+hostmakedepends="autoconf automake bison flex perl texinfo"
 makedepends="zlib-devel"
 depends="binutils-doc"
 short_desc="GNU binary utilities (xtensa-elf target)"
@@ -24,7 +24,7 @@ maintainer="PoroCYon <porocyon@titandemo.org>"
 license="GPL-3.0-or-later"
 homepage="https://www.gnu.org/software/${_pkgname}/"
 distfiles="${GNU_SITE}/${_pkgname}/${_pkgname}-${version}.tar.xz"
-checksum=e81d9edf373f193af428a0f256674aea62a9d74dfe93f65192d4eae030b0f3b0
+checksum=645c25f563b8adc0a81dbd6a41cffbf4d37083a382e02d5d3df4f65c09516d00
 nocross=yes
 
 post_install() {

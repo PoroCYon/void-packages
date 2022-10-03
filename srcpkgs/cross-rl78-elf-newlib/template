@@ -60,7 +60,7 @@ do_build() {
 do_install() {
 	pushd build-nano
 	make DESTDIR=${DESTDIR} install
-	find ${DESTDIR} -regex ".*/lib\(c\|g\|rdimon\)\.a" \
+	find ${DESTDIR} -regex ".*/lib\(c\|g\|m\|rdimon\|gloss\|nosys\|semihost\|sim\)\.a" \
 		-exec rename .a _nano.a '{}' \;
 	install -d ${DESTDIR}/usr/${_triplet}/include/newlib-nano
 	install -m644 -t ${DESTDIR}/usr/${_triplet}/include/newlib-nano \

@@ -1,11 +1,11 @@
 # Template file for 'cross-xtensa-elf'
 pkgname=cross-riscv32-unknown-elf
 version=0.1
-revision=1
+revision=2
 build_style=meta
 hostmakedepends=""
 makedepends=""
-depends="$pkgname-binutils $pkgname-gcc"
+depends="$pkgname-binutils $pkgname-gcc $pkgname-newlib"
 short_desc="GNU cross bare metal toolchain (riscv32-unknown-elf target, metapackage)"
 maintainer="PoroCYon <porocyon@titandemo.org>"
 license="metapackage"
