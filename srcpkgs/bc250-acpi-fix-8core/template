@@ -1,0 +1,22 @@
+# Template file for 'bc250-acpi-fix-8core'
+pkgname=bc250-acpi-fix-8core
+version=0.1
+revision=1
+archs="x86_64"
+short_desc="BC250 ACPI table fixes for C-states and P-states (8-core CPU configuration)"
+maintainer="PoroCYon <p@pcy.be>"
+license="custom:None"
+homepage="https://github.com/kadu20es/bc250-acpi-fix-updated-8c"
+conflicts=bc250-acpi-fix-6core
+
+do_build() {
+	true
+}
+
+do_install() {
+	vmkdir usr/lib/dracut/dracut.conf.d
+	vmkdir opt/bc250-acpi-fixes/8core
+
+	vinstall "${FILESDIR}/01-dracut-acpi-fixes.conf" 0644 usr/lib/dracut/dracut.conf.d/
+	vcopy "${FILESDIR}/*.aml" opt/bc250-acpi-fixes/8core
+}
