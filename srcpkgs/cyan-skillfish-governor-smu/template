@@ -1,0 +1,28 @@
+# Template file for 'cyan-skillfish-governor-smu'
+pkgname=cyan-skillfish-governor-smu
+version=0.4.11
+revision=4
+build_style=cargo
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends=""
+makedepends="libdrm-devel"
+depends="dbus"
+short_desc="GPU governor for the AMD Cyan Skillfish APU"
+maintainer="PoroCYon <p@pcy.be>"
+license="MIT"
+homepage="https://github.com/filippor/cyan-skillfish-governor"
+#changelog=""
+distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
+checksum=2a7570a278cdf9c710c5be64a792567bc3ba170e1bef82bac2fe1819c8249daf
+
+post_install() {
+	vmkdir etc/${pkgname}/
+	vinstall ./default-config.toml 0644 etc/${pkgname}/ config.toml
+	vsconf ./default-config.toml config.toml
+	vbin scripts/cyan-skillfish-performance-mode
+	vsv cyan-skillfish-governor-smu
+}
