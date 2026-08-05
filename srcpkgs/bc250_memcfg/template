@@ -1,0 +1,18 @@
+# Template file for 'bc250_memcfg'
+pkgname=bc250_memcfg
+version=0.1
+revision=1
+build_style=gnu-makefile
+hostmakedepends="gcc"
+makedepends=""
+depends=""
+short_desc="BC-250 tool to set CMOS BIOS memory configuration from Linux"
+maintainer="PoroCYon <p@pcy.be>"
+license="custom"
+homepage="https://github.com/fanoush/${pkgname}"
+distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
+checksum=d0704f47c59e48107cae4c65d9fd306075472001dbc65b8eb3d5691114bbf8de
+
+pre_configure() {
+	cp "${FILESDIR}/Makefile" ./Makefile
+}
