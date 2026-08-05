@@ -1,0 +1,21 @@
+# Template file for 'bc250-efi-core-unlock'
+pkgname=bc250-efi-core-unlock
+version=20260805
+revision=1
+archs="x86_64"
+build_style=gnu-makefile
+make_build_target="clang"
+hostmakedepends="clang lld"
+makedepends=""
+depends=""
+short_desc="EFI shim for unlocking the extra cores on a BC-250"
+maintainer="PoroCYon <p@pcy.be>"
+license="MIT"
+homepage="https://github.com/Hexxeh/${pkgname}"
+distfiles="https://pcy.be/tmp/pkg/${pkgname}-${version}.zip"
+checksum=83768a123035c4c4d2fac35f6d61dd1f5becd59c4611613ca34555e8bbe9958d
+nostrip_files=/boot/EFI/bc250-unlock.efi
+
+do_install() {
+	vinstall ./bc250-unlock.efi 0644 /boot/EFI
+}
