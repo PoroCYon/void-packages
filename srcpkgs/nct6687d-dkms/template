@@ -1,0 +1,38 @@
+# Template file for 'nct6687d-dkms'
+_pkgname=nct6687d
+pkgname=nct6687d-dkms
+version=20260805
+revision=5
+#archs="i686 x86_64"
+#build_style=gnu-makefile
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends=""
+makedepends=""
+depends="dkms"
+short_desc="Linux kernel module for Nuvoton NCT6687-R"
+maintainer="PoroCYon <p@pcy.be>"
+license="GPL-2.0"
+homepage="https://github.com/Fred78290/nct6687d"
+#changelog=""
+distfiles="http://pcy.be/tmp/pkg/${_pkgname}-${version}.zip"
+checksum=8302c68243c0ad591d3cbf965b97242724c1015907dbd9ce2f2c035fdd00b14b
+dkms_modules="${_pkgname} ${version}"
+
+post_extract() {
+	rm Makefile  # don't use original makefile, it's bad
+}
+do_build() {
+	true
+}
+do_install() {
+	vmkdir usr/src/${_pkgname}-${version}
+	vcopy "${FILESDIR}/Makefile" usr/src/${_pkgname}-${version}  # FIXME
+	vcopy "${FILESDIR}/Kbuild" usr/src/${_pkgname}-${version}  # FIXME
+	vcopy dkms.conf usr/src/${_pkgname}-${version}
+	vcopy "*.c" usr/src/${_pkgname}-${version}
+	#vcopy "*.h" usr/src/${_pkgname}-${version}
+
+	vmkdir etc/sensors.d
+	vcopy sensors.d/B460M-7C83.conf etc/sensors.d
+	vcopy sensors.d/Z690_PRO_A.conf etc/sensors.d
+}
